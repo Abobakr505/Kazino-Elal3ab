@@ -248,6 +248,7 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({p:S.pl,c:[...S.cats
 const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 const go=id=>{document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));scrollTo(0,0)};
 let ac;function blip(f=600,d=.06,v=.07){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(v,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+let scratchBuffer;function scratchSound(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();if(!scratchBuffer){scratchBuffer=ac.createBuffer(1,ac.sampleRate*.05,ac.sampleRate);const data=scratchBuffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1}const source=ac.createBufferSource(),filter=ac.createBiquadFilter(),gain=ac.createGain();source.buffer=scratchBuffer;filter.type='lowpass';filter.frequency.value=1800;gain.gain.setValueAtTime(.035,ac.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.05);source.connect(filter).connect(gain).connect(ac.destination);source.start()}catch(e){}}
 
 /* الدليل */
 document.addEventListener('click',e=>{if(e.target.closest('[data-guide]')){const d=$('gd');d.showModal?d.showModal():d.setAttribute('open','')}});
@@ -310,10 +311,10 @@ function scratch(){
   for(let i=-h;i<w;i+=22){x.beginPath();x.moveTo(i,h);x.lineTo(i+h,0);x.stroke()}
   x.fillStyle='#3d4850';x.textAlign='center';x.font='800 30px Cairo,Tahoma,sans-serif';x.fillText('خربشني 👆',w/2,h/2+10);
   x.globalCompositeOperation='destination-out';x.lineWidth=46;x.lineCap='round';x.lineJoin='round';
-  let down=false,lx=0,ly=0,t=0;
+  let down=false,lx=0,ly=0,t=0,lastScratch=0;
   const P=e=>{const b=cv.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
   cv.onpointerdown=e=>{down=true;cv.setPointerCapture(e.pointerId);[lx,ly]=P(e);x.beginPath();x.moveTo(lx,ly);x.lineTo(lx+.1,ly);x.stroke()};
-  cv.onpointermove=e=>{if(!down)return;const[px,py]=P(e);x.beginPath();x.moveTo(lx,ly);x.lineTo(px,py);x.stroke();lx=px;ly=py;if(++t%4===0)buzz(8)};
+  cv.onpointermove=e=>{if(!down)return;const[px,py]=P(e);x.beginPath();x.moveTo(lx,ly);x.lineTo(px,py);x.stroke();lx=px;ly=py;if(++t%4===0)buzz(8);const now=performance.now();if(now-lastScratch>75){lastScratch=now;scratchSound()}};
   cv.onpointerup=cv.onpointercancel=()=>{down=false;check()};
   function check(){
     const d=x.getImageData(0,0,cv.width,cv.height).data,st=16*4*Math.max(1,Math.round(r));let c=0,n=0;
@@ -401,11 +402,24 @@ function tally(){
   $('bars').innerHTML=S.pl.map((p,i)=>`<div class="vb"><span>${esc(p)}</span><i style="width:${c[i]/Math.max(1,mx)*100}%"></i><b>${c[i]}</b></div>`).join('');
   $('vt').innerHTML='';$('rv').style.display='';$('toG').style.display='none';go('verdict');
 }
+let revealTimer;
 $('rv').onclick=()=>{
+  const nums=['٣','٢','١'];let step=0;
+  $('rv').disabled=true;
+  const tick=()=>{
+    $('vt').innerHTML=`<div class="f big2 pop">${nums[step]}</div>`;
+    blip(900-step*140,.16,.11);buzz(25);
+    step++;
+    if(step<nums.length)revealTimer=setTimeout(tick,1000);
+    else revealTimer=setTimeout(()=>{revealTimer=null;revealSpy()},1000);
+  };
+  tick();
+};
+function revealSpy(){
   $('vt').classList.remove('pop');void $('vt').offsetWidth;$('vt').classList.add('pop');
   $('vt').innerHTML=(S.acc<0?'<div class="f big2">الأصوات اتعادلت! 🤷</div>':`<div class="f big2">${esc(S.pl[S.acc])} اتحط في القفص ⛓️</div>`)+`<p class="sub">والجاسوس الحقيقي كان</p><div class="res-list">${S.spies.map(i=>`<div class="spy">${esc(S.pl[i])}</div>`).join('')}</div><p class="sub">${S.caught?'الشلة كشفته! 🎉':(S.acc<0?'محدش اتأكد، فالجاسوس هرب 😏':'اتهموا واحد بريء! الجاسوس هرب 😈')}</p>`;
-  $('rv').style.display='none';$('toG').style.display='';buzz([200,80,200]);blip(S.caught?900:200,.4,.12);
-};
+  $('rv').style.display='none';$('rv').disabled=false;$('toG').style.display='';buzz([200,80,200]);blip(S.caught?900:200,.4,.12);
+}
 $('toG').onclick=guessPass;
 
 /* تخمين الجاسوس */
