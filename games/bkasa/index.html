@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>بكاسة | لعبة الجاسوس</title>
+<link rel="shortcut icon" href="./../../icon.png" type="image/png">
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;800&family=Lalezar&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0e1a17;--bg2:#17302a;--ink:#f1ead8;--mute:#9db5ac;--org:#ff7a2f;--lime:#c6f24e;--card:#ffffff12;--line:#ffffff24;color-scheme:dark;
@@ -19,6 +21,8 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .scr.on{display:flex;animation:in .3s ease-out}
 @keyframes in{from{opacity:0;transform:translateY(10px)}}
 .home{color:var(--mute);font-weight:800;text-decoration:none;align-self:flex-start;padding:4px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.gbtn{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-weight:800;color:var(--lime)}
 h1{font-size:clamp(52px,16vw,84px);line-height:1;text-align:center;color:var(--lime);text-shadow:4px 4px 0 #000a}
 .sub{text-align:center;color:var(--mute);line-height:1.8}
 .box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}
@@ -70,6 +74,12 @@ button:disabled{pointer-events:none}
 .pts b{color:var(--lime)}.pts b.z{color:var(--mute)}
 .pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
 @keyframes pop{from{transform:scale(.5);opacity:0}}
+dialog{background:var(--bg2);color:var(--ink);border:1px solid var(--line);border-radius:20px;width:calc(100% - 32px);max-width:500px;max-height:85vh;overflow:auto;padding:18px;margin:auto}
+dialog::backdrop{background:#000b}
+dialog h2{color:var(--lime);font-size:2rem;text-align:center;margin-bottom:10px}
+dialog ol{padding-inline-start:22px;display:flex;flex-direction:column;gap:10px;line-height:1.8;margin-bottom:14px}
+dialog ol b{color:var(--org)}
+dialog .btn{width:100%}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -77,7 +87,7 @@ button:disabled{pointer-events:none}
 
 <!-- الإعداد -->
 <section class="scr on" id="setup">
-  <a class="home" href="../../index.html">← كل الألعاب</a>
+  <div class="top"><a class="home" href="../../index.html">← كل الألعاب</a><button class="gbtn" data-guide="1">📖 دليل اللعبة</button></div>
   <h1>بكاسة</h1>
   <p class="sub">كلنا عارفين الكلمة إلا الجاسوس. اسألوا بعض وكشفوه قبل ما يعرفها.</p>
   <div class="box">
@@ -95,6 +105,11 @@ button:disabled{pointer-events:none}
     <h3>عدد الجواسيس</h3>
     <div class="chips" id="sp"></div>
     <p class="hint" id="sph"></p>
+  </div>
+  <div class="box">
+    <h3>وقت الجولة ⏱</h3>
+    <div class="chips" id="tm"></div>
+    <p class="hint">بعد ما الوقت يخلص بتتفتح مرحلة التصويت. تقدروا تصوّتوا قبله في أي وقت.</p>
   </div>
   <div class="box">
     <h3>نظام النقاط</h3>
@@ -130,6 +145,7 @@ button:disabled{pointer-events:none}
 
 <!-- اللعب -->
 <section class="scr" id="play">
+  <div class="top"><span></span><button class="gbtn" data-guide="1">📖 الدليل</button></div>
   <div class="wheel" id="wheel">
     <svg class="disc" id="disc" viewBox="-100 -100 200 200"></svg>
     <svg class="bottle" id="bottle" viewBox="0 0 40 140" aria-hidden="true">
@@ -192,6 +208,22 @@ button:disabled{pointer-events:none}
   </div>
 </section>
 
+<!-- دليل اللعبة -->
+<dialog id="gd" aria-label="دليل اللعبة">
+  <h2>إزاي تلعب بكاسة؟ 🕵️</h2>
+  <ol>
+    <li><b>التجهيز:</b> ضيف أسماء اللاعبين (٣ لحد ١٢)، اختار الفئات وعدد الجواسيس ووقت الجولة، ودوس "يلا نبدأ".</li>
+    <li><b>الاستيكر:</b> الموبايل بيعدّي على كل لاعب لوحده. اخربش الاستيكر عشان تشوف الكلمة، وبعدين دوس "خلصت" واخفيها وسلّم الموبايل.</li>
+    <li><b>الجاسوس:</b> الكل بيشوف نفس الكلمة إلا الجاسوس، هو بيشوف بس الفئة. لازم يتصرف كأنه عارفها.</li>
+    <li><b>الأسئلة:</b> لِف الزجاجة. اللي في ضهرها يسأل واللي قدامها يجاوب. اسألوا أسئلة تلمّح للكلمة من غير ما تقولوها، عشان الجاسوس ما يعرفهاش.</li>
+    <li><b>الوقت:</b> التايمر بيعدّ تنازلي. لما يخلص أو لما تدوسوا "نصوّت" بيبدأ التصويت.</li>
+    <li><b>التصويت:</b> كل لاعب بيصوّت سرّي على اللي شاكك فيه. اللي أخد أكتر أصوات بيتحط في القفص، ولو الأصوات اتعادلت الجاسوس بيهرب.</li>
+    <li><b>تخمين الكلمة:</b> بعد الكشف الجاسوس بيحاول يخمّن الكلمة من بين اختيارات، وحتى لو اتكشف ممكن ياخد نقاط.</li>
+    <li><b>النقاط:</b> صوّت صح +٢، كشف الجاسوس +١ لكل بريء، هروب الجاسوس +٣، تخمين الكلمة صح +٣.</li>
+  </ol>
+  <button class="btn lime" id="gdx">فهمت، يلا نلعب</button>
+</dialog>
+
 <script>
 const D={
 'أفلام':['الكيت كات','اللمبي','إسماعيلية رايح جاي','الإرهاب والكباب','ولاد العم','الفيل الأزرق','عسل أسود','الناظر','تيتو','همام في أمستردام','صعيدي في الجامعة الأمريكية','الأرض'],
@@ -205,16 +237,21 @@ const D={
 };
 const Q=['ده حاجة بتتشاف ولا بتتحس؟','تلاقيه في البيت ولا بره؟','حد فينا ممكن يكون قابله أو جربه؟','لو هتديله نوتة من ١ لـ ١٠ تبقى كام؟','بتحبه ولا بيعصبك؟','ممكن تاخده معاك في السفر؟','العيال بتحبه؟','بتشوفه كتير ولا نادر؟','بتفتكره في موسم معين؟','شكله أو لونه مميز؟','غالي ولا رخيص؟','لو هتوصفه بكلمة واحدة تبقى إيه؟','لو بقى مكانه حد في القعدة هيبقى مين؟','أول حاجة جت في بالك لما سمعت الكلمة؟','ينفع تقعد معاه لوحدك؟','ده بيتعمل في الصيف ولا الشتا؟'];
 const COLORS=['#c6f24e','#ff9d5c','#7de3d0','#ffd447','#9fc5ff','#ff8fa3','#c4a1ff','#b3f09a','#ffb3e6','#f5e663','#8ff0ff','#ffa96b'];
+const TIMES=[[120,'دقيقتين'],[180,'٣ دقايق'],[300,'٥ دقايق'],[600,'١٠ دقايق'],[900,'١٥ دقيقة'],[0,'بدون وقت']];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
-const S={pl:[],cats:new Set(['أفلام','مشاهير مصريين','لاعيبة كورة']),sp:1,word:'',cat:'',spies:[],i:0,rot:0,busy:false,cur:null,qs:[],qi:0,score:{},round:0,votes:{},vi:0,gi:0,guessOK:{},opts:[],caught:false,acc:-1,cnt:[]};
+const S={pl:[],cats:new Set(['أفلام','مشاهير مصريين','لاعيبة كورة']),sp:1,tm:300,word:'',cat:'',spies:[],i:0,rot:0,busy:false,cur:null,qs:[],qi:0,score:{},round:0,votes:{},vi:0,gi:0,guessOK:{},opts:[],caught:false,acc:-1,cnt:[]};
 const KEY='kasa_v1';
-try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){S.pl=d.p||[];if(d.c&&d.c.length)S.cats=new Set(d.c);S.sp=d.s||1;S.score=d.sc||{};S.round=d.r||0}}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({p:S.pl,c:[...S.cats],s:S.sp,sc:S.score,r:S.round}))}catch(e){}};
+try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){S.pl=d.p||[];if(d.c&&d.c.length)S.cats=new Set(d.c);S.sp=d.s||1;S.score=d.sc||{};S.round=d.r||0;if(typeof d.t==='number')S.tm=d.t}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({p:S.pl,c:[...S.cats],s:S.sp,sc:S.score,r:S.round,t:S.tm}))}catch(e){}};
 const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 const go=id=>{document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));scrollTo(0,0)};
 let ac;function blip(f=600,d=.06,v=.07){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(v,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+
+/* الدليل */
+document.addEventListener('click',e=>{if(e.target.closest('[data-guide]')){const d=$('gd');d.showModal?d.showModal():d.setAttribute('open','')}});
+$('gdx').onclick=()=>$('gd').close();
 
 /* الإعداد */
 function maxSpies(){return S.pl.length>=7?2:1}
@@ -225,6 +262,7 @@ function render(){
   if(S.sp>maxSpies())S.sp=maxSpies();
   $('sp').innerHTML=[1,2].map(n=>`<button class="chip ${S.sp===n?'on':''}" data-sp="${n}" ${n>maxSpies()?'disabled style="opacity:.35"':''}>${n===1?'جاسوس واحد':'جاسوسين'}</button>`).join('');
   $('sph').textContent=maxSpies()===1?'الجاسوسين بيفتحوا من ٧ لاعبين.':'';
+  $('tm').innerHTML=TIMES.map(([s,l])=>`<button class="chip ${S.tm===s?'on':''}" data-tm="${s}">${l}</button>`).join('');
   $('go').disabled=S.pl.length<3||!S.cats.size;
   const sc=Object.entries(S.score).filter(([n])=>S.pl.includes(n)).sort((a,b)=>b[1]-a[1]);
   $('sbbox').innerHTML=sc.length?`<div class="box"><h3>النقاط (بعد ${S.round} جولة)</h3><div class="chips">${sc.map(([n,v])=>`<span class="chip">${esc(n)} <i>${v}</i></span>`).join('')}</div><button class="btn alt" data-reset="1" style="margin-top:10px">تصفير النقاط</button></div>`:'';
@@ -237,6 +275,7 @@ $('setup').onclick=e=>{
   if(d.rm!==undefined){S.pl.splice(+d.rm,1);render()}
   else if(d.cat){S.cats.has(d.cat)?S.cats.delete(d.cat):S.cats.add(d.cat);render()}
   else if(d.sp){S.sp=+d.sp;render()}
+  else if(d.tm!==undefined){S.tm=+d.tm;blip(650,.05);render()}
   else if(d.reset){S.score={};S.round=0;render()}
 };
 
@@ -336,7 +375,12 @@ function showQ(){
 /* التايمر */
 let tt,tl=0;
 const paint=()=>{if(tl>0)$('tmr').textContent='⏱ '+Math.floor(tl/60)+':'+String(tl%60).padStart(2,'0')};
-function timer(){clearInterval(tt);tl=300;paint();tt=setInterval(()=>{tl--;paint();if(tl===0){clearInterval(tt);buzz([300,100,300]);blip(200,.6,.15);$('tmr').textContent='⏰ الوقت خلص، صوّتوا!'}},1000)}
+function timer(){
+  clearInterval(tt);$('tmr').textContent='';
+  if(!S.tm)return;
+  tl=S.tm;paint();
+  tt=setInterval(()=>{tl--;paint();if(tl===0){clearInterval(tt);buzz([300,100,300]);blip(200,.6,.15);$('tmr').textContent='⏰ الوقت خلص، صوّتوا!'}},1000);
+}
 
 /* التصويت */
 $('reveal').onclick=()=>{if(S.busy)return;clearInterval(tt);S.votes={};S.vi=0;votePass()};
