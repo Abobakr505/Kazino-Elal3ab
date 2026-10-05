@@ -5,545 +5,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>صراحة ولا تحدي؟</title>
-<link rel="shortcut icon" href="./../../icon.png" type="image/png">
-
-    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;700;800&display=swap"
-        rel="stylesheet">
+    <link rel="shortcut icon" href="./../../icon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #160f2e;
-            --bg2: #241846;
-            --ink: #fff7ec;
-            --mute: #b8aed6;
-            --coral: #ff5d73;
-            --mint: #3ee8b5;
-            --gold: #ffc857;
-            --card: #ffffff14;
-            --line: #ffffff22;
-            --safe-t: env(safe-area-inset-top, 0px);
-            --safe-b: env(safe-area-inset-bottom, 0px)
-        }
-
-        :root[data-theme="light"] {
-            --bg: #fff3e2;
-            --bg2: #ffe3c4;
-            --ink: #2a1650;
-            --mute: #7a6a9c;
-            --card: #2a165012;
-            --line: #2a165026
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            -webkit-tap-highlight-color: transparent
-        }
-
-        html,
-        body {
-            min-height: 100%
-        }
-
-        body {
-            background: radial-gradient(120% 80% at 50% 0, var(--bg2), var(--bg)) fixed;
-            color: var(--ink);
-            font-family: Tajawal, system-ui, sans-serif;
-            padding: var(--safe-t) 0 var(--safe-b);
-            overflow-x: hidden
-        }
-
-        h1,
-        h2,
-        .big {
-            font-family: Lalezar, Tajawal, sans-serif;
-            font-weight: 400
-        }
-
-        button {
-            font: inherit;
-            color: inherit;
-            border: 0;
-            cursor: pointer;
-            transition: transform .15s, filter .2s, opacity .2s
-        }
-
-        button:active {
-            transform: scale(.95)
-        }
-
-        button:focus-visible,
-        a:focus-visible,
-        input:focus-visible,
-        textarea:focus-visible,
-        select:focus-visible {
-            outline: 3px solid var(--gold);
-            outline-offset: 2px
-        }
-
-        .screen {
-            display: none;
-            min-height: 100vh;
-            max-width: 560px;
-            margin: auto;
-            padding: 22px 18px 28px;
-            flex-direction: column;
-            gap: 16px
-        }
-
-        .screen.on {
-            display: flex
-        }
-
-        .homelnk {
-            align-self: flex-start;
-            color: var(--mute);
-            font-weight: 700;
-            text-decoration: none;
-            padding: 6px 4px
-        }
-
-        .homelnk:hover {
-            color: var(--ink)
-        }
-
-        .logo {
-            text-align: center;
-            margin-top: 4px
-        }
-
-        .logo h1 {
-            font-size: clamp(40px, 12vw, 64px);
-            line-height: 1.05;
-            color: var(--ink)
-        }
-
-        .logo p {
-            color: var(--mute);
-            margin-top: 6px
-        }
-
-        .box {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            padding: 16px;
-            backdrop-filter: blur(8px)
-        }
-
-        .row {
-            display: flex;
-            gap: 8px
-        }
-
-        input,
-        textarea,
-        select {
-            flex: 1;
-            min-width: 0;
-            font: inherit;
-            color: var(--ink);
-            background: #00000026;
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 12px 14px
-        }
-
-        select option {
-            color: #160f2e
-        }
-
-        :root[data-theme="light"] input,
-        :root[data-theme="light"] textarea,
-        :root[data-theme="light"] select {
-            background: #fff8
-        }
-
-        textarea {
-            resize: none;
-            height: 72px
-        }
-
-        .btn {
-            background: var(--coral);
-            color: #fff;
-            font-weight: 800;
-            border-radius: 14px;
-            padding: 12px 18px
-        }
-
-        .btn.alt {
-            background: var(--card);
-            border: 1px solid var(--line);
-            color: var(--ink)
-        }
-
-        .btn.mint {
-            background: var(--mint);
-            color: #052b21
-        }
-
-        .btn.gold {
-            background: var(--gold);
-            color: #3a2500
-        }
-
-        .btn:disabled {
-            opacity: .35;
-            pointer-events: none
-        }
-
-        .chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-            min-height: 38px
-        }
-
-        .chip {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px 6px 8px;
-            border-radius: 99px;
-            font-weight: 700;
-            color: #1b0f33;
-            animation: pop .35s cubic-bezier(.3, 1.6, .5, 1)
-        }
-
-        .chip button {
-            background: #0002;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            line-height: 22px;
-            font-size: 14px;
-            color: #1b0f33
-        }
-
-        @keyframes pop {
-            from {
-                transform: scale(.4);
-                opacity: 0
-            }
-        }
-
-        .hint {
-            color: var(--mute);
-            font-size: 14px
-        }
-
-        .top {
-            display: flex;
-            align-items: center;
-            gap: 8px
-        }
-
-        .top .grow {
-            flex: 1;
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            padding: 2px
-        }
-
-        .sc {
-            flex: none;
-            font-size: 13px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 99px;
-            color: #1b0f33;
-            display: flex;
-            gap: 6px
-        }
-
-        .sc b {
-            background: #0003;
-            border-radius: 99px;
-            padding: 0 7px
-        }
-
-        .ib {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            width: 40px;
-            height: 40px;
-            font-size: 18px;
-            flex: none
-        }
-
-        .stage {
-            display: grid;
-            place-items: center;
-            padding: 6px 0
-        }
-
-        .wheel {
-            position: relative;
-            width: min(90vw, 44vh, 430px);
-            aspect-ratio: 1
-        }
-
-        .wheel svg.disc {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 14px 30px #0006)
-        }
-
-        .sec {
-            transition: opacity .4s, filter .4s, transform .4s;
-            transform-origin: 0 0
-        }
-
-        .wheel.done .sec {
-            opacity: .28
-        }
-
-        .wheel.done .sec.ask,
-        .wheel.done .sec.res {
-            opacity: 1;
-            filter: brightness(1.12) drop-shadow(0 0 4px #fff8)
-        }
-
-        .nm {
-            font-family: Tajawal;
-            font-weight: 800;
-            fill: #1b0f33;
-            text-anchor: middle;
-            dominant-baseline: middle;
-            pointer-events: none
-        }
-
-        .bottle {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 13%;
-            height: 54%;
-            margin: -27% 0 0 -6.5%;
-            will-change: transform;
-            filter: drop-shadow(0 8px 10px #0007)
-        }
-
-        .panel {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 26px;
-            padding: 18px;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            animation: rise .4s ease
-        }
-
-        @keyframes rise {
-            from {
-                transform: translateY(14px);
-                opacity: 0
-            }
-        }
-
-        .panel h2 {
-            font-size: 26px;
-            text-align: center;
-            line-height: 1.3
-        }
-
-        .who {
-            color: var(--gold)
-        }
-
-        .whom {
-            color: var(--mint)
-        }
-
-        :root[data-theme="light"] .who {
-            color: #b07400
-        }
-
-        :root[data-theme="light"] .whom {
-            color: #0a8c68
-        }
-
-        .two {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px
-        }
-
-        .two .btn {
-            padding: 16px;
-            font-size: 20px;
-            font-family: Lalezar
-        }
-
-        .sug {
-            display: flex;
-            flex-direction: column;
-            gap: 8px
-        }
-
-        .sug button {
-            text-align: right;
-            background: #ffffff10;
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 12px 14px;
-            line-height: 1.5;
-            font-weight: 700;
-            animation: rise .35s backwards
-        }
-
-        .sug button small {
-            display: block;
-            color: var(--mute);
-            font-weight: 400;
-            font-size: 12px
-        }
-
-        .sug button:hover {
-            border-color: var(--gold)
-        }
-
-        .qcard {
-            text-align: center;
-            padding: 26px 16px;
-            border-radius: 20px;
-            font-family: Lalezar;
-            font-size: clamp(24px, 6.5vw, 34px);
-            line-height: 1.5;
-            color: #1b0f33;
-            animation: flip .6s cubic-bezier(.2, .9, .3, 1.2)
-        }
-
-        .qcard.t {
-            background: linear-gradient(135deg, #7df0d0, #3ee8b5)
-        }
-
-        .qcard.d {
-            background: linear-gradient(135deg, #ffb36b, #ff5d73)
-        }
-
-        .qcard small {
-            display: block;
-            font-family: Tajawal;
-            font-size: 13px;
-            font-weight: 800;
-            opacity: .7;
-            margin-bottom: 6px
-        }
-
-        @keyframes flip {
-            from {
-                transform: rotateX(80deg) scale(.8);
-                opacity: 0
-            }
-        }
-
-        .timer {
-            font-family: Lalezar;
-            font-size: 30px;
-            text-align: center;
-            color: var(--gold)
-        }
-
-        :root[data-theme="light"] .timer {
-            color: #b07400
-        }
-
-        dialog {
-            border: 0;
-            border-radius: 26px;
-            background: var(--bg2);
-            color: var(--ink);
-            width: min(94vw, 520px);
-            max-height: 88vh;
-            padding: 18px;
-            margin: auto
-        }
-
-        dialog::backdrop {
-            background: #000a;
-            backdrop-filter: blur(4px)
-        }
-
-        dialog[open] {
-            animation: rise .3s
-        }
-
-        .seg {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            background: #0003;
-            border-radius: 14px;
-            padding: 4px
-        }
-
-        .seg button {
-            background: none;
-            padding: 10px;
-            border-radius: 11px;
-            font-weight: 800;
-            color: var(--mute)
-        }
-
-        .seg button.on {
-            background: var(--mint);
-            color: #052b21
-        }
-
-        .seg button.on.d {
-            background: var(--coral);
-            color: #fff
-        }
-
-        .list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            max-height: 30vh;
-            overflow: auto;
-            margin-top: 10px
-        }
-
-        .item {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            background: var(--card);
-            border-radius: 12px;
-            padding: 8px 12px;
-            font-size: 14px
-        }
-
-        .item span {
-            flex: 1
-        }
-
-        .item i {
-            font-style: normal;
-            font-size: 11px;
-            color: var(--mute)
-        }
-
-        .item button {
-            background: none;
-            color: var(--mute);
-            font-size: 16px
-        }
-
-        @media (prefers-reduced-motion:reduce) {
-            * {
-                animation: none !important;
-                transition: none !important
-            }
-        }
+        :root{--bg:#160f2e;--bg2:#241846;--ink:#fff7ec;--mute:#b8aed6;--coral:#ff5d73;--mint:#3ee8b5;--gold:#ffc857;--card:#ffffff14;--line:#ffffff22;--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
+        :root[data-theme="light"]{--bg:#fff3e2;--bg2:#ffe3c4;--ink:#2a1650;--mute:#7a6a9c;--card:#2a165012;--line:#2a165026}
+        *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+        html,body{min-height:100%}
+        body{background:radial-gradient(120% 80% at 50% 0,var(--bg2),var(--bg)) fixed;color:var(--ink);font-family:Tajawal,system-ui,sans-serif;padding:var(--safe-t) 0 var(--safe-b);overflow-x:hidden}
+        h1,h2,.big{font-family:Lalezar,Tajawal,sans-serif;font-weight:400}
+        button{font:inherit;color:inherit;border:0;cursor:pointer;transition:transform .15s,filter .2s,opacity .2s}
+        button:active{transform:scale(.95)}
+        button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+        .screen{display:none;min-height:100vh;max-width:560px;margin:auto;padding:22px 18px 28px;flex-direction:column;gap:16px}
+        .screen.on{display:flex}
+        .homelnk{align-self:flex-start;color:var(--mute);font-weight:700;text-decoration:none;padding:6px 4px}
+        .homelnk:hover{color:var(--ink)}
+        .logo{text-align:center;margin-top:4px}
+        .logo h1{font-size:clamp(40px,12vw,64px);line-height:1.05;color:var(--ink)}
+        .logo p{color:var(--mute);margin-top:6px}
+        .box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;backdrop-filter:blur(8px)}
+        .row{display:flex;gap:8px}
+        input,textarea,select{flex:1;min-width:0;font:inherit;color:var(--ink);background:#00000026;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+        select option{color:#160f2e}
+        :root[data-theme="light"] input,:root[data-theme="light"] textarea,:root[data-theme="light"] select{background:#fff8}
+        textarea{resize:none;height:72px}
+        .btn{background:var(--coral);color:#fff;font-weight:800;border-radius:14px;padding:12px 18px}
+        .btn.alt{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+        .btn.mint{background:var(--mint);color:#052b21}
+        .btn.gold{background:var(--gold);color:#3a2500}
+        .btn:disabled{opacity:.35;pointer-events:none}
+        .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;min-height:38px}
+        .chip{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:99px;font-weight:700;color:#1b0f33;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+        .chip button{background:#0002;border-radius:50%;width:22px;height:22px;line-height:22px;font-size:14px;color:#1b0f33}
+        @keyframes pop{from{transform:scale(.4);opacity:0}}
+        .hint{color:var(--mute);font-size:14px}
+        .top{display:flex;align-items:center;gap:8px}
+        .top .grow{flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px}
+        .sc{flex:none;font-size:13px;font-weight:800;padding:4px 10px;border-radius:99px;color:#1b0f33;display:flex;gap:6px}
+        .sc b{background:#0003;border-radius:99px;padding:0 7px}
+        .ib{background:var(--card);border:1px solid var(--line);border-radius:12px;width:40px;height:40px;font-size:18px;flex:none}
+        .stage{display:grid;place-items:center;padding:6px 0}
+        .wheel{position:relative;width:min(90vw,44vh,430px);aspect-ratio:1}
+        .wheel svg.disc{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 14px 30px #0006)}
+        .sec{transition:opacity .4s,filter .4s,transform .4s;transform-origin:0 0}
+        .wheel.done .sec{opacity:.28}
+        .wheel.done .sec.ask,.wheel.done .sec.res{opacity:1;filter:brightness(1.12) drop-shadow(0 0 4px #fff8)}
+        .nm{font-family:Tajawal;font-weight:800;fill:#1b0f33;text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+        .bottle{position:absolute;left:50%;top:50%;width:13%;height:54%;margin:-27% 0 0 -6.5%;will-change:transform;filter:drop-shadow(0 8px 10px #0007)}
+        .panel{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:18px;min-height:150px;display:flex;flex-direction:column;gap:12px;animation:rise .4s ease}
+        @keyframes rise{from{transform:translateY(14px);opacity:0}}
+        .panel h2{font-size:26px;text-align:center;line-height:1.3}
+        .who{color:var(--gold)}
+        .whom{color:var(--mint)}
+        :root[data-theme="light"] .who{color:#b07400}
+        :root[data-theme="light"] .whom{color:#0a8c68}
+        .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .two .btn{padding:16px;font-size:20px;font-family:Lalezar}
+        .sug{display:flex;flex-direction:column;gap:8px}
+        .sug button{text-align:right;background:#ffffff10;border:1px solid var(--line);border-radius:14px;padding:12px 14px;line-height:1.5;font-weight:700;animation:rise .35s backwards}
+        .sug button small{display:block;color:var(--mute);font-weight:400;font-size:12px}
+        .sug button:hover{border-color:var(--gold)}
+        .qcard{text-align:center;padding:26px 16px;border-radius:20px;font-family:Lalezar;font-size:clamp(24px,6.5vw,34px);line-height:1.5;color:#1b0f33;animation:flip .6s cubic-bezier(.2,.9,.3,1.2)}
+        .qcard.t{background:linear-gradient(135deg,#7df0d0,#3ee8b5)}
+        .qcard.d{background:linear-gradient(135deg,#ffb36b,#ff5d73)}
+        .qcard small{display:block;font-family:Tajawal;font-size:13px;font-weight:800;opacity:.7;margin-bottom:6px}
+        @keyframes flip{from{transform:rotateX(80deg) scale(.8);opacity:0}}
+        .timer{font-family:Lalezar;font-size:30px;text-align:center;color:var(--gold)}
+        :root[data-theme="light"] .timer{color:#b07400}
+        dialog{border:0;border-radius:26px;background:var(--bg2);color:var(--ink);width:min(94vw,520px);max-height:88vh;padding:18px;margin:auto}
+        dialog::backdrop{background:#000a;backdrop-filter:blur(4px)}
+        dialog[open]{animation:rise .3s}
+        .seg{display:grid;grid-template-columns:1fr 1fr;background:#0003;border-radius:14px;padding:4px}
+        .seg button{background:none;padding:10px;border-radius:11px;font-weight:800;color:var(--mute)}
+        .seg button.on{background:var(--mint);color:#052b21}
+        .seg button.on.d{background:var(--coral);color:#fff}
+        .list{display:flex;flex-direction:column;gap:6px;max-height:30vh;overflow:auto;margin-top:10px}
+        .item{display:flex;gap:8px;align-items:center;background:var(--card);border-radius:12px;padding:8px 12px;font-size:14px}
+        .item span{flex:1}
+        .item i{font-style:normal;font-size:11px;color:var(--mute)}
+        .item button{background:none;color:var(--mute);font-size:16px}
+        /* الدليل */
+        .gd{display:flex;flex-direction:column;gap:10px;max-height:62vh;overflow:auto;margin:12px 0}
+        .gd .st{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+        .gd .n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#3a2500;display:grid;place-items:center;font-family:Lalezar;font-size:18px}
+        .gd b{display:block;margin-bottom:2px}
+        .gd p{color:var(--mute);font-size:14px;line-height:1.7}
+        .gd .tip{background:#3ee8b51a;border-color:#3ee8b555}
+        @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
     </style>
 </head>
 
@@ -556,6 +105,7 @@
             <h1>صراحة ولا تحدي؟</h1>
             <p>لِف الإزازة وشوف مين هيتحشر</p>
         </div>
+        <button class="btn alt" id="helpS">❓ دليل اللعبة (إزاي نلعب؟)</button>
         <div class="box">
             <div class="row">
                 <input id="pname" maxlength="14" placeholder="اسم اللاعب" autocomplete="off">
@@ -566,10 +116,8 @@
         </div>
         <div class="box">
             <p style="font-weight:800;margin-bottom:4px">أسئلة وتحديات من اللاعبين</p>
-            <p class="hint" style="margin-bottom:12px">كل واحد يكتب اللي يعجبه، وهتظهر كاقتراحات لما حد يختار. فيه كمان
-                اقتراحات جاهزة لو مفيش.</p>
-            <button class="btn alt" style="width:100%" id="openBank">✍️ ضيف أسئلة وتحديات (<span
-                    id="bcount">0</span>)</button>
+            <p class="hint" style="margin-bottom:12px">كل واحد يكتب اللي يعجبه، وهتظهر كاقتراحات لما حد يختار. فيه كمان اقتراحات جاهزة لو مفيش.</p>
+            <button class="btn alt" style="width:100%" id="openBank">✍️ ضيف أسئلة وتحديات (<span id="bcount">0</span>)</button>
         </div>
         <button class="btn gold big" style="font-size:24px;padding:16px" id="start">يلا نلعب</button>
     </section>
@@ -579,6 +127,7 @@
         <div class="top">
             <button class="ib" id="back" title="رجوع" aria-label="رجوع">➜</button>
             <div class="grow" id="scores"></div>
+            <button class="ib" id="helpG" title="الدليل" aria-label="دليل اللعبة">❓</button>
             <button class="ib" id="addQ" title="ضيف سؤال" aria-label="ضيف سؤال">✍️</button>
             <button class="ib" id="snd" title="الصوت" aria-label="الصوت">🔊</button>
             <button class="ib" id="thm" title="الثيم" aria-label="الثيم">🌓</button>
@@ -594,9 +143,7 @@
                             <stop offset="1" stop-color="#0e7a58" />
                         </linearGradient>
                     </defs>
-                    <path
-                        d="M15 2h10v6h-1v4c0 8 12 14 12 30v88a8 8 0 0 1-8 8H12a8 8 0 0 1-8-8V42c0-16 12-22 12-30V8h-1z"
-                        fill="url(#gl)" stroke="#ffffff88" stroke-width="1.2" />
+                    <path d="M15 2h10v6h-1v4c0 8 12 14 12 30v88a8 8 0 0 1-8 8H12a8 8 0 0 1-8-8V42c0-16 12-22 12-30V8h-1z" fill="url(#gl)" stroke="#ffffff88" stroke-width="1.2" />
                     <rect x="14" y="0" width="12" height="7" rx="2" fill="#ffc857" />
                     <rect x="5" y="70" width="30" height="34" rx="4" fill="#fff7ec" opacity=".9" />
                     <circle cx="20" cy="87" r="7" fill="#ff5d73" />
@@ -620,6 +167,23 @@
         <div class="list" id="blist"></div>
     </dialog>
 
+    <!-- دليل اللعبة -->
+    <dialog id="guide">
+        <h2 style="font-size:28px">📖 دليل اللعبة</h2>
+        <p class="hint">لعبة قعدات من ٢ لـ ١٢ لاعب، موبايل واحد بيتمرر بينكم.</p>
+        <div class="gd">
+            <div class="st"><span class="n">١</span><div><b>ضيفوا اللاعبين</b><p>اكتب اسم كل واحد واضغط "ضيف" (٢ لاعبين على الأقل، لحد ١٢). تقدر تمسح أي لاعب بعلامة ×.</p></div></div>
+            <div class="st"><span class="n">٢</span><div><b>اكتبوا أسئلة وتحديات (اختياري)</b><p>من زر "ضيف أسئلة وتحديات" كل واحد يكتب صراحة أو تحدي ويختار اسمه. السؤال اللي كتبه لاعب ما بيظهرش للاعب نفسه لما يكون هو اللي بيجاوب. ولو مكتبتوش حاجة فيه اقتراحات جاهزة.</p></div></div>
+            <div class="st"><span class="n">٣</span><div><b>لِف الإزازة 🍾</b><p>اضغط "لِف الإزازة". الإزازة بتشاور على لاعب (هو المجاوب)، واللاعب اللي في الناحية المقابلة ليه هو اللي هيسأل.</p></div></div>
+            <div class="st"><span class="n">٤</span><div><b>السائل يختار: صراحة ولا تحدي؟</b><p>السائل بيختار نوع الجولة. مش عاجبكم النتيجة؟ زر "لفّة تانية" بيعيد اللف.</p></div></div>
+            <div class="st"><span class="n">٥</span><div><b>اختاروا السؤال أو التحدي</b><p>هتظهر ٤ اقتراحات (من اللاعبين أو جاهزة). اضغط على واحد، أو "اقتراحات تانية" لتغييرها، أو اكتب سؤال من عندك.</p></div></div>
+            <div class="st"><span class="n">٦</span><div><b>جاوب أو نفّذ</b><p>المجاوب يرد بصراحة أو ينفذ التحدي. تقدروا تشغلوا مؤقت ٣٠ ثانية. لو نفّذ اضغط "اتنفّذ ✓" وياخد نقطة، ولو رفض أو معرفش اضغط "اتخطّى" من غير نقطة.</p></div></div>
+            <div class="st"><span class="n">٧</span><div><b>كملوا اللف</b><p>اللعبة بترجع لزر اللف تلقائيًا. النقاط ظاهرة فوق، ومفيش نهاية محددة: اللي معاه نقط أكتر لما تزهقوا هو الكسبان 🏆</p></div></div>
+            <div class="st tip"><span class="n">💡</span><div><b>نصايح</b><p>اتفقوا من الأول إن مفيش أسئلة تجرح حد. زر 🔊 للصوت، 🌓 لتغيير الثيم، ✍️ لإضافة أسئلة وإنتم بتلعبوا.</p></div></div>
+        </div>
+        <button class="btn gold" style="width:100%" id="closeGuide">فهمت، يلا نلعب</button>
+    </dialog>
+
     <script>
         const COLORS = ['#ffc857', '#3ee8b5', '#ff8fa3', '#8ecbff', '#c4a1ff', '#ffa96b', '#9af08c', '#ff7ae0', '#7df0ff', '#f5e663', '#ff9d7a', '#b3b9ff'];
         const DEF = {
@@ -637,6 +201,11 @@
         /* صوت */
         let ac; function blip(f = 700, d = .05, v = .08) { if (!S.sound) return; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; o.type = 'triangle'; g.gain.setValueAtTime(v, ac.currentTime); g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + d); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + d) } catch (e) { } }
         const buzz = p => { try { navigator.vibrate && navigator.vibrate(p) } catch (e) { } };
+
+        /* الدليل */
+        const openGuide = () => { try { localStorage.setItem('tod_guide_seen', '1') } catch (e) { } $('guide').showModal() };
+        $('helpS').onclick = $('helpG').onclick = openGuide;
+        $('closeGuide').onclick = () => $('guide').close();
 
         /* الإعداد */
         function renderSetup() {
@@ -658,7 +227,7 @@
             $('author').innerHTML = '<option value="">من لاعب (مجهول)</option>' + S.players.map(p => `<option>${esc(p)}</option>`).join('');
             $('blist').innerHTML = S.bank.map((q, i) => `<div class="item"><b>${q.t === 't' ? '🗣️' : '🔥'}</b><span>${esc(q.x)}</span><i>${esc(q.by || '')}</i><button data-d="${i}" aria-label="حذف">🗑</button></div>`).join('') || '<p class="hint">لسه مفيش حاجة مكتوبة</p>';
         }
-        $('seg').onclick = e => { const t = e.target.dataset.t; if (!t) return; bt = t;[...$('seg').children].forEach(b => b.className = b.dataset.t === t ? 'on ' + t : '') };
+        $('seg').onclick = e => { const t = e.target.dataset.t; if (!t) return; bt = t; [...$('seg').children].forEach(b => b.className = b.dataset.t === t ? 'on ' + t : '') };
         $('addQb').onclick = () => { const x = $('qtext').value.trim(); if (!x) return; S.bank.push({ t: bt, x, by: $('author').value }); $('qtext').value = ''; blip(900, .08); renderBank(); renderSetup() };
         $('blist').onclick = e => { const i = e.target.dataset.d; if (i !== undefined) { S.bank.splice(+i, 1); renderBank(); renderSetup() } };
         const openBank = () => { renderBank(); $('bank').showModal() };
@@ -753,6 +322,7 @@
         $('snd').onclick = () => { S.sound = !S.sound; $('snd').textContent = S.sound ? '🔊' : '🔇' };
         $('thm').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'light' ? 'dark' : 'light'; save() };
         load(); renderSetup();
+        try { if (!localStorage.getItem('tod_guide_seen')) setTimeout(openGuide, 400) } catch (e) { }
     </script>
 </body>
 
