@@ -126,10 +126,31 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
 <script>
 (function(){
   var r=document.documentElement;
+  var audio;
+  function playTone(frequency,delay){
+    try{
+      audio=audio||new (window.AudioContext||window.webkitAudioContext)();
+      if(audio.state==='suspended')audio.resume();
+      var start=audio.currentTime+delay,osc=audio.createOscillator(),gain=audio.createGain();
+      osc.type='triangle';osc.frequency.setValueAtTime(frequency,start);
+      gain.gain.setValueAtTime(.001,start);gain.gain.linearRampToValueAtTime(.045,start+.012);
+      gain.gain.exponentialRampToValueAtTime(.001,start+.11);
+      osc.connect(gain).connect(audio.destination);osc.start(start);osc.stop(start+.12);
+    }catch(e){}
+  }
   try{var t=localStorage.getItem('hub_theme');if(t)r.dataset.theme=t}catch(e){}
+  document.querySelector('.games').addEventListener('click',function(e){
+    var link=e.target.closest('a.game');
+    if(!link||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||link.target&&link.target!=='_self')return;
+    e.preventDefault();
+    var notes=[660,784,880,587],index=Array.prototype.indexOf.call(link.parentNode.children,link);
+    playTone(notes[index%notes.length],0);playTone(notes[index%notes.length]*1.25,.055);
+    setTimeout(function(){window.location.href=link.href},120);
+  });
   document.getElementById('th').onclick=function(){
     var dark=r.dataset.theme?r.dataset.theme==='dark':!matchMedia('(prefers-color-scheme: light)').matches;
     r.dataset.theme=dark?'light':'dark';
+    playTone(dark?520:740,0);
     try{localStorage.setItem('hub_theme',r.dataset.theme)}catch(e){}
   };
 })();

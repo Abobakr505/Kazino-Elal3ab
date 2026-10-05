@@ -165,11 +165,11 @@ let PENS=loadList('pens',DEFAULT_PENS);
 let CATS=loadList('cats',DEFAULT_CATS);
 let lastPen=-1;
 
-let last=-1,passes=0,endAt=0,timer=null,nextBeep=0,ac=null;
+let last=-1,passes=0,endAt=0,timer=null,warningTimer=null,nextBeep=0,ac=null;
 
 function show(id){document.body.style.background='';document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
 function rnd(a,b){return a+Math.random()*(b-a)}
-function pickCat(){let i;do{i=Math.floor(Math.random()*CATS.length)}while(i===last&&CATS.length>1);last=i;const c=$('cat');c.textContent=CATS[i];c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}
+function pickCat(){let i;do{i=Math.floor(Math.random()*CATS.length)}while(i===last&&CATS.length>1);last=i;const c=$('cat');c.textContent=CATS[i];c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');note(740,.07,0,'triangle',.035);note(990,.09,.07,'triangle',.04)}
 
 function beep(f,d){
   if(!ac)return;
@@ -178,6 +178,21 @@ function beep(f,d){
   g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);
   o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d);
 }
+function note(f,d,delay=0,type='sine',volume=.06){
+  if(!ac)return;
+  const t=ac.currentTime+delay,o=ac.createOscillator(),g=ac.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(volume,t);g.gain.exponentialRampToValueAtTime(.001,t+d);
+  o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d);
+}
+function sweep(from,to,d,volume=.08,type='sawtooth'){
+  if(!ac)return;
+  const t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();
+  o.type=type;o.frequency.setValueAtTime(from,t);o.frequency.exponentialRampToValueAtTime(Math.max(1,to),t+d);
+  g.gain.setValueAtTime(volume,t);g.gain.exponentialRampToValueAtTime(.001,t+d);
+  o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d);
+}
+function roundSound(){note(440,.12,0,'triangle',.055);note(660,.14,.1,'triangle',.06);note(880,.2,.22,'triangle',.065)}
+function passSound(){note(150,.11,0,'sine',.08);note(440,.09,.04,'triangle',.055);note(660,.12,.11,'triangle',.06)}
 function blast(){
   if(!ac)return;
   const n=ac.sampleRate*.9,b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);
@@ -185,13 +200,14 @@ function blast(){
   const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();
   f.type='lowpass';f.frequency.value=900;g.gain.value=.9;
   s.buffer=b;s.connect(f).connect(g).connect(ac.destination);s.start();
+  sweep(150,35,.55,.12,'sawtooth');note(920,.07,.015,'square',.04);note(480,.13,.08,'triangle',.06);
 }
 
 async function keepAwake(){try{await navigator.wakeLock?.request('screen')}catch(e){}}
 
 function startRound(){
   const [a,b]=RANGE[document.querySelector('input[name=len]:checked').value];
-  passes=0;pickCat();show('game');
+  clearTimeout(warningTimer);passes=0;roundSound();pickCat();show('game');
   endAt=performance.now()+rnd(a,b)*1000;nextBeep=0;
   clearInterval(timer);timer=setInterval(tick,50);
   keepAwake();
@@ -207,7 +223,8 @@ function tick(){
   if(left<600||now<nextBeep)return;
   const gap=Math.max(110,Math.min(1000,left*.12));
   beep(700+h*900,.07);
-  if(left<2500)setTimeout(()=>beep(420,.06),gap/2);
+  if(left<7000)note(180+h*90,.045,0,'sine',.025);
+  if(left<2500)warningTimer=setTimeout(()=>{if(timer)beep(420,.06)},gap/2);
   if(left<5000)try{navigator.vibrate?.(left<2500?60:25)}catch(e){}
   const v=$('vig');v.style.opacity=.3+h*.7;setTimeout(()=>v.style.opacity=h*.25,90);
   g.style.setProperty('--beat',(gap*2/1000)+'s');
@@ -215,7 +232,7 @@ function tick(){
 }
 function showPen(){let i;do{i=Math.floor(Math.random()*PENS.length)}while(i===lastPen&&PENS.length>1);lastPen=i;const p=$('pen');p.textContent='العقاب: '+PENS[i];p.classList.remove('pop');void p.offsetWidth;p.classList.add('pop')}
 function explode(){
-  clearInterval(timer);blast();$('vig').style.opacity=0;$('stage').classList.remove('shake');const r=document.createElement('div');r.className='ring';document.body.appendChild(r);setTimeout(()=>r.remove(),1000);
+  clearInterval(timer);timer=null;clearTimeout(warningTimer);blast();$('vig').style.opacity=0;$('stage').classList.remove('shake');const r=document.createElement('div');r.className='ring';document.body.appendChild(r);setTimeout(()=>r.remove(),1000);
   try{navigator.vibrate?.([300,80,300])}catch(e){}
   $('res').textContent=passes?'الموبايل اتمرر '+passes+' مرة قبل الانفجار':'انفجرت قبل ما تتمرر!';
   lastPen=-1;showPen();
@@ -224,13 +241,13 @@ function explode(){
 
 $('start').onclick=()=>{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume?.();startRound()};
 $('again').onclick=()=>{ac?.resume?.();startRound()};
-$('menu').onclick=()=>show('home');
-$('stage').onclick=()=>{passes++;if($('each').checked)pickCat();const g=$('gb');g.classList.remove('toss');void g.getBoundingClientRect();g.classList.add('toss');beep(380,.09);setTimeout(()=>beep(620,.05),60)};
+$('menu').onclick=()=>{note(520,.12,0,'triangle',.05);show('home')};
+$('stage').onclick=()=>{passes++;if($('each').checked)pickCat();const g=$('gb');g.classList.remove('toss');void g.getBoundingClientRect();g.classList.add('toss');passSound()};
 $('how').onclick=()=>$('dlg').showModal();
 $('close').onclick=()=>$('dlg').close();
 
 /* تبديل العقاب */
-$('swap').onclick=()=>{beep(520,.06);showPen()};
+$('swap').onclick=()=>{note(660,.07,0,'triangle',.045);note(440,.1,.07,'triangle',.04);showPen()};
 
 /* تعديل القوائم (العقاب / الفئات) */
 let mode='pens';

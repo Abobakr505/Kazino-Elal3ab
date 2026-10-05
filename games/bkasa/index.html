@@ -248,7 +248,7 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({p:S.pl,c:[...S.cats
 const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 const go=id=>{document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));scrollTo(0,0)};
 let ac;function blip(f=600,d=.06,v=.07){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(v,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
-let scratchBuffer;function scratchSound(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();if(!scratchBuffer){scratchBuffer=ac.createBuffer(1,ac.sampleRate*.05,ac.sampleRate);const data=scratchBuffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1}const source=ac.createBufferSource(),filter=ac.createBiquadFilter(),gain=ac.createGain();source.buffer=scratchBuffer;filter.type='lowpass';filter.frequency.value=1800;gain.gain.setValueAtTime(.035,ac.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.05);source.connect(filter).connect(gain).connect(ac.destination);source.start()}catch(e){}}
+let scratchBuffer;function scratchSound(strength=1){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();if(!scratchBuffer){scratchBuffer=ac.createBuffer(1,ac.sampleRate*.5,ac.sampleRate);const data=scratchBuffer.getChannelData(0);let brown=0;for(let i=0;i<data.length;i++){brown=(brown+.02*(Math.random()*2-1))/1.02;data[i]=brown*3.5}}const source=ac.createBufferSource(),high=ac.createBiquadFilter(),low=ac.createBiquadFilter(),gain=ac.createGain(),t=ac.currentTime;source.buffer=scratchBuffer;high.type='highpass';high.frequency.value=110;low.type='lowpass';low.frequency.value=600+strength*750;gain.gain.setValueAtTime(.001,t);gain.gain.linearRampToValueAtTime(.14*strength,t+.018);gain.gain.exponentialRampToValueAtTime(.001,t+.14);source.connect(high).connect(low).connect(gain).connect(ac.destination);source.start(t,Math.random()*.35,.14);source.stop(t+.14)}catch(e){}}
 
 /* الدليل */
 document.addEventListener('click',e=>{if(e.target.closest('[data-guide]')){const d=$('gd');d.showModal?d.showModal():d.setAttribute('open','')}});
@@ -314,7 +314,7 @@ function scratch(){
   let down=false,lx=0,ly=0,t=0,lastScratch=0;
   const P=e=>{const b=cv.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
   cv.onpointerdown=e=>{down=true;cv.setPointerCapture(e.pointerId);[lx,ly]=P(e);x.beginPath();x.moveTo(lx,ly);x.lineTo(lx+.1,ly);x.stroke()};
-  cv.onpointermove=e=>{if(!down)return;const[px,py]=P(e);x.beginPath();x.moveTo(lx,ly);x.lineTo(px,py);x.stroke();lx=px;ly=py;if(++t%4===0)buzz(8);const now=performance.now();if(now-lastScratch>75){lastScratch=now;scratchSound()}};
+  cv.onpointermove=e=>{if(!down)return;const[px,py]=P(e),distance=Math.hypot(px-lx,py-ly);x.beginPath();x.moveTo(lx,ly);x.lineTo(px,py);x.stroke();lx=px;ly=py;if(++t%4===0)buzz(8);const now=performance.now();if(now-lastScratch>55){lastScratch=now;scratchSound(Math.min(1,Math.max(.4,distance/18)))}};
   cv.onpointerup=cv.onpointercancel=()=>{down=false;check()};
   function check(){
     const d=x.getImageData(0,0,cv.width,cv.height).data,st=16*4*Math.max(1,Math.round(r));let c=0,n=0;

@@ -88,12 +88,13 @@ const A=document.getElementById('app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const num=n=>n.toLocaleString('ar-EG');
-const S={pl:[],nt:2,cats:new Set(['أفلام','أمثال','مواقف']),time:60,rounds:2,teams:[],turn:0,pool:[],cur:null,got:0,tp:[]};
+const S={pl:[],nt:2,cats:new Set(['أفلام','أمثال','مواقف']),time:60,rounds:2,teams:[],turn:0,pool:[],cur:null,got:0,tp:[],sound:true};
 let iv,iv2;
 const h=s=>{clearInterval(iv);clearInterval(iv2);A.innerHTML='<div class=scr>'+s+'</div>';window.scrollTo(0,0)};
 const cur=()=>S.teams[S.turn%S.nt];
 const tag=t=>`<span class=tag style="background:${t.c}">${t.n}</span>`;
 const WORDS=Object.values(D).flat();
+let ac;function tone(f=660,d=.08,v=.06,delay=0){if(!S.sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+delay;o.type='triangle';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d)}catch(e){}}
 
 function home(){
  h(`<div class=hero><div style="text-align:start"><a class="link on-bg" href="../../index.html">← كل الألعاب</a></div><h1>بيت بيوت مصري</h1><p style="margin-bottom:0">تمثيل بدون كلام للقعدات: أفلام وأمثال ومواقف من مصر.</p>
@@ -152,21 +153,22 @@ function turn(){
   try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}
  };
  if(t.p.length<2){show();return}
- let n=0;iv2=setInterval(()=>{r.textContent=t.p[Math.random()*t.p.length|0];if(++n>14){clearInterval(iv2);show()}},90);
+ let n=0;iv2=setInterval(()=>{r.textContent=t.p[Math.random()*t.p.length|0];if(++n%3===0)tone(520+n*12,.045,.025);if(n>14){clearInterval(iv2);tone(1046,.16,.065);show()}},90);
 }
 function count(){
  let n=3;h(`<div class=cd id=n>${n}</div>`);
- iv2=setInterval(()=>{n--;if(n<=0){clearInterval(iv2);play();return}const e=document.getElementById('n');e.textContent=n;e.style.animation='none';void e.offsetWidth;e.style.animation=''},900);
+ iv2=setInterval(()=>{n--;if(n<=0){clearInterval(iv2);tone(1046,.24,.08);play();return}tone(n===1?880:620,.1,.055);const e=document.getElementById('n');e.textContent=n;e.style.animation='none';void e.offsetWidth;e.style.animation=''},900);
 }
 function next(){
  if(!S.pool.length)S.pool=shuf([...S.cats].flatMap(c=>D[c].map(w=>({c,w}))));
  S.cur=S.pool.pop();
+ tone(740,.07,.035);
  const w=document.getElementById('w');
  if(w){w.textContent=S.cur.w;document.getElementById('c').textContent=S.cur.c;const t=w.closest('.ticket');t.style.animation='none';void t.offsetWidth;t.style.animation=''}
 }
 function play(){
  S.got=0;S.tp=S.teams.map(()=>0);const t=cur();
- h(`<div class=top>${tag(t)}<span class=timer id=tm>${num(S.time)}</span></div><div class=bar style="margin-top:12px"><i id=bar></i></div>
+ h(`<div class=top>${tag(t)}<button class=sm data-sound aria-label="${S.sound?'كتم الصوت':'تشغيل الصوت'}" aria-pressed="${S.sound}">${S.sound?'🔊':'🔇'}</button><span class=timer id=tm>${num(S.time)}</span></div><div class=bar style="margin-top:12px"><i id=bar></i></div>
  <div class=ticket><div class=stub id=c></div><div class=perf></div><div class=word id=w></div></div>
  <p class=top style="justify-content:center;margin:0 0 4px;opacity:.9">مين خمّن صح؟ دوس على فريقه</p>
  <div class=wins>${S.teams.map((x,i)=>`<button class=tb data-win=${i} style="background:${x.c}"><span>${x.n}</span><b id=s${i}>${num(x.s)}</b></button>`).join('')}</div>
@@ -177,7 +179,7 @@ function play(){
  iv=setInterval(()=>{const el=(Date.now()-t0)/1000,left=Math.ceil(S.time-el);bar.style.width=Math.max(0,1-el/S.time)*100+'%';tm.textContent=num(Math.max(0,left));tm.classList.toggle('low',left<=10);if(el>=S.time)finish()},150);
 }
 function finish(){
- clearInterval(iv);try{navigator.vibrate&&navigator.vibrate([300,100,300])}catch(e){}
+ clearInterval(iv);tone(440,.2,.08);tone(330,.32,.07,.18);try{navigator.vibrate&&navigator.vibrate([300,100,300])}catch(e){}
  S.turn++;const done=S.turn>=S.nt*S.rounds;
  const won=S.teams.filter((_,i)=>S.tp[i]>0);
  h(`<div class=top><span>خلص الوقت!</span></div><div class=big>${num(S.got)}</div><p style="text-align:center">${S.got?'إجابة صح في الدور ده':'مفيش إجابات صح في الدور ده'}</p>
@@ -193,7 +195,8 @@ document.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b||b.disabled)return;const d=b.dataset;
  if('close' in d){document.getElementById('ov').remove();return}
  if(!A.contains(b))return;
- if('add' in d){const v=document.getElementById('nm').value.trim();if(v&&!S.pl.includes(v)&&S.pl.length<16)S.pl.push(v);setup();document.getElementById('nm').focus()}
+ if('sound' in d){S.sound=!S.sound;b.textContent=S.sound?'🔊':'🔇';b.setAttribute('aria-label',S.sound?'كتم الصوت':'تشغيل الصوت');b.setAttribute('aria-pressed',String(S.sound));if(S.sound)tone(880,.08,.05)}
+ else if('add' in d){const v=document.getElementById('nm').value.trim();if(v&&!S.pl.includes(v)&&S.pl.length<16)S.pl.push(v);setup();document.getElementById('nm').focus()}
  else if('rm' in d){S.pl.splice(+d.rm,1);setup()}
  else if('cat' in d){S.cats.has(d.cat)?S.cats.delete(d.cat):S.cats.add(d.cat);setup()}
  else if('all' in d){S.cats=S.cats.size===5?new Set():new Set(Object.keys(D));setup()}
@@ -204,8 +207,8 @@ document.addEventListener('click',e=>{
  else if('split' in d)split();
  else if('turn' in d)turn();
  else if('count' in d)count();
- else if('win' in d){const i=+d.win;S.teams[i].s++;S.tp[i]++;S.got++;document.getElementById('s'+i).textContent=num(S.teams[i].s);try{navigator.vibrate&&navigator.vibrate(40)}catch(e){}next()}
- else if('skip' in d)next();
+ else if('win' in d){const i=+d.win;S.teams[i].s++;S.tp[i]++;S.got++;document.getElementById('s'+i).textContent=num(S.teams[i].s);tone(880,.12,.065);tone(1175,.2,.06,.11);try{navigator.vibrate&&navigator.vibrate(40)}catch(e){}next()}
+ else if('skip' in d){tone(390,.1,.045);next()}
  else if('end' in d)end();
 });
 document.addEventListener('keydown',e=>{

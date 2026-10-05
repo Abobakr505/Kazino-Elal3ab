@@ -129,7 +129,7 @@
             <div class="grow" id="scores"></div>
             <button class="ib" id="helpG" title="الدليل" aria-label="دليل اللعبة">❓</button>
             <button class="ib" id="addQ" title="ضيف سؤال" aria-label="ضيف سؤال">✍️</button>
-            <button class="ib" id="snd" title="الصوت" aria-label="الصوت">🔊</button>
+            <button class="ib" id="snd" title="كتم الصوت" aria-label="كتم الصوت" aria-pressed="true">🔊</button>
             <button class="ib" id="thm" title="الثيم" aria-label="الثيم">🌓</button>
         </div>
         <div class="stage">
@@ -199,7 +199,7 @@
         function load() { try { const d = JSON.parse(localStorage.getItem(LS) || localStorage.getItem('tod') || 'null'); if (d) { S.players = d.p || []; S.bank = d.b || []; if (d.th) document.documentElement.dataset.theme = d.th } } catch (e) { } }
 
         /* صوت */
-        let ac; function blip(f = 700, d = .05, v = .08) { if (!S.sound) return; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; o.type = 'triangle'; g.gain.setValueAtTime(v, ac.currentTime); g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + d); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + d) } catch (e) { } }
+        let ac; function blip(f = 700, d = .05, v = .08) { if (!S.sound) return; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; o.type = 'triangle'; g.gain.setValueAtTime(v, ac.currentTime); g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + d); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + d) } catch (e) { } }
         const buzz = p => { try { navigator.vibrate && navigator.vibrate(p) } catch (e) { } };
 
         /* الدليل */
@@ -279,7 +279,7 @@
   <p class="hint" style="text-align:center">${esc(S.cur.asker)}، اختار نوع الجولة:</p>
   <div class="two"><button class="btn mint" id="pt">صراحة 🗣️</button><button class="btn" id="pd">تحدي 🔥</button></div>
   <button class="btn alt" id="reroll">لفّة تانية</button>`);
-            $('pt').onclick = () => pick('t'); $('pd').onclick = () => pick('d'); $('reroll').onclick = () => { clearMarks(); idle(); spin() };
+            $('pt').onclick = () => { blip(760, .1); pick('t') }; $('pd').onclick = () => { blip(460, .1); pick('d') }; $('reroll').onclick = () => { blip(520, .08); clearMarks(); idle(); spin() };
         }
         function clearMarks() { document.querySelectorAll('.sec').forEach(e => e.classList.remove('ask', 'res')) }
         function pool(type) {
@@ -300,10 +300,10 @@
   <div class="row"><button class="btn alt" style="flex:1" id="more">🔀 اقتراحات تانية</button><button class="btn alt" id="bk">رجوع</button></div>`);
             document.querySelector('.sug').onclick = e => { const b = e.target.closest('button'); if (b) show(list[+b.dataset.i].x) };
             $('okOwn').onclick = () => { const v = $('own').value.trim(); if (v) show(v) }; $('own').onkeydown = e => { if (e.key === 'Enter') $('okOwn').click() };
-            $('more').onclick = () => { draw += 4; pick(type, true) };
+            $('more').onclick = () => { blip(620, .07); draw += 4; pick(type, true) };
             $('bk').onclick = () => { finishView() };
         }
-        function finishView() { const { asker, resp } = S.cur; panel(`<h2><span class="who">${esc(asker)}</span> هيسأل <span class="whom">${esc(resp)}</span></h2><div class="two"><button class="btn mint" id="pt">صراحة 🗣️</button><button class="btn" id="pd">تحدي 🔥</button></div>`); $('pt').onclick = () => pick('t'); $('pd').onclick = () => pick('d') }
+        function finishView() { const { asker, resp } = S.cur; panel(`<h2><span class="who">${esc(asker)}</span> هيسأل <span class="whom">${esc(resp)}</span></h2><div class="two"><button class="btn mint" id="pt">صراحة 🗣️</button><button class="btn" id="pd">تحدي 🔥</button></div>`); $('pt').onclick = () => { blip(760, .1); pick('t') }; $('pd').onclick = () => { blip(460, .1); pick('d') } }
         let tmr;
         function show(x) {
             S.used[x] = 1; const t = S.cur.type; blip(660, .2); blip(990, .3); buzz(30);
@@ -313,13 +313,13 @@
   <div class="two"><button class="btn mint" id="ok" style="font-size:18px">اتنفّذ ✓ (+١)</button><button class="btn alt" id="skip" style="font-size:18px">اتخطّى</button></div>`);
             $('tbtn').onclick = () => { clearInterval(tmr); let s = 30; $('tm').textContent = s; tmr = setInterval(() => { s--; $('tm').textContent = s; if (s <= 5 && s > 0) blip(400, .08); if (s <= 0) { clearInterval(tmr); $('tm').textContent = 'خلص الوقت! ⏰'; blip(200, .5, .15); buzz(200) } }, 1000) };
             $('ok').onclick = () => { clearInterval(tmr); S.scores[S.cur.resp] = (S.scores[S.cur.resp] || 0) + 1; renderScores(); blip(1000, .3); clearMarks(); idle() };
-            $('skip').onclick = () => { clearInterval(tmr); clearMarks(); idle() };
+            $('skip').onclick = () => { clearInterval(tmr); blip(380, .12); clearMarks(); idle() };
         }
 
         /* التنقل */
         $('start').onclick = () => { S.scores = {}; S.used = {}; $('setup').classList.remove('on'); $('game').classList.add('on'); drawWheel(); renderScores(); idle(); blip(800, .15) };
         $('back').onclick = () => { if (S.busy) return; clearInterval(tmr); $('game').classList.remove('on'); $('setup').classList.add('on') };
-        $('snd').onclick = () => { S.sound = !S.sound; $('snd').textContent = S.sound ? '🔊' : '🔇' };
+        $('snd').onclick = () => { S.sound = !S.sound; $('snd').textContent = S.sound ? '🔊' : '🔇'; const label = S.sound ? 'كتم الصوت' : 'تشغيل الصوت'; $('snd').title = label; $('snd').setAttribute('aria-label', label); $('snd').setAttribute('aria-pressed', String(S.sound)) };
         $('thm').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'light' ? 'dark' : 'light'; save() };
         load(); renderSetup();
         try { if (!localStorage.getItem('tod_guide_seen')) setTimeout(openGuide, 400) } catch (e) { }
