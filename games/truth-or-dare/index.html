@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>صراحة ولا تحدي؟</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #160f2e;
+            --bg2: #241846;
+            --ink: #fff7ec;
+            --mute: #b8aed6;
+            --coral: #ff5d73;
+            --mint: #3ee8b5;
+            --gold: #ffc857;
+            --card: #ffffff14;
+            --line: #ffffff22;
+            --safe-t: env(safe-area-inset-top, 0px);
+            --safe-b: env(safe-area-inset-bottom, 0px)
+        }
+
+        :root[data-theme="light"] {
+            --bg: #fff3e2;
+            --bg2: #ffe3c4;
+            --ink: #2a1650;
+            --mute: #7a6a9c;
+            --card: #2a165012;
+            --line: #2a165026
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        html,
+        body {
+            min-height: 100%
+        }
+
+        body {
+            background: radial-gradient(120% 80% at 50% 0, var(--bg2), var(--bg)) fixed;
+            color: var(--ink);
+            font-family: Tajawal, system-ui, sans-serif;
+            padding: var(--safe-t) 0 var(--safe-b);
+            overflow-x: hidden
+        }
+
+        h1,
+        h2,
+        .big {
+            font-family: Lalezar, Tajawal, sans-serif;
+            font-weight: 400
+        }
+
+        button {
+            font: inherit;
+            color: inherit;
+            border: 0;
+            cursor: pointer;
+            transition: transform .15s, filter .2s, opacity .2s
+        }
+
+        button:active {
+            transform: scale(.95)
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible,
+        select:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 2px
+        }
+
+        .screen {
+            display: none;
+            min-height: 100vh;
+            max-width: 560px;
+            margin: auto;
+            padding: 22px 18px 28px;
+            flex-direction: column;
+            gap: 16px
+        }
+
+        .screen.on {
+            display: flex
+        }
+
+        .homelnk {
+            align-self: flex-start;
+            color: var(--mute);
+            font-weight: 700;
+            text-decoration: none;
+            padding: 6px 4px
+        }
+
+        .homelnk:hover {
+            color: var(--ink)
+        }
+
+        .logo {
+            text-align: center;
+            margin-top: 4px
+        }
+
+        .logo h1 {
+            font-size: clamp(40px, 12vw, 64px);
+            line-height: 1.05;
+            color: var(--ink)
+        }
+
+        .logo p {
+            color: var(--mute);
+            margin-top: 6px
+        }
+
+        .box {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 16px;
+            backdrop-filter: blur(8px)
+        }
+
+        .row {
+            display: flex;
+            gap: 8px
+        }
+
+        input,
+        textarea,
+        select {
+            flex: 1;
+            min-width: 0;
+            font: inherit;
+            color: var(--ink);
+            background: #00000026;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px 14px
+        }
+
+        select option {
+            color: #160f2e
+        }
+
+        :root[data-theme="light"] input,
+        :root[data-theme="light"] textarea,
+        :root[data-theme="light"] select {
+            background: #fff8
+        }
+
+        textarea {
+            resize: none;
+            height: 72px
+        }
+
+        .btn {
+            background: var(--coral);
+            color: #fff;
+            font-weight: 800;
+            border-radius: 14px;
+            padding: 12px 18px
+        }
+
+        .btn.alt {
+            background: var(--card);
+            border: 1px solid var(--line);
+            color: var(--ink)
+        }
+
+        .btn.mint {
+            background: var(--mint);
+            color: #052b21
+        }
+
+        .btn.gold {
+            background: var(--gold);
+            color: #3a2500
+        }
+
+        .btn:disabled {
+            opacity: .35;
+            pointer-events: none
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            min-height: 38px
+        }
+
+        .chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px 6px 8px;
+            border-radius: 99px;
+            font-weight: 700;
+            color: #1b0f33;
+            animation: pop .35s cubic-bezier(.3, 1.6, .5, 1)
+        }
+
+        .chip button {
+            background: #0002;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            font-size: 14px;
+            color: #1b0f33
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(.4);
+                opacity: 0
+            }
+        }
+
+        .hint {
+            color: var(--mute);
+            font-size: 14px
+        }
+
+        .top {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .top .grow {
+            flex: 1;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 2px
+        }
+
+        .sc {
+            flex: none;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 99px;
+            color: #1b0f33;
+            display: flex;
+            gap: 6px
+        }
+
+        .sc b {
+            background: #0003;
+            border-radius: 99px;
+            padding: 0 7px
+        }
+
+        .ib {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            flex: none
+        }
+
+        .stage {
+            display: grid;
+            place-items: center;
+            padding: 6px 0
+        }
+
+        .wheel {
+            position: relative;
+            width: min(90vw, 44vh, 430px);
+            aspect-ratio: 1
+        }
+
+        .wheel svg.disc {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 14px 30px #0006)
+        }
+
+        .sec {
+            transition: opacity .4s, filter .4s, transform .4s;
+            transform-origin: 0 0
+        }
+
+        .wheel.done .sec {
+            opacity: .28
+        }
+
+        .wheel.done .sec.ask,
+        .wheel.done .sec.res {
+            opacity: 1;
+            filter: brightness(1.12) drop-shadow(0 0 4px #fff8)
+        }
+
+        .nm {
+            font-family: Tajawal;
+            font-weight: 800;
+            fill: #1b0f33;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            pointer-events: none
+        }
+
+        .bottle {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 13%;
+            height: 54%;
+            margin: -27% 0 0 -6.5%;
+            will-change: transform;
+            filter: drop-shadow(0 8px 10px #0007)
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 26px;
+            padding: 18px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: rise .4s ease
+        }
+
+        @keyframes rise {
+            from {
+                transform: translateY(14px);
+                opacity: 0
+            }
+        }
+
+        .panel h2 {
+            font-size: 26px;
+            text-align: center;
+            line-height: 1.3
+        }
+
+        .who {
+            color: var(--gold)
+        }
+
+        .whom {
+            color: var(--mint)
+        }
+
+        :root[data-theme="light"] .who {
+            color: #b07400
+        }
+
+        :root[data-theme="light"] .whom {
+            color: #0a8c68
+        }
+
+        .two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .two .btn {
+            padding: 16px;
+            font-size: 20px;
+            font-family: Lalezar
+        }
+
+        .sug {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .sug button {
+            text-align: right;
+            background: #ffffff10;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px 14px;
+            line-height: 1.5;
+            font-weight: 700;
+            animation: rise .35s backwards
+        }
+
+        .sug button small {
+            display: block;
+            color: var(--mute);
+            font-weight: 400;
+            font-size: 12px
+        }
+
+        .sug button:hover {
+            border-color: var(--gold)
+        }
+
+        .qcard {
+            text-align: center;
+            padding: 26px 16px;
+            border-radius: 20px;
+            font-family: Lalezar;
+            font-size: clamp(24px, 6.5vw, 34px);
+            line-height: 1.5;
+            color: #1b0f33;
+            animation: flip .6s cubic-bezier(.2, .9, .3, 1.2)
+        }
+
+        .qcard.t {
+            background: linear-gradient(135deg, #7df0d0, #3ee8b5)
+        }
+
+        .qcard.d {
+            background: linear-gradient(135deg, #ffb36b, #ff5d73)
+        }
+
+        .qcard small {
+            display: block;
+            font-family: Tajawal;
+            font-size: 13px;
+            font-weight: 800;
+            opacity: .7;
+            margin-bottom: 6px
+        }
+
+        @keyframes flip {
+            from {
+                transform: rotateX(80deg) scale(.8);
+                opacity: 0
+            }
+        }
+
+        .timer {
+            font-family: Lalezar;
+            font-size: 30px;
+            text-align: center;
+            color: var(--gold)
+        }
+
+        :root[data-theme="light"] .timer {
+            color: #b07400
+        }
+
+        dialog {
+            border: 0;
+            border-radius: 26px;
+            background: var(--bg2);
+            color: var(--ink);
+            width: min(94vw, 520px);
+            max-height: 88vh;
+            padding: 18px;
+            margin: auto
+        }
+
+        dialog::backdrop {
+            background: #000a;
+            backdrop-filter: blur(4px)
+        }
+
+        dialog[open] {
+            animation: rise .3s
+        }
+
+        .seg {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #0003;
+            border-radius: 14px;
+            padding: 4px
+        }
+
+        .seg button {
+            background: none;
+            padding: 10px;
+            border-radius: 11px;
+            font-weight: 800;
+            color: var(--mute)
+        }
+
+        .seg button.on {
+            background: var(--mint);
+            color: #052b21
+        }
+
+        .seg button.on.d {
+            background: var(--coral);
+            color: #fff
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 30vh;
+            overflow: auto;
+            margin-top: 10px
+        }
+
+        .item {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 14px
+        }
+
+        .item span {
+            flex: 1
+        }
+
+        .item i {
+            font-style: normal;
+            font-size: 11px;
+            color: var(--mute)
+        }
+
+        .item button {
+            background: none;
+            color: var(--mute);
+            font-size: 16px
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- الإعداد -->
+    <section class="screen on" id="setup">
+        <a class="homelnk" href="../../index.html">← كل الألعاب</a>
+        <div class="logo">
+            <h1>صراحة ولا تحدي؟</h1>
+            <p>لِف الإزازة وشوف مين هيتحشر</p>
+        </div>
+        <div class="box">
+            <div class="row">
+                <input id="pname" maxlength="14" placeholder="اسم اللاعب" autocomplete="off">
+                <button class="btn" id="addP">ضيف</button>
+            </div>
+            <div class="chips" id="chips"></div>
+            <p class="hint" id="pcount"></p>
+        </div>
+        <div class="box">
+            <p style="font-weight:800;margin-bottom:4px">أسئلة وتحديات من اللاعبين</p>
+            <p class="hint" style="margin-bottom:12px">كل واحد يكتب اللي يعجبه، وهتظهر كاقتراحات لما حد يختار. فيه كمان
+                اقتراحات جاهزة لو مفيش.</p>
+            <button class="btn alt" style="width:100%" id="openBank">✍️ ضيف أسئلة وتحديات (<span
+                    id="bcount">0</span>)</button>
+        </div>
+        <button class="btn gold big" style="font-size:24px;padding:16px" id="start">يلا نلعب</button>
+    </section>
+
+    <!-- اللعبة -->
+    <section class="screen" id="game">
+        <div class="top">
+            <button class="ib" id="back" title="رجوع" aria-label="رجوع">➜</button>
+            <div class="grow" id="scores"></div>
+            <button class="ib" id="addQ" title="ضيف سؤال" aria-label="ضيف سؤال">✍️</button>
+            <button class="ib" id="snd" title="الصوت" aria-label="الصوت">🔊</button>
+            <button class="ib" id="thm" title="الثيم" aria-label="الثيم">🌓</button>
+        </div>
+        <div class="stage">
+            <div class="wheel" id="wheel">
+                <svg class="disc" id="disc" viewBox="-100 -100 200 200"></svg>
+                <svg class="bottle" id="bottle" viewBox="0 0 40 140">
+                    <defs>
+                        <linearGradient id="gl" x1="0" x2="1">
+                            <stop offset="0" stop-color="#1fae7e" />
+                            <stop offset=".45" stop-color="#7dffd6" />
+                            <stop offset="1" stop-color="#0e7a58" />
+                        </linearGradient>
+                    </defs>
+                    <path
+                        d="M15 2h10v6h-1v4c0 8 12 14 12 30v88a8 8 0 0 1-8 8H12a8 8 0 0 1-8-8V42c0-16 12-22 12-30V8h-1z"
+                        fill="url(#gl)" stroke="#ffffff88" stroke-width="1.2" />
+                    <rect x="14" y="0" width="12" height="7" rx="2" fill="#ffc857" />
+                    <rect x="5" y="70" width="30" height="34" rx="4" fill="#fff7ec" opacity=".9" />
+                    <circle cx="20" cy="87" r="7" fill="#ff5d73" />
+                    <path d="M9 50v70" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".45" />
+                </svg>
+            </div>
+        </div>
+        <div class="panel" id="panel"></div>
+    </section>
+
+    <!-- بنك الأسئلة -->
+    <dialog id="bank">
+        <h2 style="font-size:26px;margin-bottom:12px">ضيف سؤال أو تحدي</h2>
+        <div class="seg" id="seg"><button class="on t" data-t="t">صراحة</button><button data-t="d">تحدي</button></div>
+        <div class="row" style="margin-top:10px"><select id="author" aria-label="الكاتب"></select></div>
+        <textarea id="qtext" style="margin-top:10px;width:100%" placeholder="اكتب هنا..."></textarea>
+        <div class="row" style="margin-top:10px">
+            <button class="btn mint" style="flex:1" id="addQb">ضيف</button>
+            <button class="btn alt" id="closeBank">خلصت</button>
+        </div>
+        <div class="list" id="blist"></div>
+    </dialog>
+
+    <script>
+        const COLORS = ['#ffc857', '#3ee8b5', '#ff8fa3', '#8ecbff', '#c4a1ff', '#ffa96b', '#9af08c', '#ff7ae0', '#7df0ff', '#f5e663', '#ff9d7a', '#b3b9ff'];
+        const DEF = {
+            t: ['إيه أكتر موقف محرج حصلك قدام الناس؟', 'مين أكتر حد في القعدة بتحس إنه بيخبي حاجة؟', 'آخر كدبة كدبتها كانت إيه؟', 'إيه أغرب حاجة بتعملها وإنت لوحدك؟', 'لو هتمسح رسالة واحدة من موبايلك، تبقى مين؟', 'أكتر حاجة بتندم عليها في حياتك؟', 'مين أكتر شخص وحشك دلوقتي؟', 'إيه الحاجة اللي مستحيل تقولها لأهلك؟'],
+            d: ['قلّد حد من الموجودين لحد ما نعرفه', 'اتكلم بلهجة غريبة لحد دورك الجاي', 'اعمل أحسن رقصة ممكنة لمدة ١٥ ثانية', 'قول اسم كل اللي في القعدة بصوت مسرحي', 'غنّي أول أغنية تيجي في بالك', 'اعمل وش مضحك وسيبه ١٠ ثواني', 'احكي نكتة، ولو محدش ضحك تعيدها', 'مثّل مشهد من فيلم وخلينا نخمنه']
+        };
+        const S = { players: [], bank: [], scores: {}, sound: true, rot: 0, busy: false, cur: null, used: {} };
+        const $ = id => document.getElementById(id);
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const col = n => COLORS[S.players.indexOf(n) % COLORS.length];
+        const LS = 'tod_v1';
+        function save() { try { localStorage.setItem(LS, JSON.stringify({ p: S.players, b: S.bank, th: document.documentElement.dataset.theme || '' })) } catch (e) { } }
+        function load() { try { const d = JSON.parse(localStorage.getItem(LS) || localStorage.getItem('tod') || 'null'); if (d) { S.players = d.p || []; S.bank = d.b || []; if (d.th) document.documentElement.dataset.theme = d.th } } catch (e) { } }
+
+        /* صوت */
+        let ac; function blip(f = 700, d = .05, v = .08) { if (!S.sound) return; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; o.type = 'triangle'; g.gain.setValueAtTime(v, ac.currentTime); g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + d); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + d) } catch (e) { } }
+        const buzz = p => { try { navigator.vibrate && navigator.vibrate(p) } catch (e) { } };
+
+        /* الإعداد */
+        function renderSetup() {
+            $('chips').innerHTML = S.players.map((n, i) => `<div class="chip" style="background:${COLORS[i % 12]}"><button data-del="${i}" aria-label="حذف">×</button>${esc(n)}</div>`).join('') || '<span class="hint">لسه مفيش لاعبين</span>';
+            $('pcount').textContent = S.players.length < 2 ? 'محتاج لاعبين اتنين على الأقل (لحد ١٢)' : `${S.players.length} لاعبين جاهزين`;
+            $('start').disabled = S.players.length < 2; $('bcount').textContent = S.bank.length; save();
+        }
+        function addPlayer() {
+            const v = $('pname').value.trim(); if (!v) return;
+            if (S.players.length >= 12 || S.players.includes(v)) { $('pname').select(); return }
+            S.players.push(v); $('pname').value = ''; $('pname').focus(); blip(880, .08); renderSetup()
+        }
+        $('addP').onclick = addPlayer; $('pname').onkeydown = e => { if (e.key === 'Enter') addPlayer() };
+        $('chips').onclick = e => { const i = e.target.dataset.del; if (i !== undefined) { const n = S.players.splice(+i, 1)[0]; S.bank = S.bank.filter(q => q.by !== n); renderSetup() } };
+
+        /* البنك */
+        let bt = 't';
+        function renderBank() {
+            $('author').innerHTML = '<option value="">من لاعب (مجهول)</option>' + S.players.map(p => `<option>${esc(p)}</option>`).join('');
+            $('blist').innerHTML = S.bank.map((q, i) => `<div class="item"><b>${q.t === 't' ? '🗣️' : '🔥'}</b><span>${esc(q.x)}</span><i>${esc(q.by || '')}</i><button data-d="${i}" aria-label="حذف">🗑</button></div>`).join('') || '<p class="hint">لسه مفيش حاجة مكتوبة</p>';
+        }
+        $('seg').onclick = e => { const t = e.target.dataset.t; if (!t) return; bt = t;[...$('seg').children].forEach(b => b.className = b.dataset.t === t ? 'on ' + t : '') };
+        $('addQb').onclick = () => { const x = $('qtext').value.trim(); if (!x) return; S.bank.push({ t: bt, x, by: $('author').value }); $('qtext').value = ''; blip(900, .08); renderBank(); renderSetup() };
+        $('blist').onclick = e => { const i = e.target.dataset.d; if (i !== undefined) { S.bank.splice(+i, 1); renderBank(); renderSetup() } };
+        const openBank = () => { renderBank(); $('bank').showModal() };
+        $('openBank').onclick = $('addQ').onclick = openBank; $('closeBank').onclick = () => $('bank').close();
+
+        /* العجلة */
+        function pt(a, r) { const t = a * Math.PI / 180; return [(r * Math.sin(t)).toFixed(2), (-r * Math.cos(t)).toFixed(2)] }
+        function drawWheel() {
+            const n = S.players.length, w = 360 / n; let h = '';
+            S.players.forEach((p, i) => {
+                const a0 = i * w - w / 2, a1 = i * w + w / 2, [x0, y0] = pt(a0, 98), [x1, y1] = pt(a1, 98), [tx, ty] = pt(i * w, 68);
+                const fs = Math.max(6, Math.min(11, 200 / n / (p.length * .5 + 1) + 3));
+                h += `<g class="sec" id="s${i}"><path d="M0 0L${x0} ${y0}A98 98 0 0 1 ${x1} ${y1}Z" fill="${COLORS[i % 12]}" stroke="#160f2e" stroke-width="1.5"/>
+    <text class="nm" x="${tx}" y="${ty}" font-size="${fs}">${esc(p)}</text></g>`;
+            });
+            $('disc').innerHTML = h + '<circle r="12" fill="#160f2e" stroke="#ffffff55" stroke-width="1.5"/><circle r="98" fill="none" stroke="#ffffff55" stroke-width="2"/>';
+            $('wheel').classList.remove('done');
+        }
+        const sectorOf = a => { const n = S.players.length, w = 360 / n; return Math.floor((((a % 360) + 360) % 360 + w / 2) / w) % n };
+
+        /* اللوحة */
+        const panel = h => { const p = $('panel'); p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; p.innerHTML = h };
+        function renderScores() { $('scores').innerHTML = S.players.map(p => `<div class="sc" style="background:${col(p)}">${esc(p)}<b>${S.scores[p] || 0}</b></div>`).join('') }
+        function idle() {
+            $('wheel').classList.remove('done'); S.cur = null;
+            panel(`<h2>جاهزين؟</h2><button class="btn big" style="font-size:26px;padding:16px" id="spin">🍾 لِف الإزازة</button>`);
+            $('spin').onclick = spin;
+        }
+        function spin() {
+            if (S.busy) return; S.busy = true; $('wheel').classList.remove('done'); clearMarks();
+            panel(`<h2>الإزازة بتلف...</h2><p class="hint" style="text-align:center">استنى النتيجة 😏</p>`);
+            const from = S.rot, total = 360 * (5 + Math.random() * 3) + Math.random() * 360, dur = 4600 + Math.random() * 1600, t0 = performance.now();
+            let last = sectorOf(from);
+            const ease = t => 1 - Math.pow(1 - t, 4);
+            (function f(now) {
+                const t = Math.min(1, (now - t0) / dur); S.rot = from + total * ease(t);
+                $('bottle').style.transform = `rotate(${S.rot}deg)`;
+                const s = sectorOf(S.rot); if (s !== last) { last = s; blip(500 + t * 400, .04, .07) }
+                if (t < 1) requestAnimationFrame(f); else finish();
+            })(t0);
+        }
+        function finish() {
+            S.busy = false;
+            const r = sectorOf(S.rot), a = sectorOf(S.rot + 180);
+            S.cur = { asker: S.players[a], resp: S.players[r] };
+            $('wheel').classList.add('done'); $(`s${a}`).classList.add('ask'); $(`s${r}`).classList.add('res');
+            blip(300, .25, .12); setTimeout(() => blip(600, .3, .1), 120); buzz([40, 40, 80]);
+            panel(`<h2><span class="who">${esc(S.cur.asker)}</span> هيسأل <span class="whom">${esc(S.cur.resp)}</span></h2>
+  <p class="hint" style="text-align:center">${esc(S.cur.asker)}، اختار نوع الجولة:</p>
+  <div class="two"><button class="btn mint" id="pt">صراحة 🗣️</button><button class="btn" id="pd">تحدي 🔥</button></div>
+  <button class="btn alt" id="reroll">لفّة تانية</button>`);
+            $('pt').onclick = () => pick('t'); $('pd').onclick = () => pick('d'); $('reroll').onclick = () => { clearMarks(); idle(); spin() };
+        }
+        function clearMarks() { document.querySelectorAll('.sec').forEach(e => e.classList.remove('ask', 'res')) }
+        function pool(type) {
+            const { resp } = S.cur, own = S.bank.filter(q => q.t === type && q.by !== resp && !S.used[q.x]).map(q => ({ x: q.x, by: q.by }));
+            const def = DEF[type].filter(x => !S.used[x]).map(x => ({ x, by: 'جاهز' }));
+            const sh = a => a.sort(() => Math.random() - .5);
+            return sh(own).concat(sh(def));
+        }
+        let draw = 0, curPool = [];
+        function pick(type, more) {
+            S.cur.type = type;
+            if (!more) { draw = 0; curPool = pool(type) }
+            const p = curPool, list = p.slice(draw % Math.max(1, p.length)).concat(p).slice(0, 4);
+            const name = type === 't' ? 'صراحة' : 'تحدي';
+            panel(`<h2><span class="who">${esc(S.cur.asker)}</span>، اختار ${name}</h2>
+  <div class="sug">${list.map((q, i) => `<button data-i="${i}" style="animation-delay:${i * 70}ms">${esc(q.x)}<small>${q.by ? 'من ' + esc(q.by) : 'من لاعب'}</small></button>`).join('') || '<p class="hint">خلصت الاقتراحات، اكتب بنفسك</p>'}</div>
+  <div class="row"><input id="own" placeholder="أو اكتب ${name} من عندك..." autocomplete="off"><button class="btn gold" id="okOwn">تمام</button></div>
+  <div class="row"><button class="btn alt" style="flex:1" id="more">🔀 اقتراحات تانية</button><button class="btn alt" id="bk">رجوع</button></div>`);
+            document.querySelector('.sug').onclick = e => { const b = e.target.closest('button'); if (b) show(list[+b.dataset.i].x) };
+            $('okOwn').onclick = () => { const v = $('own').value.trim(); if (v) show(v) }; $('own').onkeydown = e => { if (e.key === 'Enter') $('okOwn').click() };
+            $('more').onclick = () => { draw += 4; pick(type, true) };
+            $('bk').onclick = () => { finishView() };
+        }
+        function finishView() { const { asker, resp } = S.cur; panel(`<h2><span class="who">${esc(asker)}</span> هيسأل <span class="whom">${esc(resp)}</span></h2><div class="two"><button class="btn mint" id="pt">صراحة 🗣️</button><button class="btn" id="pd">تحدي 🔥</button></div>`); $('pt').onclick = () => pick('t'); $('pd').onclick = () => pick('d') }
+        let tmr;
+        function show(x) {
+            S.used[x] = 1; const t = S.cur.type; blip(660, .2); blip(990, .3); buzz(30);
+            panel(`<div class="qcard ${t}"><small>${esc(S.cur.resp)} — ${t === 't' ? 'صراحة' : 'تحدي'}</small>${esc(x)}</div>
+  <div class="timer" id="tm"></div>
+  <div class="row"><button class="btn alt" style="flex:1" id="tbtn">⏱ ٣٠ ثانية</button></div>
+  <div class="two"><button class="btn mint" id="ok" style="font-size:18px">اتنفّذ ✓ (+١)</button><button class="btn alt" id="skip" style="font-size:18px">اتخطّى</button></div>`);
+            $('tbtn').onclick = () => { clearInterval(tmr); let s = 30; $('tm').textContent = s; tmr = setInterval(() => { s--; $('tm').textContent = s; if (s <= 5 && s > 0) blip(400, .08); if (s <= 0) { clearInterval(tmr); $('tm').textContent = 'خلص الوقت! ⏰'; blip(200, .5, .15); buzz(200) } }, 1000) };
+            $('ok').onclick = () => { clearInterval(tmr); S.scores[S.cur.resp] = (S.scores[S.cur.resp] || 0) + 1; renderScores(); blip(1000, .3); clearMarks(); idle() };
+            $('skip').onclick = () => { clearInterval(tmr); clearMarks(); idle() };
+        }
+
+        /* التنقل */
+        $('start').onclick = () => { S.scores = {}; S.used = {}; $('setup').classList.remove('on'); $('game').classList.add('on'); drawWheel(); renderScores(); idle(); blip(800, .15) };
+        $('back').onclick = () => { if (S.busy) return; clearInterval(tmr); $('game').classList.remove('on'); $('setup').classList.add('on') };
+        $('snd').onclick = () => { S.sound = !S.sound; $('snd').textContent = S.sound ? '🔊' : '🔇' };
+        $('thm').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'light' ? 'dark' : 'light'; save() };
+        load(); renderSetup();
+    </script>
+</body>
+
+</html>

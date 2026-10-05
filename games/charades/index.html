@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>بيت بيوت مصري</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;800&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#7d0d33;--card:#fff7f0;--ink:#2a0d1a;--pop:#ffd447;--mute:#85546a;--line:#efd9d6;--on:#fff;--red:#ff5d6c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2b0716;--card:#431327;--ink:#fff1f4;--mute:#d9a9b8;--line:#66243d}}
+:root[data-theme="dark"]{--bg:#2b0716;--card:#431327;--ink:#fff1f4;--mute:#d9a9b8;--line:#66243d}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--on);font-family:Cairo,Tahoma,system-ui,sans-serif;min-height:100vh;-webkit-tap-highlight-color:transparent}
+#app{max-width:520px;margin:0 auto;padding:18px 16px 48px}
+.scr{animation:in .28s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes flip{from{transform:rotate(-2deg) scale(.96);opacity:.4}to{transform:none;opacity:1}}
+@keyframes pulse{50%{transform:scale(1.12)}}
+h1{font-family:Lalezar,Cairo,sans-serif;font-size:3.2rem;margin:6px 0 0;color:var(--pop);font-weight:400;line-height:1.1}
+h2{font-size:1rem;margin:0 0 10px;color:var(--ink)}
+p{margin:6px 0 16px;line-height:1.8}
+.card{background:var(--card);color:var(--ink);border-radius:20px;padding:16px;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;gap:6px;align-items:center;min-height:42px;border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 16px;font:inherit;font-weight:500;cursor:pointer;transition:background .15s,color .15s}
+.opt.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.row{display:flex;gap:8px;margin-top:12px}
+input{flex:1;min-width:0;font:inherit;padding:11px 14px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--ink)}
+.btn{display:block;width:100%;font:inherit;font-weight:800;font-size:1.2rem;border:0;border-radius:18px;padding:16px;cursor:pointer;margin-top:12px;background:var(--pop);color:#2a0d1a}
+.btn.alt{background:transparent;border:2px solid var(--on);color:var(--on)}
+.btn:disabled{opacity:.45}
+.sm{font:inherit;font-weight:800;border:0;border-radius:12px;padding:10px 18px;background:var(--ink);color:var(--card);cursor:pointer}
+.link{background:none;border:0;color:var(--mute);font:inherit;text-decoration:underline;cursor:pointer;padding:6px 0}
+a.link{display:inline-block}
+.link.on-bg{color:var(--on);opacity:.85}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--pop);outline-offset:2px}
+.top{font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{border-radius:999px;padding:4px 14px;font-weight:800;color:#2a0d1a}
+.ticket{background:var(--pop);color:#2a0d1a;border-radius:22px;margin:16px 0 12px;animation:flip .25s ease-out}
+.stub{padding:14px;text-align:center;font-weight:800}
+.perf{position:relative;border-top:3px dashed rgba(42,13,26,.3)}
+.perf::before,.perf::after{content:"";position:absolute;top:-15px;width:27px;height:27px;border-radius:50%;background:var(--bg)}
+.perf::before{right:-14px}.perf::after{left:-14px}
+.word{font-family:Lalezar,Cairo,sans-serif;font-size:clamp(2.1rem,10vw,3.5rem);line-height:1.5;text-align:center;padding:26px 16px;min-height:10rem;display:flex;align-items:center;justify-content:center}
+.timer{font-family:Lalezar,Cairo,sans-serif;font-size:2.4rem;line-height:1}
+.timer.low{color:var(--red);animation:pulse .6s infinite}
+.bar{height:10px;border-radius:9px;background:rgba(255,255,255,.2);overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:var(--pop)}
+.pr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+.big{font-family:Lalezar,Cairo,sans-serif;font-size:4.5rem;color:var(--pop);text-align:center;line-height:1.2}
+.roll{font-family:Lalezar,Cairo,sans-serif;font-size:3.6rem;color:var(--pop);text-align:center;line-height:1.3;min-height:5rem;margin:10px 0}
+.msg{background:rgba(255,255,255,.14);border-radius:16px;padding:14px;line-height:1.9;margin-bottom:4px}
+.cd{font-family:Lalezar,Cairo,sans-serif;font-size:11rem;color:var(--pop);text-align:center;line-height:1.4;animation:pulse .9s}
+.hero{text-align:center;padding-top:10px}
+.hero h1{font-size:4.4rem}
+.hero .ticket{transform:rotate(-3deg);margin:26px 8px 22px;animation:none;box-shadow:0 14px 0 rgba(0,0,0,.18)}
+.hero .word{min-height:7rem;transition:opacity .25s}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+.facts div{background:rgba(255,255,255,.12);border-radius:14px;padding:10px 4px;line-height:1.4}
+.facts b{display:block;font-family:Lalezar,Cairo,sans-serif;font-size:1.7rem;color:var(--pop);font-weight:400}
+.wins{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:6px}
+.tb{border:0;border-radius:18px;padding:16px 8px;font:inherit;font-weight:800;color:#2a0d1a;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:1.05rem}
+.tb b{font-family:Lalezar,Cairo,sans-serif;font-size:1.9rem;line-height:1.1;font-weight:400}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;z-index:9;padding-top:env(safe-area-inset-top,0px)}
+.sheet{background:var(--card);color:var(--ink);width:100%;max-width:520px;max-height:88vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom,0px));animation:in .25s ease-out}
+.sheet h3{font-family:Lalezar,Cairo,sans-serif;font-size:2rem;font-weight:400;margin:0 0 6px}
+.sheet ol{padding-inline-start:22px;margin:0}
+.sheet li{margin-bottom:12px;line-height:1.8}
+.sheet .btn{margin-top:8px}
+@media (prefers-reduced-motion:reduce){.scr,.ticket,.cd,.timer.low,.sheet{animation:none}}
+@media (prefers-reduced-motion:no-preference){.btn:active,.tb:active{transform:scale(.97)}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const D={
+'أفلام':['الكيت كات','اللمبي','إسماعيلية رايح جاي','صعيدي في الجامعة الأمريكية','همام في أمستردام','عبود على الحدود','الإرهاب والكباب','طيور الظلام','ولاد العم','إبراهيم الأبيض','الفيل الأزرق','أمير البحار','مرجان أحمد مرجان','الناظر','تيتو','سلام يا صاحبي','شورت وفانلة وكاب','سهر الليالي','الهروب','المومياء','بحب السيما','عسل أسود','ليلة سقوط بغداد','حرامية في كي جي تو','الجزيرة','الأرض','البريء','غبي منه فيه','بوحة','أبو علي'],
+'أمثال':['إيد وحدة ما تصقفش','الجار قبل الدار','إدّي العيش لخبازه','المية تكدّب الغطاس','حبل الكدب قصير','على قد لحافك مد رجليك','الطيور على أشكالها تقع','كل تأخيرة فيها خيرة','اللي يتلسع من الشوربة ينفخ في الزبادي','اللي بيته من إزاز ما يحدفش الناس بالطوب','ضربني وبكى وسبقني واشتكى','العين ما تعلاش عن الحاجب','اللي مالوش كبير يشتري له كبير','اللي ما يعرفش يقول عدس','خدوهم بالصوت لا يغلبوكم','جحا أولى بلحم توره','يا فرحة ما تمت','اسأل مجرب ولا تسأل طبيب','عصفور في اليد خير من عشرة على الشجرة','ابعد عن الشر وغنّي له'],
+'مسلسلات':['ليالي الحلمية','رأفت الهجان','يوميات ونيس','الكبير أوي','لن أعيش في جلباب أبي','عفاريت عدلي علام','سلسال الدم','بنت اسمها ذات','أرابيسك','الراية البيضا'],
+'أكل وأماكن':['كشري','فول وطعمية','ملوخية','حواوشي','كنافة','أم علي','فطير مشلتت','الأهرامات','أبو الهول','خان الخليلي','كورنيش النيل','ميدان التحرير','السد العالي','قلعة قايتباي','شرم الشيخ','العتبة','الإسكندرية','الأقصر وأسوان'],
+'مواقف':['واحد بيتخانق مع سواق ميكروباص','سواق توك توك','طابور العيش','ماتش كورة في القهوة','تحضير الفتة في العيد','بياع بطيخ في الشارع','واحد بيفاصل في خان الخليلي','زحمة كوبري أكتوبر','فرح شعبي','أم بتنادي ولادها من البلكونة','مدرس بيشرح في درس خصوصي','واحد بيلعب طاولة وبيغش','سباك جه يصلح الحنفية','واحد بيدوّر على موقف عربية','عريس بيشوف العروسة لأول مرة']
+};
+const TN=['الكشري بالشطة','ولاد البلد','الفرافير','بتوع الميكروباص','أبو الهنا','فراخ الجمعية','شاي بالنعناع','عيش وملح','الطعمية الحرّاقة','حواوشي الغلابة','الجدعان','بتوع الكورنيش','التوك توك السريع','فول بالزيت الحار','كنافة بالمانجة','أم علي وولادها','عفاريت عدلي علام','الحرافيش','القهوجية','بتوع الطابور','فراعنة آخر زمن','مصاصين القصب','أولاد النيل','كوبري أكتوبر المزدحم','بطيخ بدون بذر','بتوع العيش البلدي','ملوخية بالأرانب','الطماطم الغالية','الأسطى والصنايعية','سواقين الأجرة','بتوع الفرح','الفتة والرز'],TC=['#ffd447','#3ad6c4','#8ec5ff','#b6f06b'];
+const A=document.getElementById('app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const num=n=>n.toLocaleString('ar-EG');
+const S={pl:[],nt:2,cats:new Set(['أفلام','أمثال','مواقف']),time:60,rounds:2,teams:[],turn:0,pool:[],cur:null,got:0,tp:[]};
+let iv,iv2;
+const h=s=>{clearInterval(iv);clearInterval(iv2);A.innerHTML='<div class=scr>'+s+'</div>';window.scrollTo(0,0)};
+const cur=()=>S.teams[S.turn%S.nt];
+const tag=t=>`<span class=tag style="background:${t.c}">${t.n}</span>`;
+const WORDS=Object.values(D).flat();
+
+function home(){
+ h(`<div class=hero><div style="text-align:start"><a class="link on-bg" href="../../index.html">← كل الألعاب</a></div><h1>بيت بيوت مصري</h1><p style="margin-bottom:0">تمثيل بدون كلام للقعدات: أفلام وأمثال ومواقف من مصر.</p>
+ <div class=ticket aria-hidden="true"><div class=stub>كلمة النهاردة</div><div class=perf></div><div class=word id=hw>الكيت كات</div></div>
+ <button class=btn data-setup>جهّز اللعبة</button><button class="btn alt" data-guide>دليل اللعبة</button>
+ <div class=facts><div><b>${num(WORDS.length)}</b>كلمة</div><div><b>${num(Object.keys(D).length)}</b>أنواع</div><div><b>٢ لـ ٤</b>فرق</div></div></div>`);
+ const w=document.getElementById('hw');
+ iv2=setInterval(()=>{w.style.opacity=0;setTimeout(()=>{w.textContent=WORDS[Math.random()*WORDS.length|0];w.style.opacity=1},250)},2600);
+}
+function setup(){
+ const ok=S.pl.length>=S.nt&&S.cats.size>=1;
+ const pick=(k,arr)=>arr.map(a=>`<button class="opt ${S[k]===a[0]?'on':''}" data-k=${k} data-v="${a[0]}">${a[1]}</button>`).join('');
+ h(`<div class=top><button class="link on-bg" data-home>الرئيسية</button><button class="link on-bg" data-guide>دليل اللعبة</button></div><h1>جهّز اللعبة</h1>
+ <section class=card style="margin-top:14px"><h2>اللاعبين</h2><div class=chips>${S.pl.map((p,i)=>`<span class=opt>${esc(p)}<button data-rm=${i} aria-label="حذف" style="border:0;background:none;color:inherit;font-size:1.3rem;cursor:pointer">×</button></span>`).join('')}</div>
+ <div class=row><input id=nm placeholder="اكتب اسم لاعب" maxlength=14><button class=sm data-add>إضافة</button></div></section>
+ <section class=card><h2>عدد الفرق</h2><div class=chips>${pick('nt',[[2,'فريقين'],[3,'٣ فرق'],[4,'٤ فرق']])}</div></section>
+ <section class=card><h2>النوع</h2><div class=chips>${Object.keys(D).map(c=>`<button class="opt ${S.cats.has(c)?'on':''}" data-cat="${c}">${c}</button>`).join('')}</div>
+ <button class=link data-all>${S.cats.size===5?'امسح الكل':'اختار الكل'}</button>
+ <p style="color:var(--mute);font-size:.9rem;margin:0">اختار نوع واحد بس لو عايز كل الكلمات منه، مثلاً أفلام.</p></section>
+ <section class=card><h2>وقت الدور</h2><div class=chips>${pick('time',[[45,'٤٥ ثانية'],[60,'دقيقة'],[90,'٩٠ ثانية']])}</div>
+ <h2 style="margin-top:16px">عدد الأدوار لكل فريق</h2><div class=chips>${pick('rounds',[[1,'دور'],[2,'دورين'],[3,'٣ أدوار'],[5,'٥ أدوار']])}</div></section>
+ <button class=btn data-split ${ok?'':'disabled'}>${ok?'قسّم الفرق':'ضيف لاعبين بعدد الفرق على الأقل'}</button>`);
+}
+function guide(){
+ if(document.getElementById('ov'))return;
+ const o=document.createElement('div');o.className='ov';o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+ o.innerHTML=`<div class=sheet><h3>دليل اللعبة</h3><p style="color:var(--mute);margin-top:0">كل دور واحد بس بيمثّل، والباقي بيخمّنوا.</p><ol>
+ <li><b>التجهيز:</b> ضيفوا اللاعبين، واختاروا عدد الفرق والنوع والوقت وعدد الأدوار. اللعبة بتقسّم اللاعبين عشوائي وبتدّي كل فريق اسم مصري مختلف في كل مرة.</li>
+ <li><b>الاختيار:</b> في كل دور اللعبة بتختار ممثل واحد من الفريق اللي دوره، وزميل ليه من نفس الفريق بيمسك الموبايل.</li>
+ <li><b>التمثيل:</b> الماسك بيوجّه الشاشة للممثل بس. الممثل يشوف الكلمة ويمثّلها من غير كلام ولا أصوات.</li>
+ <li><b>التخمين:</b> زميله وكل الفرق التانية يخمّنوا بصوت عالي في نفس الوقت.</li>
+ <li><b>النقاط:</b> أول واحد يقول الإجابة الصح، الماسك يدوس على لون فريقه، والفريق ده ياخد نقطة. حتى لو زميل الممثل هو اللي خمّن، النقطة لفريقهم.</li>
+ <li><b>التخطي:</b> لو الكلمة صعبة دوس تخطي وهتيجي كلمة تانية من غير خصم نقاط.</li>
+ <li><b>الفوز:</b> لما كل فريق يخلص أدواره، الفريق الأكتر نقاط يكسب. لو تعادلوا اعملوا دور فاصل.</li></ol>
+ <button class=btn data-close>فهمت</button></div>`;
+ o.addEventListener('click',e=>{if(e.target===o)o.remove()});
+ document.body.appendChild(o);o.querySelector('button').focus();
+}
+function split(){
+ const p=shuf(S.pl),nm=shuf(TN);
+ S.teams=Array.from({length:S.nt},(_,i)=>({n:nm[i],c:TC[i],p:[],s:0,q:[]}));
+ p.forEach((x,i)=>S.teams[i%S.nt].p.push(x));S.turn=0;S.pool=[];
+ h(`<h1>الفرق</h1>${S.teams.map(t=>`<section class=card style="margin-top:12px;border-inline-start:8px solid ${t.c}"><h2>${t.n}</h2><div class=chips>${t.p.map(x=>`<span class=opt>${esc(x)}</span>`).join('')}</div></section>`).join('')}
+ <button class=btn data-turn>يلا نبدأ</button><button class="btn alt" data-split>اخلط تاني</button><button class="btn alt" data-back>رجوع</button>`);
+}
+function board(){return `<section class=card style="padding:6px 4px">${S.teams.slice().sort((a,b)=>b.s-a.s).map(t=>`<div class=pr style="border-inline-start:6px solid ${t.c}"><span>${t.n}</span><b style="font-size:1.2rem">${num(t.s)}</b></div>`).join('')}</section>`}
+function turn(){
+ const t=cur();
+ if(!t.q.length)t.q=shuf(t.p);
+ const actor=t.q.pop(),others=t.p.filter(x=>x!==actor),judge=others.length?others[Math.random()*others.length|0]:null;
+ h(`<div class=top><span>الدور ${num(Math.floor(S.turn/S.nt)+1)} من ${num(S.rounds)}</span>${tag(t)}</div>
+ <p style="margin:18px 0 0;text-align:center">اللعبة بتختار الممثل...</p><div class=roll id=r>؟</div><div id=rest></div>`);
+ const r=document.getElementById('r'),show=()=>{
+  r.textContent=actor;
+  document.getElementById('rest').innerHTML=`<div class=msg><b>${esc(actor)}</b> يقوم ويمثّل بدون كلام.<br>${judge?`<b>${esc(judge)}</b> يمسك الموبايل ويوجّهه للممثل بس.`:`${esc(actor)} هو الماسك لأنه لوحده في الفريق.`}<br>الكل يخمّن ما عدا الممثل، واللي يخمّن صح النقطة لفريقه.</div>${board()}<button class=btn data-count>جاهزين، ابدأ العد</button><button class="link on-bg" style="display:block;margin:6px auto 0" data-guide>كيف نلعب؟</button>`;
+  try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}
+ };
+ if(t.p.length<2){show();return}
+ let n=0;iv2=setInterval(()=>{r.textContent=t.p[Math.random()*t.p.length|0];if(++n>14){clearInterval(iv2);show()}},90);
+}
+function count(){
+ let n=3;h(`<div class=cd id=n>${n}</div>`);
+ iv2=setInterval(()=>{n--;if(n<=0){clearInterval(iv2);play();return}const e=document.getElementById('n');e.textContent=n;e.style.animation='none';void e.offsetWidth;e.style.animation=''},900);
+}
+function next(){
+ if(!S.pool.length)S.pool=shuf([...S.cats].flatMap(c=>D[c].map(w=>({c,w}))));
+ S.cur=S.pool.pop();
+ const w=document.getElementById('w');
+ if(w){w.textContent=S.cur.w;document.getElementById('c').textContent=S.cur.c;const t=w.closest('.ticket');t.style.animation='none';void t.offsetWidth;t.style.animation=''}
+}
+function play(){
+ S.got=0;S.tp=S.teams.map(()=>0);const t=cur();
+ h(`<div class=top>${tag(t)}<span class=timer id=tm>${num(S.time)}</span></div><div class=bar style="margin-top:12px"><i id=bar></i></div>
+ <div class=ticket><div class=stub id=c></div><div class=perf></div><div class=word id=w></div></div>
+ <p class=top style="justify-content:center;margin:0 0 4px;opacity:.9">مين خمّن صح؟ دوس على فريقه</p>
+ <div class=wins>${S.teams.map((x,i)=>`<button class=tb data-win=${i} style="background:${x.c}"><span>${x.n}</span><b id=s${i}>${num(x.s)}</b></button>`).join('')}</div>
+ <button class="btn alt" data-skip style="padding:18px">تخطي</button>
+ <p style="text-align:center;opacity:.75;margin-top:14px">ممنوع الكلام وممنوع الأصوات.</p>`);
+ next();
+ const t0=Date.now(),bar=document.getElementById('bar'),tm=document.getElementById('tm');
+ iv=setInterval(()=>{const el=(Date.now()-t0)/1000,left=Math.ceil(S.time-el);bar.style.width=Math.max(0,1-el/S.time)*100+'%';tm.textContent=num(Math.max(0,left));tm.classList.toggle('low',left<=10);if(el>=S.time)finish()},150);
+}
+function finish(){
+ clearInterval(iv);try{navigator.vibrate&&navigator.vibrate([300,100,300])}catch(e){}
+ S.turn++;const done=S.turn>=S.nt*S.rounds;
+ const won=S.teams.filter((_,i)=>S.tp[i]>0);
+ h(`<div class=top><span>خلص الوقت!</span></div><div class=big>${num(S.got)}</div><p style="text-align:center">${S.got?'إجابة صح في الدور ده':'مفيش إجابات صح في الدور ده'}</p>
+ ${won.length?`<div class=chips style="justify-content:center;margin-bottom:14px">${S.teams.map((x,i)=>S.tp[i]?`<span class=tag style="background:${x.c}">${x.n} +${num(S.tp[i])}</span>`:'').join('')}</div>`:''}${board()}
+ <button class=btn data-${done?'end':'turn'}>${done?'شوفوا مين كسب':'الدور اللي بعده'}</button>`);
+}
+function end(){
+ const r=S.teams.slice().sort((a,b)=>b.s-a.s),tie=r[1]&&r[1].s===r[0].s;
+ h(`<div class=top><span>النتيجة النهائية</span></div><div class=big style="font-size:3.4rem;margin-top:10px">${tie?'تعادل!':r[0].n}</div><p style="text-align:center">${tie?'محتاجين دور فاصل':'كسبوا بـ '+num(r[0].s)+' نقطة'}</p>${board()}
+ <button class=btn data-split>نفس اللاعبين، فرق جديدة</button><button class="btn alt" data-back>الإعدادات من الأول</button><a class="btn alt" style="text-align:center;text-decoration:none" href="../../index.html">كل الألعاب</a>`);
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b||b.disabled)return;const d=b.dataset;
+ if('close' in d){document.getElementById('ov').remove();return}
+ if(!A.contains(b))return;
+ if('add' in d){const v=document.getElementById('nm').value.trim();if(v&&!S.pl.includes(v)&&S.pl.length<16)S.pl.push(v);setup();document.getElementById('nm').focus()}
+ else if('rm' in d){S.pl.splice(+d.rm,1);setup()}
+ else if('cat' in d){S.cats.has(d.cat)?S.cats.delete(d.cat):S.cats.add(d.cat);setup()}
+ else if('all' in d){S.cats=S.cats.size===5?new Set():new Set(Object.keys(D));setup()}
+ else if('k' in d){S[d.k]=+d.v;setup()}
+ else if('setup' in d||'back' in d)setup();
+ else if('home' in d)home();
+ else if('guide' in d)guide();
+ else if('split' in d)split();
+ else if('turn' in d)turn();
+ else if('count' in d)count();
+ else if('win' in d){const i=+d.win;S.teams[i].s++;S.tp[i]++;S.got++;document.getElementById('s'+i).textContent=num(S.teams[i].s);try{navigator.vibrate&&navigator.vibrate(40)}catch(e){}next()}
+ else if('skip' in d)next();
+ else if('end' in d)end();
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Enter'&&e.target.id==='nm')A.querySelector('[data-add]').click();
+ if(e.key==='Escape'){const o=document.getElementById('ov');if(o)o.remove()}
+});
+home();
+</script>
+</body>
+</html>

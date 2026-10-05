@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>القنبلة المتنقلة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0F1F26;--panel:#183039;--paper:#F4EEDC;--fuse:#FFC21A;--blast:#FF4B3E;--mute:#9DB1B8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:radial-gradient(circle at 50% 35%,#1f3e49,var(--ink) 70%) fixed;color:var(--paper);font-family:Cairo,Tahoma,sans-serif;font-size:18px;-webkit-tap-highlight-color:transparent;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible+span,textarea:focus-visible{outline:3px solid var(--fuse);outline-offset:3px}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:18px;text-align:center;overflow-y:auto}
+.screen.on{display:flex}
+h1,.big{font-family:Lalezar,Cairo,sans-serif;font-weight:400;margin:0;line-height:1.1}
+h1{font-size:clamp(44px,13vw,72px)}
+.sub{color:var(--mute);margin:0;max-width:30ch}
+.bomb{width:min(52vw,240px);height:auto;display:block}
+.pulse{animation:pulse var(--beat,1s) ease-in-out infinite;transform-origin:50% 60%}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.spark{animation:spark .25s steps(2) infinite;transform-box:fill-box;transform-origin:center;transform:scale(var(--sp,1))}
+@keyframes spark{50%{opacity:.35}}
+.seg{display:flex;gap:6px;background:var(--panel);padding:5px;border-radius:14px}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0}
+.seg span{display:block;padding:9px 18px;border-radius:10px;font-weight:700}
+.seg input:checked+span{background:var(--fuse);color:var(--ink)}
+.opt{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:16px}
+.opt input{width:22px;height:22px;accent-color:var(--fuse)}
+.btn{border:0;border-radius:16px;padding:14px 34px;font-weight:700;background:var(--panel)}
+a.btn{display:inline-block;text-decoration:none;color:var(--paper)}
+.btn.main{background:var(--fuse);color:var(--ink);font-family:Lalezar,Cairo;font-size:30px;padding:10px 54px}
+.stage{all:unset;box-sizing:border-box;position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:20px;text-align:center;cursor:pointer}
+.cat{font-family:Lalezar,Cairo;font-size:clamp(34px,10vw,56px);line-height:1.25;max-width:14ch;background:var(--paper);color:var(--ink);padding:14px 28px;border-radius:22px;transform:rotate(-2deg);box-shadow:0 8px 0 #0007,0 0 0 4px var(--fuse)}
+.hint{color:var(--mute);font-size:16px}
+#boom{background:var(--blast);color:var(--ink)}
+#boom .big{font-size:clamp(56px,18vw,96px)}
+#boom .pen{background:var(--ink);color:var(--paper);padding:14px 20px;border-radius:16px;max-width:30ch}
+#boom .btn{background:var(--ink);color:var(--paper)}
+#boom .btn.main{background:var(--paper);color:var(--ink)}
+.flash{animation:flash .5s ease-out}
+@keyframes flash{from{filter:brightness(3)}}
+dialog{background:var(--panel);color:var(--paper);border:0;border-radius:20px;padding:22px;max-width:min(92vw,420px);width:100%;text-align:right}
+dialog::backdrop{background:#000a}
+dialog ol{padding-inline-start:22px;line-height:1.8;margin:10px 0 16px}
+#ptxt{display:block;width:100%;min-height:240px;margin:12px 0;padding:12px;border-radius:12px;border:2px solid var(--mute);background:var(--ink);color:var(--paper);font:inherit;font-size:17px;line-height:1.7;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.row .btn{padding:10px 22px}
+#pmsg{min-height:1.4em;color:var(--fuse);font-size:15px;margin:0}
+h1{color:var(--fuse);text-shadow:4px 4px 0 var(--blast)}
+.btn.main{box-shadow:0 6px 0 #a87b00}
+.btn:active{transform:translateY(3px)}
+#vig{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:5;transition:opacity .15s;background:radial-gradient(circle,transparent 40%,#ff2a1ad9 100%)}
+.shake{animation:shake .09s linear infinite}
+@keyframes shake{25%{transform:translate(var(--sx,2px),-1px)}75%{transform:translate(calc(var(--sx,2px)*-1),1px)}}
+.toss{animation:pulse var(--beat,1s) ease-in-out infinite,toss .35s ease-out}
+@keyframes toss{30%{transform:translateY(-36px) rotate(-8deg) scale(1.12)}}
+.pop{animation:pop .4s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(.6) rotate(-6deg);opacity:0}}
+.ring{position:fixed;left:50%;top:45%;width:40px;height:40px;margin:-20px;border-radius:50%;border:8px solid #fff;pointer-events:none;z-index:6;animation:ring .9s ease-out forwards}
+@keyframes ring{to{transform:scale(24);opacity:0;border-width:1px}}
+@media (max-height:640px){.bomb{width:min(34vw,150px)}.screen{gap:12px}}
+@media (prefers-reduced-motion:reduce){.pulse,.spark,.flash,.shake,.toss,.pop,.ring{animation:none}}
+</style>
+</head>
+<body>
+<div id="vig"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><radialGradient id="bg" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#3f6370"/><stop offset=".45" stop-color="#14262d"/><stop offset="1" stop-color="#050b0e"/></radialGradient></defs></svg>
+
+<section class="screen on" id="home">
+  <svg class="bomb pulse" viewBox="0 0 200 220" aria-hidden="true">
+    <circle cx="100" cy="132" r="76" fill="url(#bg)" stroke="#2c4a55" stroke-width="4"/>
+    <ellipse cx="74" cy="104" rx="16" ry="9" fill="#fff" opacity=".28" transform="rotate(-35 74 104)"/>
+    <rect x="86" y="44" width="28" height="22" rx="4" fill="#2c4a55"/>
+    <path d="M100 44 C100 28 124 30 130 14" fill="none" stroke="#C9A66B" stroke-width="5" stroke-linecap="round"/>
+    <g class="spark"><circle cx="132" cy="12" r="9" fill="#FFC21A"/><circle cx="132" cy="12" r="4" fill="#FF4B3E"/></g>
+  </svg>
+  <h1>القنبلة المتنقلة</h1>
+  <p class="sub">فئة على الشاشة، رد بسرعة وعدّي الموبايل. اللي القنبلة تنفجر في إيده يخسر.</p>
+  <div class="seg" role="radiogroup" aria-label="مدة القنبلة">
+    <label><input type="radio" name="len" value="short"><span>قصيرة</span></label>
+    <label><input type="radio" name="len" value="mid" checked><span>متوسطة</span></label>
+    <label><input type="radio" name="len" value="long"><span>طويلة</span></label>
+  </div>
+  <label class="opt"><input type="checkbox" id="each"> غيّر الفئة مع كل تمريرة</label>
+  <button class="btn main" id="start">ابدأ</button>
+  <div class="row">
+    <button class="btn" id="how">إزاي نلعب؟</button>
+    <button class="btn" id="editPen">✏️ عدّل العقاب</button>
+    <button class="btn" id="editCat">📝 عدّل الفئات</button>
+    <a class="btn" href="../../index.html">🏠 كل الألعاب</a>
+  </div>
+</section>
+
+<section class="screen" id="game">
+  <button class="stage" id="stage" aria-label="عدّي القنبلة للي جنبك">
+    <svg class="bomb pulse" id="gb" viewBox="0 0 200 220" aria-hidden="true">
+      <circle cx="100" cy="132" r="76" fill="url(#bg)" stroke="#2c4a55" stroke-width="4"/>
+      <ellipse cx="74" cy="104" rx="16" ry="9" fill="#fff" opacity=".28" transform="rotate(-35 74 104)"/>
+      <rect x="86" y="44" width="28" height="22" rx="4" fill="#2c4a55"/>
+      <path d="M100 44 C100 28 124 30 130 14" fill="none" stroke="#C9A66B" stroke-width="5" stroke-linecap="round"/>
+      <g class="spark"><circle cx="132" cy="12" r="9" fill="#FFC21A"/><circle cx="132" cy="12" r="4" fill="#FF4B3E"/></g>
+    </svg>
+    <div class="cat" id="cat"></div>
+    <div class="hint">رد وعدّي الموبايل (دوس على الشاشة)</div>
+  </button>
+</section>
+
+<section class="screen" id="boom">
+  <div class="big">💥 انفجرت!</div>
+  <div id="res" style="font-weight:700"></div>
+  <div class="pen" id="pen"></div>
+  <button class="btn" id="swap">🔄 بدّل العقاب</button>
+  <button class="btn main" id="again">جولة تانية</button>
+  <button class="btn" id="menu">الرئيسية</button>
+</section>
+
+<dialog id="dlg">
+  <h2 class="big" style="font-size:32px;margin:0">إزاي نلعب؟</h2>
+  <ol>
+    <li>اقعدوا في دايرة وواحد ياخد الموبايل.</li>
+    <li>اقرا الفئة اللي على الشاشة وقول إجابة بسرعة (من غير تكرار).</li>
+    <li>دوس على الشاشة وعدّي الموبايل للي جنبك.</li>
+    <li>القنبلة بتنفجر في وقت عشوائي، ومحدش يعرف إمتى. الدقات بتسرّع كل ما تقرب.</li>
+    <li>اللي القنبلة تنفجر في إيده بيخسر وبينفذ العقاب.</li>
+  </ol>
+  <button class="btn main" style="font-size:24px;padding:8px 36px" id="close">تمام</button>
+</dialog>
+
+<dialog id="pdlg">
+  <h2 class="big" id="ptitle" style="font-size:32px;margin:0">عدّل العقاب</h2>
+  <p class="hint" id="phint" style="margin:6px 0 0">اكتب كل عقاب في سطر لوحده.</p>
+  <textarea id="ptxt" aria-label="القائمة" spellcheck="false"></textarea>
+  <p id="pmsg" role="status"></p>
+  <div class="row">
+    <button class="btn main" style="font-size:24px;padding:8px 30px" id="psave">حفظ</button>
+    <button class="btn" id="preset">الأصلي</button>
+    <button class="btn" id="pcancel">إلغاء</button>
+  </div>
+</dialog>
+
+<script>
+const DEFAULT_CATS=["اذكر مسلسل رمضاني","اذكر ممثل مصري","اذكر أكلة مصرية","اذكر مطرب مصري","اذكر فيلم لأحمد حلمي","اذكر محافظة مصرية","اذكر لاعب في الأهلي أو الزمالك","اذكر مثل شعبي","اذكر ماركة موبايل","اذكر حاجة في المطبخ","اذكر مكان في القاهرة","اذكر حاجة في شنطة المدرسة","اذكر مشروب","اذكر حلويات","اذكر مهنة","اذكر حيوان","اذكر أغنية لعمرو دياب","اذكر شخصية كرتون","اذكر مادة في المدرسة","اذكر دولة عربية","اذكر وسيلة مواصلات","اذكر ماركة عربيات","اذكر لعبة فيديو","اذكر أكلة فطار","اذكر إفيه مشهور","اذكر اسم بنت","اذكر اسم ولد","اذكر حاجة حمراء","اذكر ماركة هدوم","اذكر فيلم مصري قديم"];
+const DEFAULT_PENS=["قلّد حد من الشلة لحد ما يخمنوه","غنّي أول بيت من أغنية يختاروها","احكي أحرج موقف حصل معاك","اعمل صوت حيوان يختاروه","قول نكتة، ولو محدش ضحك تعيد","امدح كل واحد قاعد بجملة","اتكلم بلهجة غير لهجتك لحد الجولة الجاية","مثّل مشهد درامي بحوار من عندك","قول أغرب حاجة بتخاف منها","ارقص 10 ثواني من غير موسيقى"];
+const KEYS={pens:'bomb_pens_v1',cats:'bomb_cats_v1'};
+const RANGE={short:[10,25],mid:[20,45],long:[35,70]};
+const $=id=>document.getElementById(id);
+
+function loadList(k,def){
+  try{
+    const raw=localStorage.getItem(KEYS[k]);
+    if(raw){const a=JSON.parse(raw);if(Array.isArray(a)&&a.length)return a}
+  }catch(e){}
+  return def.slice();
+}
+function saveList(k,a){try{localStorage.setItem(KEYS[k],JSON.stringify(a))}catch(e){}}
+function clearList(k){try{localStorage.removeItem(KEYS[k])}catch(e){}}
+let PENS=loadList('pens',DEFAULT_PENS);
+let CATS=loadList('cats',DEFAULT_CATS);
+let lastPen=-1;
+
+let last=-1,passes=0,endAt=0,timer=null,nextBeep=0,ac=null;
+
+function show(id){document.body.style.background='';document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function pickCat(){let i;do{i=Math.floor(Math.random()*CATS.length)}while(i===last&&CATS.length>1);last=i;const c=$('cat');c.textContent=CATS[i];c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}
+
+function beep(f,d){
+  if(!ac)return;
+  const o=ac.createOscillator(),g=ac.createGain();
+  o.type='square';o.frequency.value=f;g.gain.value=.08;
+  g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);
+  o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d);
+}
+function blast(){
+  if(!ac)return;
+  const n=ac.sampleRate*.9,b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,2);
+  const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();
+  f.type='lowpass';f.frequency.value=900;g.gain.value=.9;
+  s.buffer=b;s.connect(f).connect(g).connect(ac.destination);s.start();
+}
+
+async function keepAwake(){try{await navigator.wakeLock?.request('screen')}catch(e){}}
+
+function startRound(){
+  const [a,b]=RANGE[document.querySelector('input[name=len]:checked').value];
+  passes=0;pickCat();show('game');
+  endAt=performance.now()+rnd(a,b)*1000;nextBeep=0;
+  clearInterval(timer);timer=setInterval(tick,50);
+  keepAwake();
+}
+function tick(){
+  const now=performance.now(),left=endAt-now;
+  if(left<=0){explode();return}
+  const h=Math.max(0,Math.min(1,1-left/8000)),g=$('gb'),st=$('stage');
+  document.body.style.background=`radial-gradient(circle at 50% 45%,rgba(255,75,62,${h*.6}),var(--ink) ${90-h*40}%)`;
+  g.style.filter=`drop-shadow(0 0 ${8+h*42}px rgba(255,75,62,${.15+h*.85}))`;
+  g.style.setProperty('--sp',1+h*1.8);
+  st.style.setProperty('--sx',(h*7)+'px');st.classList.toggle('shake',h>.45);
+  if(left<600||now<nextBeep)return;
+  const gap=Math.max(110,Math.min(1000,left*.12));
+  beep(700+h*900,.07);
+  if(left<2500)setTimeout(()=>beep(420,.06),gap/2);
+  if(left<5000)try{navigator.vibrate?.(left<2500?60:25)}catch(e){}
+  const v=$('vig');v.style.opacity=.3+h*.7;setTimeout(()=>v.style.opacity=h*.25,90);
+  g.style.setProperty('--beat',(gap*2/1000)+'s');
+  nextBeep=now+gap;
+}
+function showPen(){let i;do{i=Math.floor(Math.random()*PENS.length)}while(i===lastPen&&PENS.length>1);lastPen=i;const p=$('pen');p.textContent='العقاب: '+PENS[i];p.classList.remove('pop');void p.offsetWidth;p.classList.add('pop')}
+function explode(){
+  clearInterval(timer);blast();$('vig').style.opacity=0;$('stage').classList.remove('shake');const r=document.createElement('div');r.className='ring';document.body.appendChild(r);setTimeout(()=>r.remove(),1000);
+  try{navigator.vibrate?.([300,80,300])}catch(e){}
+  $('res').textContent=passes?'الموبايل اتمرر '+passes+' مرة قبل الانفجار':'انفجرت قبل ما تتمرر!';
+  lastPen=-1;showPen();
+  show('boom');$('boom').classList.remove('flash');void $('boom').offsetWidth;$('boom').classList.add('flash');
+}
+
+$('start').onclick=()=>{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume?.();startRound()};
+$('again').onclick=()=>{ac?.resume?.();startRound()};
+$('menu').onclick=()=>show('home');
+$('stage').onclick=()=>{passes++;if($('each').checked)pickCat();const g=$('gb');g.classList.remove('toss');void g.getBoundingClientRect();g.classList.add('toss');beep(380,.09);setTimeout(()=>beep(620,.05),60)};
+$('how').onclick=()=>$('dlg').showModal();
+$('close').onclick=()=>$('dlg').close();
+
+/* تبديل العقاب */
+$('swap').onclick=()=>{beep(520,.06);showPen()};
+
+/* تعديل القوائم (العقاب / الفئات) */
+let mode='pens';
+const CFG={
+  pens:{title:'عدّل العقاب',hint:'اكتب كل عقاب في سطر لوحده.',def:DEFAULT_PENS,get:()=>PENS,set:a=>{PENS=a;lastPen=-1}},
+  cats:{title:'عدّل الفئات',hint:'اكتب كل فئة في سطر لوحده (مثال: اذكر أكلة مصرية).',def:DEFAULT_CATS,get:()=>CATS,set:a=>{CATS=a;last=-1}}
+};
+function parseLines(t){return t.split('\n').map(s=>s.trim()).filter(Boolean)}
+function openEditor(m){
+  mode=m;const c=CFG[m];
+  $('ptitle').textContent=c.title;$('phint').textContent=c.hint;
+  $('ptxt').value=c.get().join('\n');$('pmsg').textContent='';
+  $('pdlg').showModal();
+}
+$('editPen').onclick=()=>openEditor('pens');
+$('editCat').onclick=()=>openEditor('cats');
+$('psave').onclick=()=>{
+  const a=parseLines($('ptxt').value);
+  if(!a.length){$('pmsg').textContent='اكتب سطر واحد على الأقل.';return}
+  CFG[mode].set(a);saveList(mode,a);
+  $('pdlg').close();
+};
+$('preset').onclick=()=>{
+  const c=CFG[mode];
+  $('ptxt').value=c.def.join('\n');
+  c.set(c.def.slice());clearList(mode);
+  $('pmsg').textContent='اترجّعت القائمة الأصلية.';
+};
+$('pcancel').onclick=()=>$('pdlg').close();
+</script>
+</body>
+</html>
