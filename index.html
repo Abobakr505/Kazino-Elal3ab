@@ -1,322 +1,137 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#14202a">
-  <title>قعدة الشلة | ألعاب جماعية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Lalezar&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #14202a;
-      --ink: #f7efe0;
-      --mute: #9fb3bd;
-      --line: #ffffff26;
-      box-sizing: border-box;
-      padding-top: env(safe-area-inset-top, 0px);
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      color-scheme: dark
-    }
-
-    @media (prefers-color-scheme:light) {
-      :root:not([data-theme="dark"]) {
-        --bg: #f3ead8;
-        --ink: #1d2a33;
-        --mute: #5d6b73;
-        --line: #1d2a3333;
-        color-scheme: light
-      }
-    }
-
-    :root[data-theme="light"] {
-      --bg: #f3ead8;
-      --ink: #1d2a33;
-      --mute: #5d6b73;
-      --line: #1d2a3333;
-      color-scheme: light
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: inherit
-    }
-
-    html {
-      scroll-padding-top: env(safe-area-inset-top, 0px)
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: Cairo, Tahoma, sans-serif;
-      font-size: 17px;
-      min-height: 100%;
-      -webkit-tap-highlight-color: transparent
-    }
-
-    main {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 28px 18px 40px
-    }
-
-    header {
-      margin-bottom: 26px
-    }
-
-    h1 {
-      font-family: Lalezar, Cairo, sans-serif;
-      font-weight: 400;
-      font-size: clamp(46px, 14vw, 78px);
-      line-height: 1.05;
-      margin: 0
-    }
-
-    header p {
-      margin: 10px 0 0;
-      color: var(--mute);
-      max-width: 34ch;
-      line-height: 1.8
-    }
-
-    .games {
-      display: flex;
-      flex-direction: column;
-      gap: 18px
-    }
-
-    .game {
-      --a: #fff;
-      --b: #000;
-      --fg: #000;
-      display: grid;
-      grid-template-columns: 96px 1fr;
-      gap: 16px;
-      align-items: center;
-      text-decoration: none;
-      color: var(--fg);
-      background: var(--a);
-      border-radius: 26px;
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 0 var(--b);
-      transition: transform .15s, box-shadow .15s
-    }
-
-    .game:nth-child(1) {
-      transform: rotate(-1deg)
-    }
-
-    .game:nth-child(3) {
-      transform: rotate(1deg)
-    }
-
-    .game:active {
-      transform: translateY(6px);
-      box-shadow: 0 2px 0 var(--b)
-    }
-
-    .game:focus-visible {
-      outline: 4px solid var(--ink);
-      outline-offset: 4px
-    }
-
-    .game svg {
-      width: 96px;
-      height: 96px;
-      display: block
-    }
-
-    .game h2 {
-      font-family: Lalezar, Cairo, sans-serif;
-      font-weight: 400;
-      font-size: clamp(30px, 8vw, 40px);
-      line-height: 1.1;
-      margin: 0 0 6px
-    }
-
-    .game p {
-      margin: 0 0 10px;
-      line-height: 1.6;
-      font-size: 15px;
-      opacity: .85
-    }
-
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px
-    }
-
-    .meta span {
-      background: var(--b);
-      color: var(--a);
-      border-radius: 99px;
-      padding: 2px 12px;
-      font-size: 13px;
-      font-weight: 700
-    }
-
-    .g-bomb {
-      --a: #ffc21a;
-      --b: #a87b00;
-      --fg: #0f1f26
-    }
-
-    .g-bomb .meta span {
-      color: #ffc21a
-    }
-
-    .g-tod {
-      --a: #3ee8b5;
-      --b: #12795c;
-      --fg: #1b0f33
-    }
-
-    .g-tod .meta span {
-      color: #3ee8b5
-    }
-
-    .g-act {
-      --a: #ff5d6c;
-      --b: #8e1d2c;
-      --fg: #2a0d1a
-    }
-
-    .g-act .meta span {
-      color: #ffd0d4
-    }
-
-    footer {
-      margin-top: 30px;
-      color: var(--mute);
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px
-    }
-
-    #th {
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--ink);
-      border-radius: 12px;
-      width: 44px;
-      height: 44px;
-      font-size: 20px;
-      cursor: pointer
-    }
-
-    #th:focus-visible {
-      outline: 3px solid var(--ink);
-      outline-offset: 3px
-    }
-
-    @media (max-width:420px) {
-      .game {
-        grid-template-columns: 72px 1fr;
-        padding: 16px
-      }
-
-      .game svg {
-        width: 72px;
-        height: 72px
-      }
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-      .game {
-        transition: none
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14202a">
+<title>قعدة الشلة | ألعاب جماعية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14202a;--ink:#f7efe0;--mute:#9fb3bd;--line:#ffffff26;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3ead8;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;color-scheme:light}}
+:root[data-theme="light"]{--bg:#f3ead8;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;color-scheme:light}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,sans-serif;font-size:17px;min-height:100%;-webkit-tap-highlight-color:transparent}
+main{max-width:640px;margin:0 auto;padding:28px 18px 40px}
+header{margin-bottom:26px}
+h1{font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:clamp(46px,14vw,78px);line-height:1.05;margin:0}
+header p{margin:10px 0 0;color:var(--mute);max-width:34ch;line-height:1.8}
+.games{display:flex;flex-direction:column;gap:18px}
+.game{--a:#fff;--b:#000;--fg:#000;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;text-decoration:none;color:var(--fg);background:var(--a);border-radius:26px;padding:20px;position:relative;overflow:hidden;box-shadow:0 8px 0 var(--b);transition:transform .15s,box-shadow .15s}
+.game:nth-child(1){transform:rotate(-1deg)}
+.game:nth-child(3){transform:rotate(1deg)}
+.game:active{transform:translateY(6px);box-shadow:0 2px 0 var(--b)}
+.game:focus-visible{outline:4px solid var(--ink);outline-offset:4px}
+.game svg{width:96px;height:96px;display:block}
+.game h2{font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:clamp(30px,8vw,40px);line-height:1.1;margin:0 0 6px}
+.game p{margin:0 0 10px;line-height:1.6;font-size:15px;opacity:.85}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.meta span{background:var(--b);color:var(--a);border-radius:99px;padding:2px 12px;font-size:13px;font-weight:700}
+.g-bomb{--a:#ffc21a;--b:#a87b00;--fg:#0f1f26}
+.g-bomb .meta span{color:#ffc21a}
+.g-tod{--a:#3ee8b5;--b:#12795c;--fg:#1b0f33}
+.g-tod .meta span{color:#3ee8b5}
+.g-act{--a:#ff5d6c;--b:#8e1d2c;--fg:#2a0d1a}
+.g-act .meta span{color:#ffd0d4}
+.g-kasa{--a:#cfd6dc;--b:#5f6b74;--fg:#0e1a17}
+.g-kasa .meta span{color:#c6f24e}
+.game:nth-child(4){transform:rotate(-1deg)}
+footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+#th{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:12px;width:44px;height:44px;font-size:20px;cursor:pointer}
+#th:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media (max-width:420px){.game{grid-template-columns:72px 1fr;padding:16px}.game svg{width:72px;height:72px}}
+@media (prefers-reduced-motion:reduce){.game{transition:none}}
+</style>
 </head>
-
 <body>
-  <main>
-    <header>
-      <h1>قعدة الشلة</h1>
-      <p>تلات ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
-    </header>
+<main>
+  <header>
+    <h1>قعدة الشلة</h1>
+    <p>أربع ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
+  </header>
 
-    <nav class="games" aria-label="الألعاب">
-      <a class="game g-bomb" href="games/bomb/index.html">
-        <svg viewBox="0 0 200 220" aria-hidden="true">
-          <circle cx="100" cy="132" r="76" fill="#14262d" stroke="#0f1f26" stroke-width="4" />
-          <ellipse cx="74" cy="104" rx="16" ry="9" fill="#fff" opacity=".3" transform="rotate(-35 74 104)" />
-          <rect x="86" y="44" width="28" height="22" rx="4" fill="#2c4a55" />
-          <path d="M100 44 C100 28 124 30 130 14" fill="none" stroke="#7a5a1c" stroke-width="6"
-            stroke-linecap="round" />
-          <circle cx="132" cy="12" r="10" fill="#ff4b3e" />
-          <circle cx="132" cy="12" r="4" fill="#fff" />
-        </svg>
-        <div>
-          <h2>القنبلة المتنقلة</h2>
-          <p>فئة على الشاشة، رد بسرعة وعدّي الموبايل. اللي القنبلة تنفجر في إيده ياخد عقاب.</p>
-          <div class="meta"><span>٣ لاعبين أو أكتر</span><span>سريعة</span></div>
-        </div>
-      </a>
+  <nav class="games" aria-label="الألعاب">
+    <a class="game g-bomb" href="games/bomb/index.html">
+      <svg viewBox="0 0 200 220" aria-hidden="true">
+        <circle cx="100" cy="132" r="76" fill="#14262d" stroke="#0f1f26" stroke-width="4"/>
+        <ellipse cx="74" cy="104" rx="16" ry="9" fill="#fff" opacity=".3" transform="rotate(-35 74 104)"/>
+        <rect x="86" y="44" width="28" height="22" rx="4" fill="#2c4a55"/>
+        <path d="M100 44 C100 28 124 30 130 14" fill="none" stroke="#7a5a1c" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="132" cy="12" r="10" fill="#ff4b3e"/><circle cx="132" cy="12" r="4" fill="#fff"/>
+      </svg>
+      <div>
+        <h2>القنبلة المتنقلة</h2>
+        <p>فئة على الشاشة، رد بسرعة وعدّي الموبايل. اللي القنبلة تنفجر في إيده ياخد عقاب.</p>
+        <div class="meta"><span>٣ لاعبين أو أكتر</span><span>سريعة</span></div>
+      </div>
+    </a>
 
-      <a class="game g-tod" href="games/truth-or-dare/index.html">
-        <svg viewBox="0 0 120 120" aria-hidden="true">
-          <circle cx="60" cy="60" r="52" fill="#1b0f33" />
-          <path d="M60 60L60 8A52 52 0 0 1 105 34Z" fill="#ffc857" />
-          <path d="M60 60L105 34A52 52 0 0 1 105 86Z" fill="#ff8fa3" />
-          <path d="M60 60L105 86A52 52 0 0 1 60 112Z" fill="#8ecbff" />
-          <path d="M60 60L60 112A52 52 0 0 1 15 86Z" fill="#c4a1ff" />
-          <path d="M60 60L15 86A52 52 0 0 1 15 34Z" fill="#9af08c" />
-          <path d="M60 60L15 34A52 52 0 0 1 60 8Z" fill="#7df0ff" />
-          <g transform="rotate(35 60 60)">
-            <rect x="54" y="14" width="12" height="46" rx="5" fill="#3ee8b5" stroke="#fff7ec" stroke-width="2" />
-          </g>
-          <circle cx="60" cy="60" r="8" fill="#1b0f33" />
-        </svg>
-        <div>
-          <h2>صراحة ولا تحدي؟</h2>
-          <p>لِف الإزازة وشوف مين هيتحشر. أسئلة وتحديات من اللاعبين نفسهم.</p>
-          <div class="meta"><span>٢ لـ ١٢ لاعب</span><span>نقاط</span></div>
-        </div>
-      </a>
+    <a class="game g-tod" href="games/truth-or-dare/index.html">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" fill="#1b0f33"/>
+        <path d="M60 60L60 8A52 52 0 0 1 105 34Z" fill="#ffc857"/>
+        <path d="M60 60L105 34A52 52 0 0 1 105 86Z" fill="#ff8fa3"/>
+        <path d="M60 60L105 86A52 52 0 0 1 60 112Z" fill="#8ecbff"/>
+        <path d="M60 60L60 112A52 52 0 0 1 15 86Z" fill="#c4a1ff"/>
+        <path d="M60 60L15 86A52 52 0 0 1 15 34Z" fill="#9af08c"/>
+        <path d="M60 60L15 34A52 52 0 0 1 60 8Z" fill="#7df0ff"/>
+        <g transform="rotate(35 60 60)"><rect x="54" y="14" width="12" height="46" rx="5" fill="#3ee8b5" stroke="#fff7ec" stroke-width="2"/></g>
+        <circle cx="60" cy="60" r="8" fill="#1b0f33"/>
+      </svg>
+      <div>
+        <h2>صراحة ولا تحدي؟</h2>
+        <p>لِف الإزازة وشوف مين هيتحشر. أسئلة وتحديات من اللاعبين نفسهم.</p>
+        <div class="meta"><span>٢ لـ ١٢ لاعب</span><span>نقاط</span></div>
+      </div>
+    </a>
 
-      <a class="game g-act" href="games/charades/index.html">
-        <svg viewBox="0 0 120 120" aria-hidden="true">
-          <g transform="rotate(-8 60 60)">
-            <rect x="12" y="26" width="96" height="68" rx="10" fill="#ffd447" />
-            <circle cx="12" cy="60" r="9" fill="#ff5d6c" />
-            <circle cx="108" cy="60" r="9" fill="#ff5d6c" />
-            <path d="M34 60h52" stroke="#2a0d1a" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round" />
-            <path d="M40 78h40M48 40h24" stroke="#2a0d1a" stroke-width="6" stroke-linecap="round" />
-          </g>
-        </svg>
-        <div>
-          <h2>بيت بيوت مصري</h2>
-          <p>تمثيل بدون كلام: أفلام وأمثال ومواقف مصرية، والفرق بتتحدى بعض.</p>
-          <div class="meta"><span>فريقين لـ ٤</span><span>أفلام وأمثال</span></div>
-        </div>
-      </a>
-    </nav>
+    <a class="game g-act" href="games/charades/index.html">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <g transform="rotate(-8 60 60)">
+          <rect x="12" y="26" width="96" height="68" rx="10" fill="#ffd447"/>
+          <circle cx="12" cy="60" r="9" fill="#ff5d6c"/><circle cx="108" cy="60" r="9" fill="#ff5d6c"/>
+          <path d="M34 60h52" stroke="#2a0d1a" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round"/>
+          <path d="M40 78h40M48 40h24" stroke="#2a0d1a" stroke-width="6" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <div>
+        <h2>بيت بيوت مصري</h2>
+        <p>تمثيل بدون كلام: أفلام وأمثال ومواقف مصرية، والفرق بتتحدى بعض.</p>
+        <div class="meta"><span>فريقين لـ ٤</span><span>أفلام وأمثال</span></div>
+      </div>
+    </a>
+    <a class="game g-kasa" href="games/bkasa/index.html">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <rect x="10" y="22" width="100" height="76" rx="14" fill="#cfd6dc" stroke="#0e1a17" stroke-width="4"/>
+        <path d="M14 40L40 94M32 26L70 94M60 26L100 90" stroke="#fff" stroke-width="3" opacity=".6"/>
+        <ellipse cx="62" cy="60" rx="34" ry="22" fill="#0e1a17"/>
+        <text x="62" y="73" text-anchor="middle" font-size="40" font-weight="800" fill="#c6f24e" font-family="Cairo,sans-serif">؟</text>
+      </svg>
+      <div>
+        <h2>بكاسة</h2>
+        <p>اخربش الاستيكر وشوف الكلمة، إلا لو إنت الجاسوس. اسألوا بعض وكشفوه.</p>
+        <div class="meta"><span>٣ لـ ١٢ لاعب</span><span>جاسوس</span></div>
+      </div>
+    </a>
+  </nav>
 
-    <footer>
-      <span>العب بصوت عالي وضحك كتير.</span>
-      <button id="th" aria-label="تبديل الثيم" title="تبديل الثيم">🌓</button>
-    </footer>
-  </main>
-  <script>
-    (function () {
-      var r = document.documentElement;
-      try { var t = localStorage.getItem('hub_theme'); if (t) r.dataset.theme = t } catch (e) { }
-      document.getElementById('th').onclick = function () {
-        var dark = r.dataset.theme ? r.dataset.theme === 'dark' : !matchMedia('(prefers-color-scheme: light)').matches;
-        r.dataset.theme = dark ? 'light' : 'dark';
-        try { localStorage.setItem('hub_theme', r.dataset.theme) } catch (e) { }
-      };
-    })();
-  </script>
+  <footer>
+    <span>العب بصوت عالي وضحك كتير.</span>
+    <button id="th" aria-label="تبديل الثيم" title="تبديل الثيم">🌓</button>
+  </footer>
+</main>
+<script>
+(function(){
+  var r=document.documentElement;
+  try{var t=localStorage.getItem('hub_theme');if(t)r.dataset.theme=t}catch(e){}
+  document.getElementById('th').onclick=function(){
+    var dark=r.dataset.theme?r.dataset.theme==='dark':!matchMedia('(prefers-color-scheme: light)').matches;
+    r.dataset.theme=dark?'light':'dark';
+    try{localStorage.setItem('hub_theme',r.dataset.theme)}catch(e){}
+  };
+})();
+</script>
 </body>
-
 </html>
