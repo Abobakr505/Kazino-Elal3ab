@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14202a">
-<title>قعدة الشلة | ألعاب جماعية</title>
+<title>كازينو الالعاب | ألعاب جماعية</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Lalezar&display=swap" rel="stylesheet">
 <link rel="shortcut icon" href="icon.png" type="image/png">
 <style>
@@ -18,6 +18,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,san
 main{max-width:640px;margin:0 auto;padding:28px 18px 40px}
 header{margin-bottom:26px}
 h1{font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:clamp(46px,14vw,78px);line-height:1.05;margin:0}
+h1{display:flex;align-items:center;gap:14px}
+h1 img{width:clamp(52px,15vw,84px);height:auto;flex:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.25))}
 header p{margin:10px 0 0;color:var(--mute);max-width:34ch;line-height:1.8}
 .games{display:flex;flex-direction:column;gap:18px}
 .game{--a:#fff;--b:#000;--fg:#000;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;text-decoration:none;color:var(--fg);background:var(--a);border-radius:26px;padding:20px;position:relative;overflow:hidden;box-shadow:0 8px 0 var(--b);transition:transform .15s,box-shadow .15s}
@@ -38,7 +40,11 @@ header p{margin:10px 0 0;color:var(--mute);max-width:34ch;line-height:1.8}
 .g-act .meta span{color:#ffd0d4}
 .g-kasa{--a:#cfd6dc;--b:#5f6b74;--fg:#0e1a17}
 .g-kasa .meta span{color:#c6f24e}
+.g-harf{--a:#7f8cff;--b:#262f7a;--fg:#0c1030}
+.g-harf .meta span{color:#f4c24d}
 .game:nth-child(4){transform:rotate(-1deg)}
+.game:nth-child(5){transform:rotate(1deg)}
+.game:nth-child(5):active{transform:translateY(6px) rotate(1deg)}
 footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 #th{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:12px;width:44px;height:44px;font-size:20px;cursor:pointer}
 #th:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
@@ -49,8 +55,7 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
 <body>
 <main>
   <header>
-    <h1>قعدة الشلة</h1>
-    <p>أربع ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
+<h1><span>كازينو الالعاب</span><img src="icon.png" alt="" aria-hidden="true"></h1>    <p>خمس ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
   </header>
 
   <nav class="games" aria-label="الألعاب">
@@ -103,6 +108,7 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
         <div class="meta"><span>فريقين لـ ٤</span><span>أفلام وأمثال</span></div>
       </div>
     </a>
+
     <a class="game g-kasa" href="games/bkasa/index.html">
       <svg viewBox="0 0 120 120" aria-hidden="true">
         <rect x="10" y="22" width="100" height="76" rx="14" fill="#cfd6dc" stroke="#0e1a17" stroke-width="4"/>
@@ -114,6 +120,22 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
         <h2>بكاسة</h2>
         <p>خربش الاستيكر وشوف الكلمة، إلا لو إنت الجاسوس. اسألوا بعض وكشفوه.</p>
         <div class="meta"><span>٣ لـ ١٢ لاعب</span><span>جاسوس</span></div>
+      </div>
+    </a>
+
+    <a class="game g-harf" href="games/harf/index.html">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <g font-family="Cairo,sans-serif" font-weight="800" font-size="40" text-anchor="middle">
+          <g transform="rotate(-8 28 62)"><rect x="6" y="34" width="40" height="52" rx="9" fill="#0c1030"/><text x="26" y="72" fill="#f4c24d">ح</text></g>
+          <g transform="rotate(4 60 60)"><rect x="40" y="30" width="40" height="52" rx="9" fill="#f4c24d" stroke="#0c1030" stroke-width="3"/><text x="60" y="68" fill="#0c1030">ر</text></g>
+          <g transform="rotate(-3 92 62)"><rect x="74" y="34" width="40" height="52" rx="9" fill="#0c1030"/><text x="94" y="72" fill="#f4c24d">ف</text></g>
+        </g>
+        <circle cx="60" cy="102" r="6" fill="#0c1030"/><circle cx="40" cy="102" r="3" fill="#0c1030" opacity=".5"/><circle cx="80" cy="102" r="3" fill="#0c1030" opacity=".5"/>
+      </svg>
+      <div>
+        <h2>حرف وكلمة</h2>
+        <p>حرف واحد وفئات كتير. اللي يخلّص كلمات الأول ياخد النقاط، والعداد مش هيرحمك.</p>
+        <div class="meta"><span>٢ لـ ٨ لاعبين</span><span>سرعة</span></div>
       </div>
     </a>
   </nav>
@@ -143,7 +165,7 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
     var link=e.target.closest('a.game');
     if(!link||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||link.target&&link.target!=='_self')return;
     e.preventDefault();
-    var notes=[660,784,880,587],index=Array.prototype.indexOf.call(link.parentNode.children,link);
+    var notes=[660,784,880,587,740],index=Array.prototype.indexOf.call(link.parentNode.children,link);
     playTone(notes[index%notes.length],0);playTone(notes[index%notes.length]*1.25,.055);
     setTimeout(function(){window.location.href=link.href},120);
   });

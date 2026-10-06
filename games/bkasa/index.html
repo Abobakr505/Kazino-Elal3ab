@@ -223,7 +223,14 @@ dialog .btn{width:100%}
   </ol>
   <button class="btn lime" id="gdx">فهمت، يلا نلعب</button>
 </dialog>
-
+<dialog id="cfm" aria-label="تأكيد التصويت">
+  <h2>نبدأ التصويت؟ 🗳️</h2>
+  <p class="sub" style="margin-bottom:14px">بعد ما تأكدوا، الأسئلة هتقف والموبايل هيعدّي على كل لاعب يصوّت.</p>
+  <div class="two">
+    <button class="btn alt" id="cfmNo">لأ، نكمل أسئلة</button>
+    <button class="btn lime" id="cfmYes">أيوه، نصوّت</button>
+  </div>
+</dialog>
 <script>
 const D={
 'أفلام':['الكيت كات','اللمبي','إسماعيلية رايح جاي','الإرهاب والكباب','ولاد العم','الفيل الأزرق','عسل أسود','الناظر','تيتو','همام في أمستردام','صعيدي في الجامعة الأمريكية','الأرض'],
@@ -543,6 +550,14 @@ showQ=function(){
 };
 $('panel').addEventListener('click',e=>{const q=e.target.closest('.q');if(q){q.classList.toggle('used');blip(520,.05)}});
 
+function startVote(){clearInterval(tt);S.votes={};S.vi=0;votePass()}
+$('reveal').onclick=()=>{
+  if(S.busy)return;
+  const d=$('cfm');
+  d.showModal?d.showModal():d.setAttribute('open','');
+};
+$('cfmNo').onclick=()=>$('cfm').close();
+$('cfmYes').onclick=()=>{$('cfm').close();startVote()};
 /* ===== 3) سلاسة وجمال ===== */
 const _rd=render;
 render=function(){_rd();document.querySelectorAll('#cats .chip').forEach(b=>{const c=b.dataset.cat;if(ICON[c]&&!b.dataset.ic){b.dataset.ic=1;b.insertAdjacentText('afterbegin',ICON[c]+' ')}})};
