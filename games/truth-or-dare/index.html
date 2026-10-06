@@ -174,7 +174,7 @@
         <div class="gd">
             <div class="st"><span class="n">١</span><div><b>ضيفوا اللاعبين</b><p>اكتب اسم كل واحد واضغط "ضيف" (٢ لاعبين على الأقل، لحد ١٢). تقدر تمسح أي لاعب بعلامة ×.</p></div></div>
             <div class="st"><span class="n">٢</span><div><b>اكتبوا أسئلة وتحديات (اختياري)</b><p>من زر "ضيف أسئلة وتحديات" كل واحد يكتب صراحة أو تحدي ويختار اسمه. السؤال اللي كتبه لاعب ما بيظهرش للاعب نفسه لما يكون هو اللي بيجاوب. ولو مكتبتوش حاجة فيه اقتراحات جاهزة.</p></div></div>
-            <div class="st"><span class="n">٣</span><div><b>لِف الإزازة 🍾</b><p>اضغط "لِف الإزازة". الإزازة بتشاور على لاعب (هو المجاوب)، واللاعب اللي في الناحية المقابلة ليه هو اللي هيسأل.</p></div></div>
+            <div class="st"><span class="n">٣</span><div><b>لِف الإزازة 🍾</b><p>اضغط "لِف الإزازة". الإزازة بتشاور على لاعب (هو المجاوب)، واللعبة بتختار السائل بشكل عادل (بيتلوّن في العجلة واسمه مكتوب فوق) عشان نفس الاتنين ما يسألوش بعض كل مرة، وكل لاعب ياخد دوره في السؤال والإجابة.</p></div></div>
             <div class="st"><span class="n">٤</span><div><b>السائل يختار: صراحة ولا تحدي؟</b><p>السائل بيختار نوع الجولة. مش عاجبكم النتيجة؟ زر "لفّة تانية" بيعيد اللف.</p></div></div>
             <div class="st"><span class="n">٥</span><div><b>اختاروا السؤال أو التحدي</b><p>هتظهر ٤ اقتراحات (من اللاعبين أو جاهزة). اضغط على واحد، أو "اقتراحات تانية" لتغييرها، أو اكتب سؤال من عندك.</p></div></div>
             <div class="st"><span class="n">٦</span><div><b>جاوب أو نفّذ</b><p>المجاوب يرد بصراحة أو ينفذ التحدي. تقدروا تشغلوا مؤقت ٣٠ ثانية. لو نفّذ اضغط "اتنفّذ ✓" وياخد نقطة، ولو رفض أو معرفش اضغط "اتخطّى" من غير نقطة.</p></div></div>
@@ -190,7 +190,7 @@
             t: ['إيه أكتر موقف محرج حصلك قدام الناس؟', 'مين أكتر حد في القعدة بتحس إنه بيخبي حاجة؟', 'آخر كدبة كدبتها كانت إيه؟', 'إيه أغرب حاجة بتعملها وإنت لوحدك؟', 'لو هتمسح رسالة واحدة من موبايلك، تبقى مين؟', 'أكتر حاجة بتندم عليها في حياتك؟', 'مين أكتر شخص وحشك دلوقتي؟', 'إيه الحاجة اللي مستحيل تقولها لأهلك؟'],
             d: ['قلّد حد من الموجودين لحد ما نعرفه', 'اتكلم بلهجة غريبة لحد دورك الجاي', 'اعمل أحسن رقصة ممكنة لمدة ١٥ ثانية', 'قول اسم كل اللي في القعدة بصوت مسرحي', 'غنّي أول أغنية تيجي في بالك', 'اعمل وش مضحك وسيبه ١٠ ثواني', 'احكي نكتة، ولو محدش ضحك تعيدها', 'مثّل مشهد من فيلم وخلينا نخمنه']
         };
-        const S = { players: [], bank: [], scores: {}, sound: true, rot: 0, busy: false, cur: null, used: {} };
+        const S = { players: [], bank: [], scores: {}, sound: true, rot: 0, busy: false, cur: null, used: {}, hist: null, pend: null };
         const $ = id => document.getElementById(id);
         const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         const col = n => COLORS[S.players.indexOf(n) % COLORS.length];
@@ -248,6 +248,21 @@
         }
         const sectorOf = a => { const n = S.players.length, w = 360 / n; return Math.floor((((a % 360) + 360) % 360 + w / 2) / w) % n };
 
+        /* اختيار زوج (سائل ← مجاوب) بعدالة: الأقل تكراراً أولاً */
+        function pickPair(n) {
+            const H = S.hist || (S.hist = { p: {}, a: {}, r: {}, la: -1, lr: -1 });
+            let best = [], min = Infinity;
+            for (let a = 0; a < n; a++) for (let r = 0; r < n; r++) {
+                if (a === r) continue;
+                const sc = (H.p[a + '>' + r] || 0) * 100 + (H.a[a] || 0) * 10 + (H.r[r] || 0) * 10
+                    + (a === H.la ? 6 : 0) + (r === H.lr ? 6 : 0) + (a === H.lr ? 3 : 0) + (r === H.la ? 3 : 0);
+                if (sc < min) { min = sc; best = [[a, r]] } else if (sc === min) best.push([a, r]);
+            }
+            const [a, r] = best[Math.random() * best.length | 0];
+            H.p[a + '>' + r] = (H.p[a + '>' + r] || 0) + 1; H.a[a] = (H.a[a] || 0) + 1; H.r[r] = (H.r[r] || 0) + 1; H.la = a; H.lr = r;
+            return [a, r];
+        }
+
         /* اللوحة */
         const panel = h => { const p = $('panel'); p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; p.innerHTML = h };
         function renderScores() { $('scores').innerHTML = S.players.map(p => `<div class="sc" style="background:${col(p)}">${esc(p)}<b>${S.scores[p] || 0}</b></div>`).join('') }
@@ -259,7 +274,10 @@
         function spin() {
             if (S.busy) return; S.busy = true; $('wheel').classList.remove('done'); clearMarks();
             panel(`<h2>الإزازة بتلف...</h2><p class="hint" style="text-align:center">استنى النتيجة 😏</p>`);
-            const from = S.rot, total = 360 * (5 + Math.random() * 3) + Math.random() * 360, dur = 4600 + Math.random() * 1600, t0 = performance.now();
+            const n = S.players.length, w = 360 / n, [a, r] = pickPair(n); S.pend = { a, r };
+            const th = r * w + (Math.random() - .5) * w * .6;
+            const from = S.rot, delta = (((th - from) % 360) + 360) % 360;
+            const total = 360 * (5 + Math.floor(Math.random() * 3)) + delta, dur = 4600 + Math.random() * 1600, t0 = performance.now();
             let last = sectorOf(from);
             const ease = t => 1 - Math.pow(1 - t, 4);
             (function f(now) {
@@ -271,7 +289,7 @@
         }
         function finish() {
             S.busy = false;
-            const r = sectorOf(S.rot), a = sectorOf(S.rot + 180);
+            const { a, r } = S.pend;
             S.cur = { asker: S.players[a], resp: S.players[r] };
             $('wheel').classList.add('done'); $(`s${a}`).classList.add('ask'); $(`s${r}`).classList.add('res');
             blip(300, .25, .12); setTimeout(() => blip(600, .3, .1), 120); buzz([40, 40, 80]);
@@ -317,7 +335,7 @@
         }
 
         /* التنقل */
-        $('start').onclick = () => { S.scores = {}; S.used = {}; $('setup').classList.remove('on'); $('game').classList.add('on'); drawWheel(); renderScores(); idle(); blip(800, .15) };
+        $('start').onclick = () => { S.scores = {}; S.used = {}; S.hist = null; $('setup').classList.remove('on'); $('game').classList.add('on'); drawWheel(); renderScores(); idle(); blip(800, .15) };
         $('back').onclick = () => { if (S.busy) return; clearInterval(tmr); $('game').classList.remove('on'); $('setup').classList.add('on') };
         $('snd').onclick = () => { S.sound = !S.sound; $('snd').textContent = S.sound ? '🔊' : '🔇'; const label = S.sound ? 'كتم الصوت' : 'تشغيل الصوت'; $('snd').title = label; $('snd').setAttribute('aria-label', label); $('snd').setAttribute('aria-pressed', String(S.sound)) };
         $('thm').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'light' ? 'dark' : 'light'; save() };

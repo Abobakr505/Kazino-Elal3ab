@@ -215,7 +215,7 @@ dialog .btn{width:100%}
     <li><b>التجهيز:</b> ضيف أسماء اللاعبين (٣ لحد ١٢)، اختار الفئات وعدد الجواسيس ووقت الجولة، ودوس "يلا نبدأ".</li>
     <li><b>الاستيكر:</b> الموبايل بيعدّي على كل لاعب لوحده. اخربش الاستيكر عشان تشوف الكلمة، وبعدين دوس "خلصت" واخفيها وسلّم الموبايل.</li>
     <li><b>الجاسوس:</b> الكل بيشوف نفس الكلمة إلا الجاسوس، هو بيشوف بس الفئة. لازم يتصرف كأنه عارفها.</li>
-    <li><b>الأسئلة:</b> لِف الزجاجة. اللي في ضهرها يسأل واللي قدامها يجاوب. اسألوا أسئلة تلمّح للكلمة من غير ما تقولوها، عشان الجاسوس ما يعرفهاش.</li>
+    <li><b>الأسئلة:</b> لِف الزجاجة. هي بتشاور على اللي هيجاوب، واللعبة بتختار اللي هيسأله بشكل عادل (ملون في العجلة وإسمه مكتوب فوق) عشان نفس الاتنين ما يسألوش بعض كل مرة. اسألوا أسئلة تلمّح للكلمة من غير ما تقولوها، عشان الجاسوس ما يعرفهاش.</li>
     <li><b>الوقت:</b> التايمر بيعدّ تنازلي. لما يخلص أو لما تدوسوا "نصوّت" بيبدأ التصويت.</li>
     <li><b>التصويت:</b> كل لاعب بيصوّت سرّي على اللي شاكك فيه. اللي أخد أكتر أصوات بيتحط في القفص، ولو الأصوات اتعادلت الجاسوس بيهرب.</li>
     <li><b>تخمين الكلمة:</b> بعد الكشف الجاسوس بيحاول يخمّن الكلمة من بين اختيارات، وحتى لو اتكشف ممكن ياخد نقاط.</li>
@@ -241,7 +241,7 @@ const TIMES=[[120,'دقيقتين'],[180,'٣ دقايق'],[300,'٥ دقايق'],
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
-const S={pl:[],cats:new Set(['أفلام','مشاهير مصريين','لاعيبة كورة']),sp:1,tm:300,word:'',cat:'',spies:[],i:0,rot:0,busy:false,cur:null,qs:[],qi:0,score:{},round:0,votes:{},vi:0,gi:0,guessOK:{},opts:[],caught:false,acc:-1,cnt:[]};
+const S={pl:[],cats:new Set(['أفلام','مشاهير مصريين','لاعيبة كورة']),sp:1,tm:300,word:'',cat:'',spies:[],i:0,rot:0,busy:false,cur:null,qs:[],qi:0,score:{},round:0,votes:{},vi:0,gi:0,guessOK:{},opts:[],caught:false,acc:-1,cnt:[],hist:null,pend:null};
 const KEY='kasa_v1';
 try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){S.pl=d.p||[];if(d.c&&d.c.length)S.cats=new Set(d.c);S.sp=d.s||1;S.score=d.sc||{};S.round=d.r||0;if(typeof d.t==='number')S.tm=d.t}}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({p:S.pl,c:[...S.cats],s:S.sp,sc:S.score,r:S.round,t:S.tm}))}catch(e){}};
@@ -341,16 +341,34 @@ function drawWheel(){
   $('wheel').classList.remove('done');
 }
 const marks=()=>document.querySelectorAll('.sec').forEach(e=>e.classList.remove('ask','res'));
-function startPlay(){go('play');drawWheel();idle();timer()}
+function startPlay(){S.hist=null;go('play');drawWheel();idle();timer()}
 function idle(){
   $('wheel').classList.remove('done');marks();
-  $('panel').innerHTML='<h2>جاهزين؟</h2><p class="hint" style="text-align:center">الزجاجة بتختار مين يسأل ومين يجاوب.</p><button class="btn big" id="spin">🍾 لِف الزجاجة</button>';
+  $('panel').innerHTML='<h2>جاهزين؟</h2><p class="hint" style="text-align:center">الزجاجة بتختار مين يجاوب، واللعبة بتختار مين يسأل بشكل عادل.</p><button class="btn big" id="spin">🍾 لِف الزجاجة</button>';
   $('spin').onclick=spin;
+}
+
+/* اختيار زوج (سائل ← مجاوب) بعدالة: الأقل تكراراً أولاً */
+function pickPair(n){
+  const H=S.hist||(S.hist={p:{},a:{},r:{},la:-1,lr:-1});
+  let best=[],min=Infinity;
+  for(let a=0;a<n;a++)for(let r=0;r<n;r++){
+    if(a===r)continue;
+    const sc=(H.p[a+'>'+r]||0)*100+(H.a[a]||0)*10+(H.r[r]||0)*10
+      +(a===H.la?6:0)+(r===H.lr?6:0)+(a===H.lr?3:0)+(r===H.la?3:0);
+    if(sc<min){min=sc;best=[[a,r]]}else if(sc===min)best.push([a,r]);
+  }
+  const[a,r]=best[Math.random()*best.length|0];
+  H.p[a+'>'+r]=(H.p[a+'>'+r]||0)+1;H.a[a]=(H.a[a]||0)+1;H.r[r]=(H.r[r]||0)+1;H.la=a;H.lr=r;
+  return[a,r];
 }
 function spin(){
   if(S.busy)return;S.busy=true;marks();$('wheel').classList.remove('done');
   $('panel').innerHTML='<h2>الزجاجة بتلف...</h2>';
-  const from=S.rot,total=360*(5+Math.random()*3)+Math.random()*360,dur=4400+Math.random()*1500,t0=performance.now(),ease=t=>1-Math.pow(1-t,4);
+  const n=S.pl.length,w=360/n,[a,r]=pickPair(n);S.pend={a,r};
+  const th=r*w+(Math.random()-.5)*w*.6;
+  const from=S.rot,delta=(((th-from)%360)+360)%360;
+  const total=360*(5+Math.floor(Math.random()*3))+delta,dur=4400+Math.random()*1500,t0=performance.now(),ease=t=>1-Math.pow(1-t,4);
   let last=sectorOf(from);
   (function f(now){
     const t=Math.min(1,(now-t0)/dur);S.rot=from+total*ease(t);$('bottle').style.transform=`rotate(${S.rot}deg)`;
@@ -359,7 +377,7 @@ function spin(){
   })(t0);
 }
 function stop(){
-  S.busy=false;const r=sectorOf(S.rot),a=sectorOf(S.rot+180);
+  S.busy=false;const{a,r}=S.pend;
   S.cur={a:S.pl[a],r:S.pl[r]};
   $('wheel').classList.add('done');$('s'+a).classList.add('ask');$('s'+r).classList.add('res');
   blip(300,.25,.1);buzz([40,40,80]);showQ();

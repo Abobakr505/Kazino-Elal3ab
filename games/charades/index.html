@@ -89,6 +89,22 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const num=n=>n.toLocaleString('ar-EG');
 const S={pl:[],nt:2,cats:new Set(['أفلام','أمثال','مواقف']),time:60,rounds:2,teams:[],turn:0,pool:[],cur:null,got:0,tp:[],sound:true};
+
+/* ===== حفظ الإعدادات في localStorage ===== */
+const KEY='bbm_v1';
+try{
+ const d=JSON.parse(localStorage.getItem(KEY)||'null');
+ if(d){
+  if(Array.isArray(d.pl))S.pl=d.pl.filter(x=>typeof x==='string'&&x.trim()).slice(0,16);
+  if([2,3,4].includes(d.nt))S.nt=d.nt;
+  if(Array.isArray(d.cats)){const c=d.cats.filter(x=>D[x]);if(c.length)S.cats=new Set(c)}
+  if([45,60,90].includes(d.time))S.time=d.time;
+  if([1,2,3,5].includes(d.rounds))S.rounds=d.rounds;
+  if(typeof d.sound==='boolean')S.sound=d.sound;
+ }
+}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({pl:S.pl,nt:S.nt,cats:[...S.cats],time:S.time,rounds:S.rounds,sound:S.sound}))}catch(e){}};
+
 let iv,iv2;
 const h=s=>{clearInterval(iv);clearInterval(iv2);A.innerHTML='<div class=scr>'+s+'</div>';window.scrollTo(0,0)};
 const cur=()=>S.teams[S.turn%S.nt];
@@ -105,6 +121,7 @@ function home(){
  iv2=setInterval(()=>{w.style.opacity=0;setTimeout(()=>{w.textContent=WORDS[Math.random()*WORDS.length|0];w.style.opacity=1},250)},2600);
 }
 function setup(){
+ save();
  const ok=S.pl.length>=S.nt&&S.cats.size>=1;
  const pick=(k,arr)=>arr.map(a=>`<button class="opt ${S[k]===a[0]?'on':''}" data-k=${k} data-v="${a[0]}">${a[1]}</button>`).join('');
  h(`<div class=top><button class="link on-bg" data-home>الرئيسية</button><button class="link on-bg" data-guide>دليل اللعبة</button></div><h1>جهّز اللعبة</h1>
@@ -122,7 +139,7 @@ function guide(){
  if(document.getElementById('ov'))return;
  const o=document.createElement('div');o.className='ov';o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
  o.innerHTML=`<div class=sheet><h3>دليل اللعبة</h3><p style="color:var(--mute);margin-top:0">كل دور واحد بس بيمثّل، والباقي بيخمّنوا.</p><ol>
- <li><b>التجهيز:</b> ضيفوا اللاعبين، واختاروا عدد الفرق والنوع والوقت وعدد الأدوار. اللعبة بتقسّم اللاعبين عشوائي وبتدّي كل فريق اسم مصري مختلف في كل مرة.</li>
+ <li><b>التجهيز:</b> ضيفوا اللاعبين، واختاروا عدد الفرق والنوع والوقت وعدد الأدوار. اللعبة بتقسّم اللاعبين عشوائي وبتدّي كل فريق اسم مصري مختلف في كل مرة. إعداداتك بتتحفظ تلقائي على الموبايل.</li>
  <li><b>الاختيار:</b> في كل دور اللعبة بتختار ممثل واحد من الفريق اللي دوره، وزميل ليه من نفس الفريق بيمسك الموبايل.</li>
  <li><b>التمثيل:</b> الماسك بيوجّه الشاشة للممثل بس. الممثل يشوف الكلمة ويمثّلها من غير كلام ولا أصوات.</li>
  <li><b>التخمين:</b> زميله وكل الفرق التانية يخمّنوا بصوت عالي في نفس الوقت.</li>
@@ -195,7 +212,7 @@ document.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b||b.disabled)return;const d=b.dataset;
  if('close' in d){document.getElementById('ov').remove();return}
  if(!A.contains(b))return;
- if('sound' in d){S.sound=!S.sound;b.textContent=S.sound?'🔊':'🔇';b.setAttribute('aria-label',S.sound?'كتم الصوت':'تشغيل الصوت');b.setAttribute('aria-pressed',String(S.sound));if(S.sound)tone(880,.08,.05)}
+ if('sound' in d){S.sound=!S.sound;save();b.textContent=S.sound?'🔊':'🔇';b.setAttribute('aria-label',S.sound?'كتم الصوت':'تشغيل الصوت');b.setAttribute('aria-pressed',String(S.sound));if(S.sound)tone(880,.08,.05)}
  else if('add' in d){const v=document.getElementById('nm').value.trim();if(v&&!S.pl.includes(v)&&S.pl.length<16)S.pl.push(v);setup();document.getElementById('nm').focus()}
  else if('rm' in d){S.pl.splice(+d.rm,1);setup()}
  else if('cat' in d){S.cats.has(d.cat)?S.cats.delete(d.cat):S.cats.add(d.cat);setup()}
