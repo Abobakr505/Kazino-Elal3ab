@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الكلمات المعكوسة | كازينو الالعاب</title>
+<link rel="shortcut icon" href="./../../icon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Reem+Kufi:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* لونين بس: بنفسجي غامق + برتقالي. باقي الدرجات شفافية من نفس اللونين */
+:root{
+  --ink:#1b1230;
+  --ac:#ff9f43;
+  --ink2:rgba(255,255,255,.06);
+  --line:rgba(255,159,67,.25);
+  --mut:rgba(255,255,255,.62);
+  color-scheme:dark;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{
+  background:var(--ink);color:#fff;font-family:'Cairo',system-ui,sans-serif;min-height:100vh;overflow-x:hidden;
+  background-image:
+    radial-gradient(circle at 85% -10%,rgba(255,159,67,.18),transparent 45%),
+    radial-gradient(circle at 0% 110%,rgba(255,159,67,.10),transparent 40%);
+}
+#cf{position:fixed;inset:0;z-index:50;pointer-events:none;width:100%;height:100%}
+main{max-width:560px;margin:0 auto;padding:18px 16px 44px;position:relative}
+section{display:none}section.on{display:block;animation:in .4s ease both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+
+.logo{text-align:center;margin:10px 0 4px}
+.logo .tiles{display:flex;justify-content:center;gap:8px;direction:rtl}
+.logo .tiles span{width:62px;height:62px;display:grid;place-items:center;border-radius:14px;font:700 36px 'Reem Kufi',serif;
+  background:var(--ac);color:var(--ink);box-shadow:0 6px 0 rgba(255,159,67,.35);transform:rotate(var(--r))}
+.logo h1{margin:14px 0 2px;font:700 38px 'Reem Kufi',serif;color:var(--ac)}
+.sub{text-align:center;color:var(--mut);margin:0 0 18px;line-height:1.7}
+h2{font:700 24px 'Reem Kufi',serif;margin:6px 0 10px;color:var(--ac)}
+h3{margin:0 0 10px;font-size:17px;font-weight:900}
+
+.card{background:var(--ink2);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}
+.row{display:flex;gap:8px}
+input{flex:1;min-width:0;background:rgba(0,0,0,.28);border:1.5px solid var(--line);color:#fff;border-radius:14px;padding:12px 14px;font:700 16px 'Cairo';outline:none}
+input:focus{border-color:var(--ac)}
+button{font:900 16px 'Cairo';color:#fff;border:0;border-radius:14px;padding:12px 18px;cursor:pointer;transition:transform .12s}
+button:active{transform:scale(.95)}
+button:disabled{opacity:.35;pointer-events:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.pri{background:var(--ac);color:var(--ink);width:100%;font-size:19px;padding:15px;box-shadow:0 6px 0 rgba(255,159,67,.35)}
+.pri:active{box-shadow:0 2px 0 rgba(255,159,67,.35);transform:translateY(4px)}
+.ghost{background:transparent;border:1.5px solid var(--line);color:#fff}
+.ghost:hover{border-color:var(--ac)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);font-weight:700;background:var(--ink2)}
+.chip b{cursor:pointer;color:var(--ac);padding:0 2px}
+.empty{color:var(--mut);font-size:14px;margin:6px 0 0}
+
+.set{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.set:last-child{border:0}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{padding:7px 13px;font-size:14px;background:transparent;border:1.5px solid var(--line)}
+.seg button.on{background:var(--ac);color:var(--ink);border-color:var(--ac)}
+
+/* اللعب */
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.top button{padding:8px 13px;font-size:14px}
+.badge{font-weight:900;color:var(--ink);background:var(--ac);padding:6px 14px;border-radius:999px;font-size:14px}
+
+.board{position:relative;margin:14px 0 8px;min-height:230px;border-radius:26px;background:var(--ink2);border:2px dashed var(--line);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:22px 12px;text-align:center;overflow:hidden}
+.board.live{border-style:solid;border-color:var(--ac);box-shadow:0 0 0 8px rgba(255,159,67,.12),0 0 60px rgba(255,159,67,.25)}
+#word{font:700 clamp(54px,18vw,100px)/1.25 'Reem Kufi',serif;color:var(--ac);word-break:keep-all;direction:rtl}
+#word.land{animation:land .5s cubic-bezier(.2,1.5,.4,1)}
+@keyframes land{from{transform:scale(.4) rotate(-12deg);opacity:0}}
+#word.idle{font-size:64px;color:var(--mut)}
+#ans{min-height:44px;font:700 30px 'Reem Kufi',serif;color:#fff;opacity:0;transform:translateY(8px);transition:.35s}
+#ans.on{opacity:1;transform:none}
+#ans small{display:block;font:700 13px 'Cairo';color:var(--mut)}
+.tbar{height:10px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin:0 4px 4px}
+.tbar i{display:block;height:100%;width:100%;background:var(--ac);border-radius:99px;transition:width 1s linear}
+.tbar.low i{animation:blink .5s infinite alternate}
+@keyframes blink{to{opacity:.3}}
+#time{text-align:center;color:var(--ac);font-weight:900;margin:2px 0 12px}
+.btns{display:grid;grid-template-columns:1fr;gap:10px}
+.btns .ghost{width:100%}
+
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.who button{background:transparent;border:1.5px solid var(--ac);color:var(--ac)}
+.who button:hover{background:rgba(255,159,67,.12)}
+.who button.done{background:var(--ac);color:var(--ink)}
+.hint{color:var(--mut);font-size:13px;margin:10px 0 0;text-align:center}
+
+.sc{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line)}
+.sc:last-child{border:0}
+.sc .nm{flex:1;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc .fire{font-size:13px;color:var(--ac)}
+.bar{flex:1.5;height:8px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ac);border-radius:9px;transition:width .5s cubic-bezier(.2,1.4,.4,1)}
+.pt{font:700 24px 'Reem Kufi';min-width:30px;text-align:center;color:var(--ac)}
+.sc .m{padding:2px 10px;font-size:15px;background:transparent;border:1.5px solid var(--line)}
+.sc .m:hover{border-color:var(--ac)}
+
+/* النتيجة */
+.win{text-align:center}
+.crown{font-size:84px;animation:bob 1.8s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(255,159,67,.5))}
+@keyframes bob{50%{transform:translateY(-12px) rotate(5deg)}}
+.win h2{font-size:44px;margin:0 0 4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stats div{border:1px solid var(--line);border-radius:16px;padding:12px 6px;background:var(--ink2)}
+.stats b{display:block;font:700 24px 'Reem Kufi';color:var(--ac);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stats small{color:var(--mut)}
+.win .sc{text-align:right}
+
+/* الشرح */
+#guide{position:fixed;inset:0;z-index:60;background:rgba(14,8,30,.9);display:none;place-items:center;padding:20px}
+#guide.on{display:grid}
+#guide .card{max-width:440px;background:var(--ink);border-color:var(--ac)}
+#guide li{margin:9px 0;line-height:1.8}
+#toast{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;transform:translate(-50%,-100px);z-index:70;background:var(--ac);color:var(--ink);font-weight:900;padding:10px 22px;border-radius:999px;transition:transform .35s cubic-bezier(.2,1.5,.4,1);white-space:nowrap}
+#toast.on{transform:translate(-50%,0)}
+.shake{animation:sh .5s}
+@keyframes sh{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<canvas id="cf"></canvas>
+<div id="toast" role="status"></div>
+<main>
+
+<!-- ١: اللاعبين -->
+<section id="s1" class="on">
+  <a href="./../../index.html" style="color:#ff9f43;">كل الالعاب >> </a>
+  <div class="logo">
+    <div class="tiles"><span style="--r:-5deg">رمق</span><span style="--r:4deg">⇄</span><span style="--r:-3deg">قمر</span></div>
+    <h1>الكلمات المعكوسة</h1>
+  </div>
+  <p class="sub">كلمة بتظهر مقلوبة على الشاشة.<br>أول واحد يقولها صح هو اللي ياخد النقطة.</p>
+  <div class="card">
+    <h3>👥 مين هيلعب؟</h3>
+    <div class="row"><input id="pn" placeholder="اكتب اسم اللاعب..." maxlength="14" autocomplete="off"><button class="ghost" id="addP">إضافة</button></div>
+    <div class="chips" id="plist"></div>
+    <p class="empty" id="pe">محتاجين لاعبين اتنين على الأقل.</p>
+  </div>
+  <button class="pri" id="to2" disabled>التالي</button>
+  <p class="sub" style="margin-top:14px"><a href="#" id="g1" style="color:var(--ac)">إزاي نلعب؟</a></p>
+</section>
+
+<!-- ٢: الإعدادات -->
+<section id="s2">
+  <h2>جهّز اللعبة</h2>
+  <div class="card">
+    <h3>⚙️ الإعدادات</h3>
+    <div class="set"><span>عدد الكلمات</span><div class="seg" id="sRounds"></div></div>
+    <div class="set"><span>الصعوبة</span><div class="seg" id="sDiff"></div></div>
+    <div class="set"><span>وقت الكلمة</span><div class="seg" id="sTime"></div></div>
+    <div class="set"><span>نقاط الإجابة الصح</span><div class="seg" id="sPts"></div></div>
+    <div class="set"><span>الصوت</span><div class="seg" id="sSnd"></div></div>
+  </div>
+  <div class="row"><button class="ghost" id="b1">رجوع</button><button class="pri" id="go">يلا نلعب</button></div>
+</section>
+
+<!-- ٣: اللعب -->
+<section id="s3">
+  <div class="top">
+    <button class="ghost" id="g3">الشرح</button>
+    <span class="badge" id="rd">الكلمة 0</span>
+    <button class="ghost" id="end">إنهاء</button>
+  </div>
+
+  <div class="board" id="board">
+    <div id="word" class="idle">؟؟؟</div>
+    <div id="ans"></div>
+  </div>
+  <div class="tbar" id="tbar"><i id="tb"></i></div>
+  <div id="time">⏱ --</div>
+
+  <div class="btns">
+    <button class="pri" id="nx">🎲 هات كلمة</button>
+    <button class="ghost" id="rv" disabled>🤷 محدش عرف — اكشف الإجابة</button>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>⚡ مين قالها الأول؟</h3>
+    <div class="who" id="who"></div>
+    <p class="hint">لما حد يقول الكلمة صح، دوس على اسمه.</p>
+  </div>
+  <div class="card"><h3>🏆 لوحة النقاط</h3><div id="sb"></div></div>
+</section>
+
+<!-- ٤: النتيجة -->
+<section id="s4" class="win">
+  <div class="crown">👑</div>
+  <p class="sub" style="margin:0">البطل</p>
+  <h2 id="wn"></h2>
+  <p class="sub" id="wp"></p>
+  <div class="stats" id="st"></div>
+  <div class="card" id="fb"></div>
+  <button class="pri" id="again">🔄 العب تاني</button>
+  <button class="ghost" id="home" style="width:100%;margin-top:10px">غيّر اللاعبين</button>
+</section>
+</main>
+
+<div id="guide"><div class="card">
+  <h2>إزاي نلعب؟</h2>
+  <ol style="padding-inline-start:20px;margin:0">
+    <li>ضيفوا اللاعيبة واختاروا الإعدادات.</li>
+    <li>دوس «هات كلمة»، وكلمة معكوسة هتظهر على الشاشة والعداد يبدأ.</li>
+    <li>الكلمة مكتوبة بالعكس، يعني «رمق» معناها «قمر». لازم تقراها من الآخر وتنطقها صح.</li>
+    <li>أول واحد يقولها صح، دوس على اسمه ياخد النقطة.</li>
+    <li>لو محدش عرف أو الوقت خلص، دوس «اكشف الإجابة».</li>
+    <li>تقدروا تعدّلوا النقاط بزرار ➕ و ➖ جنب كل اسم.</li>
+    <li>لما الكلمات تخلص هتظهر النتيجة والبطل 👑</li>
+  </ol>
+  <button class="pri" id="gx" style="margin-top:14px">فهمت</button>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+
+/* الكلمات (بالطول بنقسمها: سهل ٤ حروف أو أقل، متوسط ٥، صعب ٦ فأكتر) */
+const WORDS=("قمر بحر جمل نهر ورد قلم بيت نور سمك باب جبل ذهب عسل بطل ملك سيف حلم ضوء فرح نجم رمل خبز دجاج شجر سور نمر فهد قرد فيل بقر ثوب حبر سكر ملح جزر موز تين لبن شاي كلب نار دار عيش فول بصل قطر مترو "+
+ "حصان شباك مفتاح طبيب مهندس مطبخ شارع ثعلب بطيخ فلفل طماطم مكتب دفتر سكين مسمار منشار كشري فسيخ سباك نجار حلاق ترزي دمياط أسيوط سوهاج أسوان موبايل تلفاز كبير صغير سريع بطيء "+
+ "كمبيوتر تلفزيون عصفور أتوبيس ميكروباص توكتوك حواوشي بورسعيد ميكانيكي كهربائي قهوجي كبابجي شمعدان دكتور سماعة مصباح").split(/\s+/).filter(Boolean);
+const lvl=w=>w.length<=4?1:w.length==5?2:3;
+const rev=w=>Array.from(w).reverse().join("");
+
+const DEF={players:[],rounds:10,diff:0,time:30,pts:1,snd:1};
+let S=Object.assign({},DEF,{scores:{},hits:{},streak:{},last:null,used:[],round:0,state:"idle",left:0,tm:null,cur:"",t0:0,fast:{ms:0,p:""}});
+
+try{const d=JSON.parse(localStorage.getItem("rv1")||"{}");["players","rounds","diff","time","pts","snd"].forEach(k=>{if(d[k]!=null)S[k]=d[k]})}catch(e){}
+const save=()=>{try{localStorage.setItem("rv1",JSON.stringify({players:S.players,rounds:S.rounds,diff:S.diff,time:S.time,pts:S.pts,snd:S.snd}))}catch(e){}};
+const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id==id));scrollTo(0,0)}
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),1900)}
+function buzz(n){try{navigator.vibrate&&navigator.vibrate(n)}catch(e){}}
+
+/* اللاعبين */
+function rP(){
+  $("plist").innerHTML=S.players.map((p,i)=>`<span class="chip"> ${esc(p)}<b data-i="${i}" role="button" aria-label="حذف">✕</b></span>`).join("");
+  $("to2").disabled=S.players.length<2;$("pe").style.display=S.players.length<2?"block":"none";
+}
+function addP(){
+  const v=$("pn").value.trim();if(!v)return;
+  if(S.players.includes(v))return toast("الاسم ده موجود بالفعل");
+  if(S.players.length>=8)return toast("أقصى عدد ٨ لاعيبة");
+  S.players.push(v);$("pn").value="";rP();save();beep(660,.08);$("pn").focus();
+}
+$("addP").onclick=addP;
+$("pn").onkeydown=e=>{if(e.key=="Enter")addP()};
+$("plist").onclick=e=>{if(e.target.dataset.i!=null){S.players.splice(+e.target.dataset.i,1);rP();save()}};
+$("to2").onclick=()=>{rSet();show("s2")};
+$("b1").onclick=()=>show("s1");
+
+/* الإعدادات */
+function seg(id,key,opts){
+  $(id).innerHTML=opts.map(([v,l])=>`<button class="${S[key]==v?"on":""}" data-v="${v}">${l}</button>`).join("");
+  $(id).onclick=e=>{const v=e.target.dataset.v;if(v==null)return;S[key]=+v;save();rSet();beep(520,.05)};
+}
+function rSet(){
+  seg("sRounds","rounds",[[5,"٥"],[10,"١٠"],[20,"٢٠"],[0,"مفتوحة"]]);
+  seg("sDiff","diff",[[0,"مخلوط"],[1,"سهل"],[2,"متوسط"],[3,"صعب"]]);
+  seg("sTime","time",[[15,"١٥ث"],[30,"٣٠ث"],[60,"٦٠ث"],[0,"بدون"]]);
+  seg("sPts","pts",[[1,"١"],[2,"٢"],[3,"٣"]]);
+  seg("sSnd","snd",[[1,"شغّال"],[0,"مكتوم"]]);
+}
+
+/* اللعبة */
+function startGame(){
+  S.scores={};S.hits={};S.streak={};S.last=null;S.fast={ms:0,p:""};
+  S.players.forEach(p=>{S.scores[p]=0;S.hits[p]=0;S.streak[p]=0});
+  S.used=[];S.round=0;S.state="idle";S.cur="";stopT();
+  $("word").textContent="؟؟؟";$("word").className="idle";
+  $("board").classList.remove("live");
+  $("ans").classList.remove("on");$("ans").innerHTML="";
+  $("time").textContent="⏱ --";$("tb").style.width="100%";
+  $("nx").textContent="🎲 هات كلمة";
+  rRound();rUI();rS();show("s3");
+}
+$("go").onclick=startGame;
+function rRound(){$("rd").textContent=S.rounds?`الكلمة ${S.round} من ${S.rounds}`:`الكلمة ${S.round}`}
+
+function rUI(){
+  const live=S.state=="live";
+  $("nx").disabled=live;
+  $("rv").disabled=!live;
+  $("who").innerHTML=S.players.map(p=>`<button data-p="${esc(p)}" ${live?"":"disabled"}>${esc(p)}</button>`).join("");
+}
+function rS(){
+  const mx=Math.max(1,...Object.values(S.scores));
+  $("sb").innerHTML=Object.entries(S.scores).sort((a,b)=>b[1]-a[1]).map(([p,v],i)=>
+   `<div class="sc"><span>${["🥇","🥈","🥉"][i]||"🎯"}</span><span class="nm">${esc(p)}${S.streak[p]>=2?` <span class="fire">🔥${S.streak[p]}</span>`:""}</span><div class="bar"><i style="width:${v/mx*100}%"></i></div><button class="m" data-m="${esc(p)}" data-d="-1" aria-label="ناقص">➖</button><span class="pt">${v}</span><button class="m" data-m="${esc(p)}" data-d="1" aria-label="زائد">➕</button></div>`).join("");
+}
+$("sb").onclick=e=>{const b=e.target.closest("button");if(!b)return;const p=b.dataset.m,d=+b.dataset.d;
+  if(d<0&&S.scores[p]<=0)return;S.scores[p]+=d;rS();beep(d>0?760:380,.08)};
+
+/* المؤقت */
+function stopT(){clearInterval(S.tm);S.tm=null;$("tbar").classList.remove("low")}
+function startT(){
+  stopT();
+  if(!S.time){$("time").textContent="⏱ ∞";$("tb").style.width="100%";return}
+  S.left=S.time;tickT();
+  S.tm=setInterval(()=>{S.left--;tickT();
+    if(S.left<=0){
+      stopT();$("board").classList.add("shake");setTimeout(()=>$("board").classList.remove("shake"),600);
+      beep(220,.5);buzz([200,100,200]);toast("⏰ الوقت خلص!");
+      reveal(null);
+    }else if(S.left<=5){beep(900,.07)}},1000);
+}
+function tickT(){
+  $("time").textContent="⏱ "+S.left;
+  $("tb").style.width=(S.left/S.time*100)+"%";
+  $("tbar").classList.toggle("low",S.left<=5&&S.left>0);
+}
+
+function nextWord(){
+  if(S.state=="live")return;
+  if(S.rounds&&S.round>=S.rounds)return finish();
+  let pool=WORDS.filter(w=>!S.used.includes(w)&&(!S.diff||lvl(w)==S.diff));
+  if(!pool.length){S.used=S.used.filter(w=>S.diff&&lvl(w)!=S.diff);pool=WORDS.filter(w=>!S.used.includes(w)&&(!S.diff||lvl(w)==S.diff))}
+  const w=pool[Math.random()*pool.length|0];
+  S.used.push(w);S.cur=w;S.round++;S.state="live";S.t0=Date.now();
+  rRound();
+  const el=$("word");el.className="";el.textContent=rev(w);void el.offsetWidth;el.classList.add("land");
+  $("board").classList.add("live");
+  $("ans").classList.remove("on");$("ans").innerHTML="";
+  buzz(60);beep(660,.15);
+  rUI();startT();
+}
+$("nx").onclick=nextWord;
+
+/* كشف الإجابة (winner = اسم اللاعب أو null) */
+function reveal(winner){
+  if(S.state!="live")return;
+  stopT();S.state="done";
+  $("board").classList.remove("live");
+  $("ans").innerHTML=`<small>${winner?"الإجابة الصح":"الكلمة كانت"}</small>${esc(S.cur)}`;
+  $("ans").classList.add("on");
+  if(!winner){S.players.forEach(q=>S.streak[q]=0);S.last=null}
+  const last=S.rounds&&S.round>=S.rounds;
+  $("nx").textContent=last?"🏁 النتيجة النهائية":"🎲 كلمة تانية";
+  rUI();rS();
+  if(winner){
+    [...$("who").children].forEach(b=>{if(b.dataset.p==winner)b.classList.add("done")});
+  }
+}
+$("rv").onclick=()=>{if(S.state!="live")return;toast("🤷 محدش عرفها");beep(300,.2);reveal(null)};
+
+$("who").onclick=e=>{
+  const p=e.target.dataset.p;if(!p||S.state!="live")return;
+  const ms=Date.now()-S.t0;
+  S.scores[p]+=S.pts;S.hits[p]++;
+  S.players.forEach(q=>S.streak[q]=q==p?(S.last==p?S.streak[q]+1:1):0);S.last=p;
+  if(!S.fast.ms||ms<S.fast.ms)S.fast={ms,p};
+  reveal(p);
+  toast(`⭐ ${p} قالها الأول! +${S.pts}`);boom(innerWidth/2,innerHeight*.35,90);beep(1040,.2);buzz(80);
+};
+
+function finish(){
+  stopT();
+  const arr=Object.entries(S.scores).sort((a,b)=>b[1]-a[1]);
+  const top=arr[0][1],ws=arr.filter(x=>x[1]==top).map(x=>x[0]);
+  const best=Object.entries(S.hits).sort((a,b)=>b[1]-a[1])[0];
+  $("wn").textContent=top==0?"محدش خد نقطة 😂":ws.join(" و ");
+  $("wp").textContent=top==0?"":`بـ ${top} نقطة`;
+  $("st").innerHTML=`<div><b>${S.round}</b><small>كلمات</small></div>`+
+    `<div><b>${S.fast.ms?(S.fast.ms/1000).toFixed(1)+"ث":"-"}</b><small>${S.fast.ms?"أسرع إجابة: "+esc(S.fast.p):"أسرع إجابة"}</small></div>`+
+    `<div><b>${best&&best[1]?best[1]:"-"}</b><small>${best&&best[1]?"أكتر إجابات: "+esc(best[0]):"أكتر إجابات"}</small></div>`;
+  $("fb").innerHTML=arr.map(([p,v],i)=>`<div class="sc"><span>${["🥇","🥈","🥉"][i]||"🎯"}</span><span class="nm">${esc(p)}</span><small style="color:var(--mut)">⚡${S.hits[p]}</small><span class="pt">${v}</span></div>`).join("");
+  show("s4");beep(784,.3);
+  for(let i=0;i<5;i++)setTimeout(()=>boom(Math.random()*innerWidth,innerHeight*.3,70),i*350);
+}
+$("end").onclick=()=>{if(S.round==0&&Object.values(S.scores).every(v=>v==0))return show("s2");finish()};
+$("again").onclick=startGame;
+$("home").onclick=()=>{stopT();show("s1")};
+
+/* الشرح */
+["g1","g3"].forEach(i=>$(i).onclick=e=>{e.preventDefault();$("guide").classList.add("on")});
+$("gx").onclick=()=>$("guide").classList.remove("on");
+
+/* الصوت */
+let ac;function beep(f,d){if(!S.snd)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.type="triangle";g.gain.value=.05;
+  o.connect(g);g.connect(ac.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.stop(ac.currentTime+d)}catch(e){}}
+
+/* قصاصات ملونة */
+const cv=$("cf"),cx=cv.getContext("2d");let P=[],run=false;
+function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();addEventListener("resize",rs);
+function boom(x,y,n){const cl=["#ff9f43","#ffffff","#ff9f43","#ffd9ad"];
+  for(let i=0;i<n;i++){const a=Math.random()*6.28,s=3+Math.random()*9;
+  P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-4,r:3+Math.random()*5,c:cl[i%4],l:1,rot:Math.random()*6})}
+  if(!run){run=true;loop()}}
+function loop(){cx.clearRect(0,0,cv.width,cv.height);P=P.filter(p=>p.l>0);
+  P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.28;p.vx*=.99;p.l-=.011;p.rot+=.2;
+    cx.save();cx.globalAlpha=Math.max(p.l,0);cx.fillStyle=p.c;cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillRect(-p.r,-p.r/2,p.r*2,p.r);cx.restore()});
+  if(P.length)requestAnimationFrame(loop);else{run=false;cx.clearRect(0,0,cv.width,cv.height)}}
+
+rP();
+</script>
+<script src="./../fullscreen.js"></script>
+</body>
+</html>

@@ -44,11 +44,15 @@ header p{margin:10px 0 0;color:var(--mute);max-width:34ch;line-height:1.8}
 .g-harf .meta span{color:#f4c24d}
 .g-jack{--a:#34c77b;--b:#0b4a2e;--fg:#06220f}
 .g-jack .meta span{color:#f5c542}
+.g-rev{--a:#ff9f43;--b:#7a3d00;--fg:#1b1230}
+.g-rev .meta span{color:#ff9f43}
 .game:nth-child(4){transform:rotate(-1deg)}
 .game:nth-child(5){transform:rotate(1deg)}
 .game:nth-child(5):active{transform:translateY(6px) rotate(1deg)}
 .game:nth-child(6){transform:rotate(-1deg)}
 .game:nth-child(6):active{transform:translateY(6px) rotate(-1deg)}
+.game:nth-child(7){transform:rotate(1deg)}
+.game:nth-child(7):active{transform:translateY(6px) rotate(1deg)}
 footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 #th{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:12px;width:44px;height:44px;font-size:20px;cursor:pointer}
 #th:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
@@ -59,7 +63,7 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
 <body>
 <main>
   <header>
-<h1><span>كازينو الالعاب</span><img src="icon.png" alt="" aria-hidden="true"></h1>    <p>ست ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
+<h1><span>كازينو الالعاب</span><img src="icon.png" alt="" aria-hidden="true"></h1>    <p>سبع ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
   </header>
 
   <nav class="games" aria-label="الألعاب">
@@ -159,6 +163,23 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
         <div class="meta"><span>٢ لـ ٦ لاعبين</span><span>تعاونية</span></div>
       </div>
     </a>
+
+    <a class="game g-rev" href="games/kalmat/index.html">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <rect x="8" y="18" width="104" height="84" rx="16" fill="#1b1230"/>
+        <g font-family="Cairo,sans-serif" font-weight="800" text-anchor="middle">
+          <text x="60" y="52" font-size="26" fill="#ff9f43" transform="translate(120 0) scale(-1 1)">قمر</text>
+          <path d="M34 62h52" stroke="#ff9f43" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round"/>
+          <path d="M44 62l-8 -7M44 62l-8 7" stroke="#ff9f43" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text x="60" y="92" font-size="26" fill="#ffffff">قمر</text>
+        </g>
+      </svg>
+      <div>
+        <h2>الكلمات المعكوسة</h2>
+        <p>كلمة بتظهر مقلوبة على الشاشة. أول واحد يقراها صح ياخد النقطة.</p>
+        <div class="meta"><span>٢ لـ ٨ لاعبين</span><span>سرعة</span></div>
+      </div>
+    </a>
   </nav>
 
   <footer>
@@ -186,7 +207,7 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
     var link=e.target.closest('a.game');
     if(!link||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||link.target&&link.target!=='_self')return;
     e.preventDefault();
-    var notes=[660,784,880,587,740,698],index=Array.prototype.indexOf.call(link.parentNode.children,link);
+    var notes=[660,784,880,587,740,698,523],index=Array.prototype.indexOf.call(link.parentNode.children,link);
     playTone(notes[index%notes.length],0);playTone(notes[index%notes.length]*1.25,.055);
     setTimeout(function(){window.location.href=link.href},120);
   });
