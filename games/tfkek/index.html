@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>فرقة التفكيك  | كازينو الالعاب</title>
+<link rel="shortcut icon" href="./../../icon.png" type="image/png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14161a;--felt:#0b3d2b;--panel:#1b1e24;--gold:#ffb703;--gold2:#8a5a00;--red:#c1121f;--txt:#eceff4;--mut:#9aa3b2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(ellipse at top,#2a2f38,var(--bg) 70%) fixed;background-color:var(--bg);color:var(--txt);font-family:'Cairo',Tahoma,sans-serif;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+h1{font-weight:900;font-size:clamp(28px,8vw,46px);margin:8px 0;color:var(--gold);text-shadow:0 3px 0 #5a3d00,0 0 24px #f5c54266;text-align:center}
+.suits{text-align:center;font-size:26px;letter-spacing:10px;color:var(--gold)}
+p.sub{text-align:center;color:var(--mut);margin:4px 0 18px}
+.btn{font-family:inherit;font-weight:900;font-size:18px;border:2px solid var(--gold2);background:linear-gradient(#ffd166,#e09f00);color:#2b1c00;padding:14px 22px;border-radius:14px;cursor:pointer;box-shadow:0 4px 0 #5c3d00;width:100%;margin:8px 0}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #5c3d00}
+.btn.alt{background:linear-gradient(#3a414d,#242932);color:var(--txt);border-color:var(--gold);box-shadow:0 4px 0 #0b0c0f}
+.card{background:var(--panel);border:2px solid var(--gold2);border-radius:16px;padding:14px;margin:12px 0;box-shadow:inset 0 0 30px #0006}
+.card h3{margin:0 0 8px;color:var(--gold)}
+.hide{display:none!important}
+.top{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.timer{flex:1 1 150px;background:#000;border:3px solid #444;border-radius:12px;color:#ff2d3d;font:900 clamp(40px,12vw,64px)/1.1 'Courier New',monospace;text-align:center;direction:ltr;text-shadow:0 0 14px #f00}
+.timer.low{animation:bl .5s infinite}
+@keyframes bl{50%{opacity:.45}}
+.info{flex:1 1 150px;background:#101013;border:2px solid #444;border-radius:12px;padding:8px 12px;font-size:15px}
+.info b{color:var(--gold)}
+.serial{direction:ltr;font:900 22px 'Courier New',monospace;letter-spacing:3px;color:#fff;background:#333;border-radius:6px;padding:2px 8px;display:inline-block}
+.strikes{font-size:26px;letter-spacing:4px}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
+.mod{background:#1d1d21;border:2px solid #4a4a50;border-radius:14px;padding:12px;text-align:center;position:relative}
+.mod.done{border-color:#22c55e;box-shadow:0 0 18px #22c55e66}
+.mod.done::after{content:'✔';position:absolute;top:6px;left:10px;color:#22c55e;font-size:22px}
+.mod h4{margin:0 0 8px;color:var(--mut);font-size:14px}
+.wires{display:flex;flex-direction:column;gap:12px;padding:6px 4px;direction:ltr}
+.bigbtn{width:130px;height:130px;border-radius:50%;border:6px solid #000a;font:900 20px 'Cairo',sans-serif;direction:ltr;cursor:pointer;margin:6px auto;display:block;box-shadow:0 7px 0 #0009,inset 0 -8px 14px #0004;user-select:none;-webkit-user-select:none;touch-action:none}
+.bigbtn:active{transform:translateY(5px)}
+.strip{height:14px;border-radius:7px;background:#333;margin:8px auto;width:70%;transition:.15s}
+.screen{font-size:64px;background:#000;border-radius:10px;padding:2px 0;margin-bottom:8px;border:2px solid #444}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.suit{font-size:40px;background:#f6efd8;border:3px solid #999;border-radius:10px;padding:6px 0;cursor:pointer;font-family:inherit}
+.suit.red{color:#c1121f}.suit.blk{color:#111}.suit.ok{opacity:.35;pointer-events:none}
+.msg{min-height:22px;color:#ffb4b4;font-size:14px;margin-top:6px}
+.over{position:fixed;inset:0;background:#000d;display:flex;align-items:center;justify-content:center;z-index:9;padding:20px;text-align:center}
+.over>div{background:var(--panel);border:3px solid var(--gold);border-radius:20px;padding:24px;max-width:420px;max-height:92vh;overflow:auto}
+.over .big{font-size:64px}
+table{width:100%;border-collapse:collapse;font-size:16px}
+td,th{border:1px solid #444b58;padding:6px;text-align:center}
+th{background:#2a303a;color:var(--gold)}
+ol,ul{padding-inline-start:22px;margin:6px 0}
+li{margin:4px 0;line-height:1.6}
+.sharebox{display:flex;gap:6px;direction:ltr}
+.sharebox input{flex:1;min-width:0;padding:10px;border-radius:10px;border:2px solid var(--gold2);background:#0b0c0f;color:var(--txt);font-size:14px}
+.sharebox .btn{width:auto;margin:0;padding:10px 16px;font-size:15px}
+.note{color:var(--mut);font-size:14px}
+.card h3,.mod h4,.over h2,h1,.tt{font-family:'Lalezar','Cairo',Tahoma,sans-serif;font-weight:400;letter-spacing:.5px}
+h1{font-size:clamp(40px,12vw,68px);line-height:1.2}
+.card h3{font-size:26px}
+.mod h4{font-size:19px}
+.over h2{font-size:34px;color:var(--gold)}
+.bigbtn{font-family:'Lalezar','Cairo',sans-serif;font-weight:400;font-size:26px}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding:8px 52px 8px 8px;background:#242932;border-radius:12px;margin:8px 0}
+.steps li::before{content:counter(s);position:absolute;right:8px;top:8px;width:34px;height:34px;border-radius:50%;background:var(--gold);color:#2b1c00;font:400 22px 'Lalezar',sans-serif;text-align:center;line-height:36px}
+.role{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.role div{background:#242932;border:2px solid var(--gold2);border-radius:12px;padding:10px;text-align:center}
+.role .em{font-size:34px}
+.gold{color:var(--gold);font-weight:900}
+.hz{height:10px;background:repeating-linear-gradient(45deg,#ffb703 0 14px,#111 14px 28px);border-radius:5px;margin:8px 0 12px}
+.bomb{position:relative;background:radial-gradient(circle at 16px 30px,#999 0 4px,#222 5px 8px,transparent 9px),radial-gradient(circle at calc(100% - 16px) 30px,#999 0 4px,#222 5px 8px,transparent 9px),radial-gradient(circle at 16px calc(100% - 16px),#999 0 4px,#222 5px 8px,transparent 9px),radial-gradient(circle at calc(100% - 16px) calc(100% - 16px),#999 0 4px,#222 5px 8px,transparent 9px),repeating-linear-gradient(90deg,#2b2d31 0 3px,#222428 3px 6px);border:4px solid #555;border-radius:22px;padding:14px;box-shadow:0 0 0 3px #111,0 12px 40px #000a,inset 0 0 40px #000}
+.bomb::before{content:'⚠ DANGER • CASINO CHARGE • DANGER ⚠';display:block;margin:-8px -8px 12px;padding:2px;border-radius:8px;text-align:center;font:900 12px 'Courier New',monospace;color:#000;letter-spacing:2px;direction:ltr;background:repeating-linear-gradient(45deg,#f5c542 0 14px,#f9e08a 14px 28px)}
+.led{display:inline-block;width:18px;height:18px;border-radius:50%;background:#400;border:2px solid #000;margin:0 3px;vertical-align:middle}
+.led.on{background:#f00;box-shadow:0 0 14px #f00}
+.shake{animation:shk .4s}
+@keyframes shk{20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+#flash{position:fixed;inset:0;opacity:0;pointer-events:none;z-index:20;background:#fff}
+#flash.go{animation:fl .9s}
+@keyframes fl{0%{opacity:1}35%{opacity:.95;background:#ff5a00}100%{opacity:0;background:#000}}
+.sw{display:flex;justify-content:center;gap:10px;margin:8px 0;direction:ltr}
+.tg{width:44px;height:84px;border-radius:10px;background:#0a0a0a;border:3px solid #666;position:relative;cursor:pointer}
+.tg::after{content:'';position:absolute;left:5px;right:5px;top:5px;height:34px;border-radius:6px;background:linear-gradient(#eee,#888);transition:.15s}
+.tg.dn::after{top:37px}
+.screen.sm{font:900 34px 'Courier New',monospace;color:#3f3;direction:ltr;letter-spacing:6px;text-shadow:0 0 10px #3f3}
+.lv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.lv button{font-family:inherit;font-weight:900;padding:10px 4px;border-radius:10px;border:2px solid var(--gold2);background:#0d3a29;color:var(--txt);cursor:pointer}
+.lv button.on{background:var(--gold);color:#2b1c00}
+.wrap{position:relative;z-index:1}
+section{animation:fin .35s ease}
+@keyframes fin{from{opacity:0;transform:translateY(10px)}}
+.mod{animation:fin .5s both;transition:.2s}
+.mod h4::before{content:'';display:inline-block;width:10px;height:10px;border-radius:50%;background:#a00;margin-left:6px;box-shadow:0 0 6px #a00}
+.mod.done h4::before{background:#2f2;box-shadow:0 0 9px #2f2}
+.btn{transition:.15s}.btn:hover{filter:brightness(1.08)}
+button,.wsvg,.tg,.reel,.pad{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.bomb{user-select:none;-webkit-user-select:none}
+.msg{transition:.2s}
+.wires{gap:0}
+.wsvg{display:block;cursor:pointer;transition:filter .15s}
+.wsvg svg{display:block;width:100%;height:38px;overflow:visible}
+.wsvg:hover{filter:brightness(1.18)}
+.wsvg.cut{cursor:default;filter:none}
+.cut .w{stroke-dasharray:38 24 38}
+.tip{opacity:0}.cut .tip{opacity:1}
+.spark{opacity:0;transform-box:fill-box;transform-origin:center}
+.spark.go{animation:sp .5s forwards}
+@keyframes sp{from{opacity:1;transform:scale(.3)}to{opacity:0;transform:scale(2.6)}}
+.bats{display:inline-flex;gap:4px;direction:ltr;vertical-align:middle}
+.bat{width:14px;height:28px;border-radius:3px;background:linear-gradient(#e8c14a 0 22%,#3a3a3a 22%);border:2px solid #888}
+.reels{display:flex;gap:6px;justify-content:center;direction:ltr}
+.reel{width:54px;height:68px;font-size:32px;background:linear-gradient(#bbb,#fff 45%,#bbb);border:3px solid #888;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#000}
+.reel.spin{animation:rs .18s}
+@keyframes rs{50%{transform:translateY(-9px);filter:blur(2px)}}
+.fs{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.fs span{position:absolute;bottom:-60px;font-size:34px;opacity:.07;color:#fff;animation:fup linear infinite}
+@keyframes fup{to{transform:translateY(-120vh) rotate(360deg)}}
+/* ---- جديد ---- */
+.chip{display:inline-flex;gap:8px;align-items:center;background:#242932;border:2px solid var(--gold2);border-radius:20px;padding:4px 12px;margin:4px;font-weight:700}
+.chip b{cursor:pointer;color:#ff6b7a}
+.chip.me{border-color:var(--gold);color:var(--gold)}
+.addrow{display:flex;gap:6px}
+.addrow input{flex:1;min-width:0;padding:12px;border-radius:12px;border:2px solid var(--gold2);background:#0b0c0f;color:var(--txt);font:inherit;font-size:16px}
+.addrow .btn{width:auto;margin:0;padding:10px 18px}
+.radio{background:#0a1f14;border:2px solid #1f6b43;color:#7dffb0;border-radius:10px;padding:8px 12px;margin-top:10px;font-size:15px}
+.black{position:fixed;inset:0;background:#000;z-index:8;display:flex;align-items:center;justify-content:center;color:#ff2d3d;font:400 34px 'Lalezar',sans-serif;text-align:center;padding:20px}
+.simon{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.pad{height:56px;border-radius:12px;border:3px solid #000a;opacity:.35;cursor:pointer;transition:.1s}
+.pad.lit{opacity:1;box-shadow:0 0 22px currentColor;filter:brightness(1.3)}
+.defname{font:400 54px 'Lalezar',sans-serif;color:var(--gold);text-align:center;text-shadow:0 0 20px #f5c54266;line-height:1.2;margin:6px 0}
+.mis{border-right:5px solid var(--red);padding-right:10px;margin:8px 0;line-height:1.8}
+.rank{text-align:center;color:var(--gold);font-weight:900}
+.tag{display:inline-block;border-radius:8px;padding:0 8px;font-size:13px;background:#2a303a;color:var(--mut)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6e6e6"/><stop offset=".5" stop-color="#8a8a8a"/><stop offset="1" stop-color="#3c3c3c"/></linearGradient></defs></svg>
+<div class="fs" id="fs"></div>
+<div class="wrap">
+<h1>💣 فرقة التفكيك 💣</h1>
+<div class="suits">⚠ ⚠ ⚠</div><div class="hz"></div>
+
+<!-- Home -->
+<section id="home">
+  <p class="sub">لعبة تعاونية: واحد قدامه القنبلة، والباقي معاهم الدليل. اتكلموا بسرعة قبل ما القنبلة تنفجر!</p>
+  <div class="card">
+    <h3>👥 اللاعبين</h3>
+    <p class="note">ضيف أسماء اللاعبين (٢ على الأقل). اللعبة هي اللي بتختار المفكّك، والباقي فريق الدليل.</p>
+    <div class="addrow"><input id="pn" maxlength="14" placeholder="اكتب الاسم"><button class="btn" onclick="addPl()">إضافة</button></div>
+    <div id="pl" style="margin-top:6px"></div>
+    <p class="msg" id="plmsg"></p>
+  </div>
+  <div class="card">
+    <h3>🧨 ابدأ المهمة</h3>
+    <p class="note">اختار مستوى الصعوبة، واللعبة تختار المفكّك وتدّيكم مهمة.</p>
+    <div class="lv" id="lv"><button data-l="easy">عادي</button><button data-l="hard">صعب</button><button data-l="real">💀 قنبلة حقيقية</button><button data-l="hell">☠️ كابوس الكازينو</button></div>
+    <p class="note" id="lvd"></p>
+    <button class="btn" onclick="startGame()">اختار المفكّك وابدأ</button>
+  </div>
+  <div class="card">
+    <h3>📖 فريق الدليل</h3>
+    <p class="note">ابعت رابط الدليل لكل أعضاء الفريق (غير المفكّك) على موبايلاتهم.</p>
+    <button class="btn alt" onclick="location.hash='manual'">افتح الدليل</button>
+    <div class="sharebox" style="margin-top:8px"><input id="lnk1" readonly><button class="btn" onclick="share('lnk1')">نسخ / مشاركة</button></div>
+  </div>
+  <div class="card">
+    <h3>🏅 لوحة الشرف</h3>
+    <div class="rank" id="rk"></div>
+    <div id="board" style="margin-top:8px"></div>
+    <div id="hist" class="note" style="margin-top:8px"></div>
+    <button class="btn alt" style="font-size:14px;padding:8px" onclick="resetStats()">مسح الإحصائيات</button>
+  </div>
+  <div class="card">
+    <h3>🎓 أول مرة تلعب؟</h3>
+    <p class="note">دقيقتين وتفهم اللعبة كلها.</p>
+    <button class="btn alt" onclick="location.hash='howto'">كيف تلعب؟</button>
+  </div>
+   <button class="btn alt" onclick="location.href='./../../index.html'">كل الالعاب ← </button>
+</section>
+
+<!-- Briefing -->
+<section id="brief" class="hide">
+  <div class="card">
+    <h3>🎯 المهمة: <span id="bt"></span></h3>
+    <div class="mis" id="bs"></div>
+    <p class="note" id="bl"></p>
+  </div>
+  <div class="card" style="text-align:center">
+    <h3>🧨 المفكّك المختار</h3>
+    <div class="defname" id="bd"></div>
+    <p class="note">سلّم الموبايل للمفكّك، وممنوع حد غيره يبصّ على الشاشة!</p>
+    <h3 style="margin-top:12px">📖 فريق الدليل</h3>
+    <div id="bteam"></div>
+    <p class="note">الفريق يفتح الدليل على موبايلاته قبل البداية. المفكّك ممنوع يفتحه.</p>
+    <div class="sharebox" style="margin-top:8px"><input id="lnk3" readonly><button class="btn" onclick="share('lnk3')">نسخ / مشاركة</button></div>
+  </div>
+  <button class="btn" onclick="begin()">🔥 بدأ العدّ التنازلي</button>
+  <button class="btn alt" onclick="startGame()">🎲 اختار مفكّك تاني</button>
+  <button class="btn alt" onclick="goHome()">الرئيسية</button>
+</section>
+
+<!-- Game -->
+<section id="game" class="hide">
+  <div class="bomb">
+    <div class="top">
+      <div class="timer" id="timer">05:00</div>
+      <div class="info">
+        المفكّك: <b id="gdef"></b><br>
+        الرقم التسلسلي: <span class="serial" id="serial"></span><br>
+        <b>البطاريات:</b> <span id="bat"></span> 🔋<br>
+        <b>الأخطاء:</b> <span class="strikes" id="strikes"></span><br><b id="spd"></b>
+      </div>
+    </div>
+    <div class="radio hide" id="radio"></div>
+    <div class="mods">
+      <div class="mod" id="m1"><h4>وحدة ١ – الأسلاك</h4><div class="wires" id="wires"></div></div>
+      <div class="mod" id="m2"><h4>وحدة ٢ – الزرار</h4>
+        <button class="bigbtn" id="bbtn"></button><div class="strip" id="strip"></div></div>
+      <div class="mod" id="m3"><h4>وحدة ٣ – الرموز</h4>
+        <div class="screen" id="scr"></div><div class="sgrid" id="sgrid"></div></div>
+    </div>
+    <div class="mods" style="margin-top:12px"><div class="mod hide" id="m4"><h4>وحدة ٤ – المفاتيح</h4><div class="screen sm" id="code"></div><div class="sw" id="sw"></div><button class="btn" id="conf" style="padding:8px;font-size:16px">تأكيد ✔</button></div>
+<div class="mod hide" id="m5"><h4>وحدة ٥ – ماكينة السلوت</h4><div class="reels" id="reels"></div><p class="note" style="margin:6px 0">دوس على البكرة عشان تغيّر الرمز</p><button class="btn" id="pull" style="padding:8px;font-size:16px">🎰 اسحب</button></div>
+<div class="mod hide" id="m6"><h4>وحدة ٦ – الأضواء</h4><div class="simon" id="simon"></div><button class="btn alt" id="replay" style="padding:8px;font-size:16px">▶ أعد الومضات</button></div></div>
+    <div class="msg" id="msg"></div>
+  </div>
+  <button class="btn alt" onclick="toggleMute(this)" id="mutebtn">🔊 الصوت</button>
+  <button class="btn alt" onclick="goHome()">خروج</button>
+</section>
+
+<!-- How to play -->
+<section id="howto" class="hide">
+  <div class="card">
+    <h3>🎯 فكرة اللعبة</h3>
+    <p>فيه قنبلة هتنفجر! لاعب واحد بيشوفها، والباقي معاهم الدليل. <span class="gold">محدش لوحده يقدر يفككها</span>، لازم تتكلموا بسرعة ووضوح قبل ما الوقت يخلص.</p>
+    <div class="role">
+      <div><div class="em">🧨</div><b class="gold">المفكّك</b><br>شايف القنبلة بس، وبيوصف اللي قدامه.</div>
+      <div><div class="em">📖</div><b class="gold">فريق الدليل</b><br>شايفين الدليل بس، وبيقولوله يعمل إيه.</div>
+    </div>
+    <p class="note">القاعدة الأصفرة: اللي بيشوف القنبلة مايشوفش الدليل، واللي بيشوف الدليل مايشوفش القنبلة.</p>
+  </div>
+  <div class="card">
+    <h3>🚀 ابدأ في ٦ خطوات</h3>
+    <ol class="steps">
+      <li>ضيفوا أسماءكم في خانة <b>اللاعبين</b> (بتتحفظ تلقائي على الموبايل).</li>
+      <li>اختاروا المستوى وادوسوا <b>"اختار المفكّك وابدأ"</b>. اللعبة بتختار المفكّك بالعدل، وبتدّيكم مهمة وقصة.</li>
+      <li>فريق الدليل يفتح <b>صفحة الدليل</b> على موبايلاته (من زرار المشاركة).</li>
+      <li>المفكّك ياخد الموبايل ويدوس <b>"بدأ العدّ التنازلي"</b>.</li>
+      <li>المفكّك يقول المعلومات: الرقم التسلسلي، البطاريات، وبعدين تفاصيل كل وحدة.</li>
+      <li>الفريق يدور في الدليل ويقوله: اقطع، امسك، دوس. المفكّك ينفّذ.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>🧩 الوحدات</h3>
+    <ul>
+      <li><b class="gold">✂️ الأسلاك:</b> قول عدد الأسلاك (لحد ٦) وألوانها من فوق لتحت، والدليل يحدد السلك اللي يتقطع.</li>
+      <li><b class="gold">🔘 الزرار:</b> قول اللون والكلمة. يا دوسة سريعة، يا تمسك وتسيب في الوقت الصح حسب لون الشريط.</li>
+      <li><b class="gold">▲ الرموز:</b> قول الرمز على الشاشة وشكل الأزرار، ودوسوا الرموز بالترتيب المطلوب.</li>
+      <li><b class="gold">🎚️ المفاتيح:</b> (صعب وما فوق) قول الكود ووضع المفاتيح، والدليل يقولكم تقلبوا أنهي مفتاح.</li>
+      <li><b class="gold">🎰 السلوت:</b> (القنبلة الحقيقية وما فوق) قول الرموز الـ٣ وغيّروها لتركيبة الدليل حسب البطاريات.</li>
+      <li><b class="gold">🔴 الأضواء:</b> (كابوس الكازينو) أضواء بتومض بتسلسل، والدليل بيقولكم تدوسوا أنهي لون <b>حسب عدد الأخطاء اللي حصلت</b>.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>🎚️ مستويات الصعوبة</h3>
+    <ul><li><b class="gold">عادي:</b> ٤:٣٠ دقيقة، ٣ أخطاء، ٣ وحدات.</li><li><b class="gold">صعب:</b> ٣:٣٠ دقيقة، ٣ أخطاء، ٤ وحدات، العدّاد <b>بيسرّع مع كل خطأ</b>، و<b>انقطاع نور</b> مفاجئ.</li><li><b class="gold">💀 قنبلة حقيقية:</b> ٢:٤٥ دقيقة، <b>خطأين بس</b>، ٥ وحدات، تكتكة صوت، انقطاع نور <b>وماس كهربائي</b> بيسرّع العدّاد.</li><li><b class="gold">☠️ كابوس الكازينو:</b> ٣:٢٠ دقيقة، <b>خطأين بس</b>، ٦ وحدات، انقطاعين نور، ماسين كهربائيين، والعدّاد بيجري أسرع بكتير مع كل خطأ.</li></ul>
+  </div>
+  <div class="card">
+    <h3>⚡ أحداث المهمة</h3>
+    <ul>
+      <li><b class="gold">📻 اللاسلكي:</b> رسايل من المركز (وساعات من الجوكر 😈) بتظهر وسط اللعب.</li>
+      <li><b class="gold">💡 انقطاع النور:</b> الشاشة بتضلم كام ثانية والعدّاد شغال! اسمعوا بعض واستنوا.</li>
+      <li><b class="gold">⚡ ماس كهربائي:</b> العدّاد بيجري أسرع ٨ ثواني.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>🏆 الفوز والخسارة والرتب</h3>
+    <ul>
+      <li>تفوزوا لما <b>كل الوحدات</b> تتحل (علامة ✔ خضرا).</li>
+      <li>تخسروا لو عدد الأخطاء المسموح خلص أو الوقت خلص.</li>
+      <li>الزرار الكبير: دوسة سريعة = أقل من نص ثانية. الإمساك = أكتر من كده.</li>
+      <li>كل انتصار بيرفع رتبة الفريق: متدرب ← مفكّك مبتدئ ← خبير متفجرات ← قائد الفرقة ← أسطورة الكازينو.</li>
+      <li>لوحة الشرف بتسجّل لكل لاعب: كام مرة فكّك، نجح، وانفجر.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>💡 نصايح للفريق</h3>
+    <ul>
+      <li>المفكّك: اقرا المعلومات بالترتيب ومتستعجلش، الغلط أغلى من الوقت.</li>
+      <li>الفريق: اتفقوا مين بيقرا الدليل، وكرروا الأمر قبل التنفيذ ("هقطع السلك التالت، تمام؟").</li>
+      <li>الاتنين: اسألوا "أول قاعدة تنطبق؟" لأن الدليل بيطبّق <b>أول قاعدة صح</b> وبس.</li>
+      <li>اللي بيتفجّر هو اللي يختار الجولة الجاية 😄</li>
+    </ul>
+  </div>
+  <button class="btn" onclick="startGame()">ابدأ لعبة</button>
+  <button class="btn alt" onclick="location.hash='manual'">افتح الدليل</button>
+  <button class="btn alt" onclick="goHome()">الرئيسية</button>
+</section>
+
+<!-- Manual -->
+<section id="manual" class="hide">
+  <div class="card">
+    <h3>🔗 شارك الدليل مع الفريق</h3>
+    <div class="sharebox"><input id="lnk2" readonly><button class="btn" onclick="share('lnk2')">نسخ / مشاركة</button></div>
+    <p class="note">⚠️ المفكّك ممنوع يفتح الرابط ده. هو بيقولكم الأرقام والألوان والكلمات اللي قدامه، وانتم تقولوله يعمل إيه.</p>
+  </div>
+  <div class="card">
+    <h3>🔋 معلومات القنبلة (اسألوا المفكّك)</h3>
+    <ul><li>آخر خانة في الرقم التسلسلي: <b>فردي</b> (١،٣،٥،٧،٩) ولا <b>زوجي</b> (٠،٢،٤،٦،٨)؟</li><li>عدد البطاريات.</li></ul>
+  </div>
+  <div class="card">
+    <h3>١) الأسلاك ✂️</h3>
+    <p class="note">اسأل: كام سلك؟ وألوانهم من فوق لتحت. طبّق أول قاعدة تنطبق وبس.</p>
+    <b>٣ أسلاك:</b>
+    <ol><li>مفيش أحمر ← اقطع السلك <b>التاني</b>.</li><li>آخر سلك أبيض ← اقطع <b>الأخير</b>.</li><li>فيه أكتر من أزرق ← اقطع <b>آخر أزرق</b>.</li><li>غير كده ← اقطع <b>الأخير</b>.</li></ol>
+    <b>٤ أسلاك:</b>
+    <ol><li>أكتر من أحمر والرقم التسلسلي <b>فردي</b> ← اقطع <b>آخر أحمر</b>.</li><li>آخر سلك أصفر ومفيش أحمر ← اقطع <b>الأول</b>.</li><li>أزرق واحد بالظبط ← اقطع <b>الأول</b>.</li><li>أكتر من أصفر ← اقطع <b>الأخير</b>.</li><li>غير كده ← اقطع <b>التاني</b>.</li></ol>
+    <b>٥ أسلاك:</b>
+    <ol><li>آخر سلك أسود والرقم <b>فردي</b> ← اقطع <b>الرابع</b>.</li><li>أحمر واحد بالظبط وأكتر من أصفر ← اقطع <b>الأول</b>.</li><li>مفيش أسود ← اقطع <b>التاني</b>.</li><li>غير كده ← اقطع <b>الأول</b>.</li></ol>
+    <b>٦ أسلاك:</b>
+    <ol><li>مفيش أصفر والرقم <b>فردي</b> ← اقطع <b>التالت</b>.</li><li>أصفر واحد بالظبط وأكتر من أبيض ← اقطع <b>الرابع</b>.</li><li>مفيش أحمر ← اقطع <b>الأخير</b>.</li><li>غير كده ← اقطع <b>الرابع</b>.</li></ol>
+  </div>
+  <div class="card">
+    <h3>٢) الزرار الكبير 🔘</h3>
+    <p class="note">اسأل: لون الزرار؟ الكلمة المكتوبة (PRESS / WAIT / ARM / ABORT)؟ طبّق أول قاعدة تنطبق:</p>
+    <ol><li>أزرق والكلمة <b>ABORT</b> ← <b>امسك</b>.</li><li>البطاريات أكتر من ٢ والكلمة <b>PRESS</b> ← <b>دوسة سريعة</b> وسيب.</li><li>أصفر ← <b>امسك</b>.</li><li>مفيش بطاريات وأحمر ← <b>امسك</b>.</li><li>غير كده ← <b>دوسة سريعة</b>.</li></ol>
+    <b>لو لازم تمسك:</b> المفكّك يمسك الزرار ويقول لون الشريط اللي هيوهج، وسيبوه لما العدّاد يظهر فيه الرقم ده (في أي خانة):
+    <table><tr><th>لون الشريط</th><th>سيب لما تشوف</th></tr>
+    <tr><td>أزرق</td><td>٤</td></tr><tr><td>أبيض</td><td>١</td></tr><tr><td>أصفر</td><td>٥</td></tr><tr><td>أي لون تاني</td><td>٣</td></tr></table>
+  </div>
+  <div class="card">
+    <h3>٣) الرموز ▲●■★</h3>
+    <p class="note">اسأل: الشاشة بتعرض أنهي رمز؟ وشكل الأزرار الأربعة. خليه يدوس الرموز بالترتيب ده:</p>
+    <table><tr><th>الشاشة</th><th>١</th><th>٢</th><th>٣</th><th>٤</th></tr>
+    <tr><td>▲</td><td>●</td><td>★</td><td>▲</td><td>■</td></tr>
+    <tr><td>●</td><td>■</td><td>▲</td><td>●</td><td>★</td></tr>
+    <tr><td>■</td><td>★</td><td>■</td><td>▲</td><td>●</td></tr>
+    <tr><td>★</td><td>▲</td><td>●</td><td>■</td><td>★</td></tr></table>
+    <p><b>استثناء:</b> لو مفيش بطاريات، الترتيب <b>معكوس</b> (من ٤ لـ ١).</p>
+  </div>
+  <div class="card">
+    <h3>٤) المفاتيح 🎚️ <span class="note">(صعب وما فوق)</span></h3>
+    <p class="note">اسأل: الكود الأخضر (٤ أرقام) ووضع كل مفتاح دلوقتي (فوق / تحت). الأرقام والمفاتيح من الشمال لليمين.</p>
+    <ol><li>الرقم <b>فردي</b> ← المفتاح <b>فوق</b>. الرقم <b>زوجي</b> (والصفر) ← المفتاح <b>تحت</b>.</li><li><b>استثناء:</b> لو الرقم التسلسلي فيه حرف صوتي (A E I O U) ← <b>اعكس</b> كل المفاتيح.</li><li>بعد ما تظبطوا الأربعة، المفكّك يدوس <b>تأكيد</b>.</li></ol>
+  </div>
+  <div class="card">
+    <h3>٥) ماكينة السلوت 🎰 <span class="note">(القنبلة الحقيقية وما فوق)</span></h3>
+    <p class="note">اسأل: الرموز الـ٣ الحالية (من الشمال لليمين). الرموز: 🍒 🔔 💎 7️⃣ 🍋. المفكّك بيدوس على كل بكرة عشان يغيّر رمزها، وبعدين يدوس <b>اسحب</b>.</p>
+    <table><tr><th>البطاريات</th><th>١</th><th>٢</th><th>٣</th></tr>
+    <tr><td>٠</td><td>🍒</td><td>🍒</td><td>🔔</td></tr><tr><td>١</td><td>🔔</td><td>💎</td><td>🍋</td></tr><tr><td>٢</td><td>💎</td><td>7️⃣</td><td>🍒</td></tr><tr><td>٣</td><td>7️⃣</td><td>🍋</td><td>🔔</td></tr><tr><td>٤</td><td>🍋</td><td>🍒</td><td>💎</td></tr></table>
+    <p><b>استثناء:</b> لو آخر رقم في الرقم التسلسلي <b>فردي</b>، اقلبوا الترتيب (من اليمين لليسار).</p>
+  </div>
+  <div class="card">
+    <h3>٦) الأضواء 🔴 <span class="note">(كابوس الكازينو بس)</span></h3>
+    <p class="note">اسأل: الألوان اللي وماضت بالترتيب (أحمر / أزرق / أخضر / أصفر). المفكّك يدوس على اللون <b>المقابل</b> من الجدول حسب عدد الأخطاء الحالي. لو غلط، التسلسل يبدأ من الأول. (الألوان بتتكرر بنفس الترتيب لو أعاد الومضات.)</p>
+    <table><tr><th>الأخطاء</th><th>أحمر ←</th><th>أزرق ←</th><th>أخضر ←</th><th>أصفر ←</th></tr>
+    <tr><td>٠</td><td>أزرق</td><td>أحمر</td><td>أصفر</td><td>أخضر</td></tr>
+    <tr><td>١</td><td>أصفر</td><td>أخضر</td><td>أحمر</td><td>أزرق</td></tr>
+    <tr><td>٢ أو أكتر</td><td>أخضر</td><td>أصفر</td><td>أزرق</td><td>أحمر</td></tr></table>
+    <p class="note">لاحظوا: الجدول بيتغيّر لو حصل خطأ في النص، فاسألوا المفكّك دايماً عن عدد الأخطاء.</p>
+  </div>
+  <button class="btn alt" onclick="goHome()">الرئيسية</button>
+</section>
+</div>
+
+<div id="flash"></div>
+<div class="black hide" id="black">💡 انقطع النور!<br>اسمعوا بعض… العدّاد شغال</div>
+<div class="over hide" id="over"><div><div class="big" id="ob"></div><h2 id="ot"></h2><p id="op" class="note"></p><button class="btn" onclick="startGame()">جولة جديدة (مفكّك جديد)</button><button class="btn alt" onclick="goHome()">الرئيسية</button></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const COL={red:['#e11d48','أحمر'],blue:['#2563eb','أزرق'],black:['#161616','أسود'],gold:['#facc15','أصفر'],white:['#f3f4f6','أبيض']};
+const KEYS=Object.keys(COL),SU=['▲','●','■','★'],WORDS=['PRESS','WAIT','ARM','ABORT'];
+const TAB={'▲':['●','★','▲','■'],'●':['■','▲','●','★'],'■':['★','■','▲','●'],'★':['▲','●','■','★']};
+const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
+
+/* ===== الحفظ في localStorage ===== */
+const SK='jd_s';
+const DEF=()=>({players:[],lv:'easy',mute:false,stats:{},last:'',wins:0,games:0,streak:0,hist:[]});
+function loadS(){try{return Object.assign(DEF(),JSON.parse(localStorage.getItem(SK)||'{}'))}catch(e){return DEF()}}
+let S=loadS();
+function save(){try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}}
+const stOf=n=>S.stats[n]||(S.stats[n]={d:0,w:0,b:0,t:0});
+
+let B,B0,tmr,over=true,LV=S.lv,ac=null,mute=S.mute,rt;
+const D={
+ easy:{n:'عادي',t:270,s:3,m:3,acc:0,w:5,bo:0,su:0,sq:3,d:'٤:٣٠ دقيقة • ٣ أخطاء • ٣ وحدات'},
+ hard:{n:'صعب',t:210,s:3,m:4,acc:.3,w:6,bo:1,su:0,sq:3,d:'٣:٣٠ • ٣ أخطاء • ٤ وحدات • العدّاد بيسرّع مع الخطأ • انقطاع نور'},
+ real:{n:'قنبلة حقيقية',t:165,s:2,m:5,acc:.5,w:6,bo:1,su:1,sq:4,d:'٢:٤٥ • خطأين بس • ٥ وحدات • انقطاع نور + ماس كهربائي 💀'},
+ hell:{n:'كابوس الكازينو',t:200,s:2,m:6,acc:.7,w:6,bo:2,su:2,sq:4,d:'٣:٢٠ • خطأين بس • ٦ وحدات • ٢ انقطاع نور • ٢ ماس كهربائي ☠️'}
+};
+const MIS=[
+ ['سطو كازينو النيل','عصابة "الملك الأسود" زرعت قنبلة تحت طاولة الروليت الكبيرة قبل افتتاح الصالة بدقايق.'],
+ ['قبو الذهب','المدير الخاين قفل عليكم باب القبو ومعاه قنبلة بتعدّ تنازلي لحد ما الخزنة تتفتح.'],
+ ['ليلة رأس السنة','٣٠٠ ضيف في القاعة والموسيقى شغالة، والقنبلة متخبية جوه ماكينة السلوت الكبيرة.'],
+ ['صفقة الجوكر','الجوكر سابلكم رسالة: "لو عايزين تنقذوا الكازينو، فكّوا لعبتي قبل ما الدور يخلص".'],
+ ['الكازينو المهجور','كازينو قديم اتقفل من سنين… بس القنبلة اللي جواه لسه بتتكتك.'],
+ ['عملية اللاعب الأخير','الشرطة سابتكم لوحدكم، وآخر خيط في إيديكم هو الدليل ده.'],
+ ['حفلة الملوك','أمير ضيف في الصالة الخاصة، والقنبلة متوصّلة بكرسيه. دقايق وتبقى فضيحة عالمية!']
+];
+const RAD=['📻 المركز: "كل حاجة تحت السيطرة؟ اتكلموا بصوت واضح!"','📻 الجوكر: "هههه… لسه فاكرين إنكم هتلحقوا؟"','📻 المركز: "الحرس قرب… اسرعوا!"','📻 الجوكر: "سامع تكتكة قلبكم من هنا 😈"','📻 المركز: "اللي بيقرا الدليل… ركّز! أول قاعدة صح بس."','📻 المركز: "فاضل وقت قليل، مفيش مجال للغلط!"','📻 الجوكر: "الكازينو كله هيطير… ومعاه سمعتكم!"'];
+const RK=[[0,'متدرب'],[3,'مفكّك مبتدئ'],[8,'خبير متفجرات'],[15,'قائد الفرقة'],[30,'أسطورة الكازينو']];
+const rank=()=>{let r=RK[0][1];RK.forEach(x=>{if(S.wins>=x[0])r=x[1]});return r};
+
+/* ===== اللاعبين ===== */
+function addPl(){const i=$('pn'),v=i.value.trim().replace(/\s+/g,' ').slice(0,14);const m=$('plmsg');if(!v)return;if(S.players.includes(v)){m.textContent='الاسم ده موجود بالفعل';return}if(S.players.length>=12){m.textContent='أقصى عدد ١٢ لاعب';return}m.textContent='';S.players.push(v);i.value='';save();renderPl();i.focus()}
+function delPl(i){S.players.splice(i,1);save();renderPl()}
+$('pn').addEventListener('keydown',e=>{if(e.key==='Enter')addPl()});
+function renderPl(){
+ $('pl').innerHTML=S.players.map((n,i)=>'<span class="chip">'+esc(n)+' <b onclick="delPl('+i+')">✕</b></span>').join('')||'<span class="note">لسه مفيش لاعبين</span>';
+ $('rk').textContent='🎖️ رتبة الفريق: '+rank()+' • انتصارات: '+S.wins+' من '+S.games+(S.streak>1?' • 🔥 سلسلة '+S.streak:'');
+ const names=[...new Set([...S.players,...Object.keys(S.stats)])].filter(n=>S.stats[n]&&S.stats[n].d+S.stats[n].t>0).sort((a,b)=>(S.stats[b].w+S.stats[b].t)-(S.stats[a].w+S.stats[a].t));
+ $('board').innerHTML=names.length?'<table><tr><th>اللاعب</th><th>مفكّك</th><th>نجح</th><th>انفجر</th><th>مع الفريق</th></tr>'+names.map(n=>'<tr><td>'+esc(n)+'</td><td>'+S.stats[n].d+'</td><td>'+S.stats[n].w+'</td><td>'+S.stats[n].b+'</td><td>'+S.stats[n].t+'</td></tr>').join('')+'</table>':'<p class="note">لسه مفيش جولات. ابدأوا أول مهمة!</p>';
+ $('hist').innerHTML=S.hist.length?'آخر الجولات:<br>'+S.hist.map(h=>(h.win?'🏆':'💥')+' '+esc(h.d)+' <span class="tag">'+(D[h.lv]?D[h.lv].n:'')+'</span>'+(h.win?' • باقي '+h.t:'')).join('<br>'):'';
+}
+function resetStats(){if(!confirm('تمسح كل الإحصائيات والنتائج؟ (اللاعبين هيفضلوا)'))return;S.stats={};S.wins=0;S.games=0;S.streak=0;S.hist=[];S.last='';try{localStorage.removeItem('jd')}catch(e){}save();renderPl();showLv()}
+
+/* ===== الصوت والمستوى ===== */
+function beep(f,d,t,v){if(mute)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type=t||'square';o.frequency.value=f;g.gain.value=v||.06;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+function toggleMute(b){mute=!mute;S.mute=mute;save();b.textContent=mute?'🔇 الصوت':'🔊 الصوت'}
+$('mutebtn').textContent=mute?'🔇 الصوت':'🔊 الصوت';
+function boom(){beep(70,.9,'sawtooth',.25);beep(45,1.1,'square',.2);const f=$('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go')}
+const SL=['🍒','🔔','💎','7️⃣','🍋'],COMBO=[['🍒','🍒','🔔'],['🔔','💎','🍋'],['💎','7️⃣','🍒'],['7️⃣','🍋','🔔'],['🍋','🍒','💎']];
+const SIM=[['#e11d48','أحمر'],['#2563eb','أزرق'],['#16a34a','أخضر'],['#facc15','أصفر']],SMAP=[[1,0,3,2],[3,2,0,1],[2,3,1,0]];
+function best(){try{return JSON.parse(localStorage.getItem('jd')||'{}')}catch(e){return{}}}
+function showLv(){document.querySelectorAll('#lv button').forEach(x=>x.classList.toggle('on',x.dataset.l===LV));const b=best()[LV];$('lvd').textContent=D[LV].d+(b?' • 🏅 أفضل وقت متبقي: '+b:'')}
+document.querySelectorAll('#lv button').forEach(b=>b.onclick=()=>{LV=b.dataset.l;S.lv=LV;save();showLv()});
+
+function wireSVG(c,idx){const col=COL[c][0],y=[3,31,8,28,12][idx%5],y2=[31,5,26,9,24][idx%5],d='M20,17 C70,'+y+' 130,'+y2+' 180,17',a=' d="'+d+'" fill="none" stroke-linecap="round" pathLength="100"';
+ return '<svg viewBox="0 0 200 34"><path class="w"'+a+' transform="translate(0,3)" stroke="#000" stroke-opacity=".45" stroke-width="10"/><path class="w"'+a+' stroke="'+col+'" stroke-width="9"/><path class="w"'+a+' transform="translate(0,-2)" stroke="#fff" stroke-opacity=".38" stroke-width="2.5"/><rect x="0" y="8" width="22" height="18" rx="3" fill="url(#mg)" stroke="#222"/><rect x="178" y="8" width="22" height="18" rx="3" fill="url(#mg)" stroke="#222"/><circle cx="8" cy="17" r="3" fill="#222"/><circle cx="192" cy="17" r="3" fill="#222"/><circle class="tip" r="3.5" fill="#d2813b" stroke="#ffd9a8"/><circle class="tip" r="3.5" fill="#d2813b" stroke="#ffd9a8"/><circle class="spark" r="7" fill="#ffd54a"/></svg>'}
+function wireFx(el){try{const p=el.querySelectorAll('.w')[1],L=p.getTotalLength(),a=p.getPointAtLength(L*.38),b=p.getPointAtLength(L*.62),m=p.getPointAtLength(L*.5),t=el.querySelectorAll('.tip'),sp=el.querySelector('.spark');t[0].setAttribute('cx',a.x);t[0].setAttribute('cy',a.y);t[1].setAttribute('cx',b.x);t[1].setAttribute('cy',b.y);sp.setAttribute('cx',m.x);sp.setAttribute('cy',m.y);sp.classList.remove('go');void sp.getBoundingClientRect();sp.classList.add('go')}catch(e){}}
+function swOk(){const v=/[AEIOU]/.test(B.serial);return B.code.every((d,i)=>(B.sw[i]==='up')===(((d%2)===1)!==v))}
+
+function show(id){['home','brief','game','manual','howto'].forEach(s=>$(s).classList.toggle('hide',s!==id))}
+function route(){const h=location.hash.slice(1),m=(h==='manual'||h==='howto')?h:'';clearInterval(tmr);over=true;$('over').classList.add('hide');$('black').classList.add('hide');show(m||'home');showLv();renderPl();window.scrollTo(0,0)}
+function goHome(){if(location.hash)location.hash='';route();}
+window.addEventListener('hashchange',route);
+
+function manualLink(){return location.href.split('#')[0]+'#manual'}
+async function share(id){
+  const url=manualLink();
+  try{if(navigator.share){await navigator.share({title:'دليل فرقة التفكيك',url});return}}catch(e){}
+  try{await navigator.clipboard.writeText(url);alert('تم نسخ الرابط ✅')}catch(e){const i=$(id);i.focus();i.select();alert('انسخ الرابط يدوياً')}
+}
+
+function wireAns(w,odd){const n=w.length,c=x=>w.filter(y=>y===x).length,last=w[n-1],li=x=>w.lastIndexOf(x);
+  if(n===3){if(!c('red'))return 1;if(last==='white')return 2;if(c('blue')>1)return li('blue');return 2}
+  if(n===4){if(c('red')>1&&odd)return li('red');if(last==='gold'&&!c('red'))return 0;if(c('blue')===1)return 0;if(c('gold')>1)return 3;return 1}
+  if(n===6){if(!c('gold')&&odd)return 2;if(c('gold')===1&&c('white')>1)return 3;if(!c('red'))return 5;return 3}
+  if(last==='black'&&odd)return 3;if(c('red')===1&&c('gold')>1)return 0;if(!c('black'))return 1;return 0}
+function holdRule(col,w,b){if(col==='blue'&&w==='ABORT')return true;if(b>2&&w==='PRESS')return false;if(col==='gold')return true;if(b===0&&col==='red')return true;return false}
+const relDigit={blue:'4',white:'1',gold:'5'};
+
+/* ===== اختيار المفكّك والمهمة ===== */
+function startGame(){
+  clearInterval(tmr);over=true;$('over').classList.add('hide');$('black').classList.add('hide');
+  if(S.players.length<2){goHome();$('plmsg').textContent='⚠️ ضيف لاعبين اتنين على الأقل (مفكّك + فريق دليل)';window.scrollTo(0,0);return}
+  const cnt=n=>(S.stats[n]||{d:0}).d,min=Math.min(...S.players.map(cnt));
+  let c=S.players.filter(n=>cnt(n)===min);if(c.length>1)c=c.filter(n=>n!==S.last);
+  const def=pick(c),mi=pick(MIS);
+  B0={def,team:S.players.filter(n=>n!==def),mi};
+  $('bt').textContent=mi[0];$('bs').textContent=mi[1];
+  $('bl').textContent='المستوى: '+D[LV].n+' — '+D[LV].d;
+  $('bd').textContent=def;
+  $('bteam').innerHTML=B0.team.map(n=>'<span class="chip">'+esc(n)+'</span>').join('');
+  $('lnk3').value=manualLink();
+  show('brief');window.scrollTo(0,0);beep(600,.1);
+}
+
+function radio(t){const r=$('radio');r.textContent=t;r.classList.remove('hide');clearTimeout(rt);rt=setTimeout(()=>r.classList.add('hide'),5500)}
+
+function begin(){
+  clearInterval(tmr);
+  const cfg=D[LV];
+  const letters='ABCDEFGHJKLMNPRSTUVXZ';
+  const serial=pick(letters)+pick(letters)+Array.from({length:4},()=>rnd(10)).join('');
+  const bat=rnd(5),odd=+serial.slice(-1)%2===1;
+  const wn=3+rnd(cfg.w-2),wires=Array.from({length:wn},()=>pick(KEYS));
+  const bc=pick(KEYS.filter(k=>k!=='black')),bw=pick(WORDS),strip=pick(KEYS);
+  const scr=pick(SU),order=TAB[scr].slice();if(bat===0)order.reverse();
+  const ev=[.82,.58,.34,.14].map(f=>({f,t:'r'}));
+  for(let i=0;i<cfg.bo;i++)ev.push({f:.25+Math.random()*.5,t:'bo'});
+  for(let i=0;i<cfg.su;i++)ev.push({f:.2+Math.random()*.55,t:'su'});
+  ev.sort((a,b)=>b.f-a.f);
+  B={serial,bat,odd,wires,wAns:wireAns(wires,odd),bc,bw,strip,hold:holdRule(bc,bw,bat),scr,order,step:0,strikes:0,cfg,done:Array(cfg.m).fill(false),rem:cfg.t*1000,last:Date.now(),rate:1,sg:0,sec:-1,down:0,ev,def:B0.def,team:B0.team,k:0,busy:false,sq:Array.from({length:cfg.sq},()=>rnd(4)),code:Array.from({length:4},()=>rnd(10)),sw:Array.from({length:4},()=>rnd(2)?'up':'dn')};
+  $('serial').textContent=serial;$('spd').textContent='';$('gdef').textContent=B.def;
+  $('code').textContent=B.code.join('');
+  const swb=$('sw');swb.innerHTML='';B.sw.forEach((v,i)=>{const t=document.createElement('div');t.className='tg'+(v==='dn'?' dn':'');t.onclick=()=>{if(over||B.done[3])return;B.sw[i]=B.sw[i]==='up'?'dn':'up';t.classList.toggle('dn');beep(500,.04)};swb.appendChild(t)});
+  $('conf').onclick=()=>{if(over||B.done[3])return;swOk()?solved(3):strike('وضع المفاتيح غلط')};
+  $('m4').classList.toggle('hide',cfg.m<4);
+  B.rl=Array.from({length:3},()=>rnd(5));const rb=$('reels');rb.innerHTML='';B.rl.forEach((v,i)=>{const r=document.createElement('div');r.className='reel';r.textContent=SL[v];r.onclick=()=>{if(over||B.done[4])return;B.rl[i]=(B.rl[i]+1)%5;r.textContent=SL[B.rl[i]];r.classList.remove('spin');void r.offsetWidth;r.classList.add('spin');beep(400,.04)};rb.appendChild(r)});
+  $('pull').onclick=()=>{if(over||B.done[4])return;const t=COMBO[B.bat].slice();if(B.odd)t.reverse();B.rl.every((v,i)=>SL[v]===t[i])?solved(4):strike('التركيبة غلط')};
+  $('m5').classList.toggle('hide',cfg.m<5);
+  // simon
+  const sm=$('simon');sm.innerHTML='';SIM.forEach((s,i)=>{const p=document.createElement('div');p.className='pad';p.style.background=s[0];p.style.color=s[0];p.onclick=()=>pressPad(i,p);sm.appendChild(p)});
+  $('replay').onclick=()=>{if(!over&&!B.done[5])playSq()};
+  $('m6').classList.toggle('hide',cfg.m<6);
+  $('bat').innerHTML=bat+' <span class="bats">'+'<i class="bat"></i>'.repeat(bat)+'</span>';
+  // wires
+  const wb=$('wires');wb.innerHTML='';
+  wires.forEach((c,i)=>{const d=document.createElement('div');d.className='wsvg';d.innerHTML=wireSVG(c,i+rnd(5));d.onclick=()=>cutWire(i,d);wb.appendChild(d)});
+  // button
+  const bb=$('bbtn');bb.style.background=COL[bc][0];bb.style.color=(bc==='white'||bc==='gold')?'#111':'#fff';bb.textContent=bw;
+  $('strip').style.background='#333';
+  // suits
+  $('scr').textContent=scr;
+  const sg=$('sgrid');sg.innerHTML='';
+  SU.slice().sort(()=>Math.random()-.5).forEach(s=>{const b=document.createElement('button');b.className='suit '+(s==='●'||s==='■'?'red':'blk');b.textContent=s;b.onclick=()=>pressSuit(s,b);sg.appendChild(b)});
+  ['m1','m2','m3','m4','m5','m6'].forEach(m=>$(m).classList.remove('done'));
+  $('msg').textContent='';$('radio').classList.add('hide');drawStrikes();
+  over=false;$('over').classList.add('hide');show('game');window.scrollTo(0,0);
+  radio('🎯 '+B0.mi[0]+' — بالتوفيق يا '+B.def+'!');
+  tmr=setInterval(tick,100);tick();
+  if(cfg.m>=6)setTimeout(()=>{if(!over)playSq()},900);
+}
+function left(){return Math.max(0,B.rem)}
+function fmt(){const s=Math.ceil(left()/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function fire(e){
+  if(e.t==='r'){radio(pick(RAD));return}
+  if(e.t==='bo'){radio('💡 انقطع النور!');$('black').classList.remove('hide');beep(120,.4,'sawtooth',.12);const b=B;setTimeout(()=>{if(B===b)$('black').classList.add('hide')},3500);return}
+  if(e.t==='su'){B.sg=Date.now()+8000;radio('⚡ ماس كهربائي! العدّاد بيجري أسرع ٨ ثواني');beep(900,.3,'sawtooth',.1)}
+}
+function tick(){if(over)return;const n=Date.now();B.rem-=(n-B.last)*B.rate*(n<B.sg?1.6:1);B.last=n;$('timer').textContent=fmt();
+  while(B.ev.length&&left()/(B.cfg.t*1000)<=B.ev[0].f)fire(B.ev.shift());
+  const sc=Math.ceil(left()/1000);if(sc!==B.sec){B.sec=sc;beep(sc<=30?1100:800,.05)}$('timer').classList.toggle('low',left()<30000);if(left()<=0)finish(false,'انتهى الوقت!')}
+function drawStrikes(){$('strikes').innerHTML=Array.from({length:B.cfg.s},(_,i)=>'<span class="led'+(i<B.strikes?' on':'')+'"></span>').join('')}
+function strike(t){if(over)return;B.strikes++;B.rate=1+B.cfg.acc*B.strikes;if(B.cfg.acc&&B.strikes<B.cfg.s)$('spd').textContent='⚡ سرعة العدّاد ×'+B.rate.toFixed(2);beep(180,.35,'sawtooth',.15);const bm=document.querySelector('.bomb');bm.classList.remove('shake');void bm.offsetWidth;bm.classList.add('shake');drawStrikes();$('msg').textContent='خطأ! '+(t||'');if(navigator.vibrate)try{navigator.vibrate(200)}catch(e){}if(B.strikes>=B.cfg.s)finish(false,'نفدت الأخطاء المسموحة!')}
+function solved(i){beep(1100,.12);B.done[i]=true;$('m'+(i+1)).classList.add('done');$('msg').textContent='';if(B.done.every(Boolean))finish(true);else radio(pick(['✅ تمام! وحدة اتفكّت. كمّلوا!','👏 شغل نضيف يا '+B.def+'!','🔧 واحدة نزلت… فاضل '+B.done.filter(x=>!x).length]))}
+function finish(win,why){if(over)return;over=true;clearInterval(tmr);$('black').classList.add('hide');
+  if(win){try{const bb=best(),f=fmt();if(!bb[LV]||f>bb[LV]){bb[LV]=f;localStorage.setItem('jd',JSON.stringify(bb))}}catch(e){}}
+  const old=rank(),d=B.def;S.games++;const sd=stOf(d);sd.d++;
+  if(win){sd.w++;S.wins++;S.streak++;B.team.forEach(n=>stOf(n).t++)}else{sd.b++;S.streak=0}
+  S.last=d;S.hist.unshift({d,lv:LV,win,t:fmt()});S.hist=S.hist.slice(0,6);save();
+  win?beep(1300,.3):boom();
+  $('ob').textContent=win?'🏆':'💥';$('ot').textContent=win?'تم التفكيك بنجاح!':'القنبلة انفجرت';
+  let txt=(win?'تعاون ممتاز يا '+d+' وفريقك! باقي في العدّاد '+fmt():why+' — '+d+' والفريق بيشكروا الجوكر 😈')+' • الأخطاء: '+B.strikes+'/'+B.cfg.s;
+  if(win&&S.streak>1)txt+=' • 🔥 سلسلة '+S.streak+' انتصارات';
+  if(rank()!==old)txt+=' • 🎖️ ترقية! رتبتكم الجديدة: '+rank();
+  $('op').textContent=txt;setTimeout(()=>$('over').classList.remove('hide'),win?0:900)}
+function cutWire(i,el){if(over||B.done[0]||el.classList.contains('cut'))return;el.classList.add('cut');beep(1600,.05,'sawtooth',.1);wireFx(el);if(i===B.wAns)solved(0);else strike('السلك ده غلط')}
+function pressSuit(s,b){if(over||B.done[2])return;if(s===B.order[B.step]){b.classList.add('ok');B.step++;if(B.step===4)solved(2)}else{strike('رمز غلط، الترتيب بيبدأ من الأول');B.step=0;document.querySelectorAll('.suit').forEach(x=>x.classList.remove('ok'))}}
+
+/* ===== الأضواء ===== */
+function lit(el,ms){el.classList.add('lit');setTimeout(()=>el.classList.remove('lit'),ms||250)}
+function playSq(){const b=B,pads=document.querySelectorAll('.pad');b.busy=true;b.k=0;
+  b.sq.forEach((c,j)=>setTimeout(()=>{if(over||B!==b)return;lit(pads[c],450);beep(300+c*160,.25,'sine',.1)},700*(j+1)));
+  setTimeout(()=>{if(B===b)b.busy=false},700*(b.sq.length+1)+200)}
+function pressPad(i,el){if(over||B.done[5]||B.busy)return;beep(300+i*160,.12,'sine',.1);lit(el);
+  if(i===SMAP[Math.min(B.strikes,2)][B.sq[B.k]]){B.k++;if(B.k>=B.sq.length)solved(5)}else{B.k=0;strike('ضوء غلط، التسلسل يبدأ من الأول')}}
+
+// big button
+const bb=$('bbtn');
+bb.addEventListener('pointerdown',e=>{if(over||B.done[1])return;e.preventDefault();B.down=Date.now();$('strip').style.background=COL[B.strip][0];$('strip').style.boxShadow='0 0 12px '+COL[B.strip][0]});
+function rel(){if(over||!B||B.done[1]||!B.down)return;const held=Date.now()-B.down;B.down=0;$('strip').style.background='#333';$('strip').style.boxShadow='none';
+  if(!B.hold){held<400?solved(1):strike('كان المفروض دوسة سريعة')}
+  else{if(held<400){strike('كان لازم تمسك الزرار');return}
+    const d=relDigit[B.strip]||'3';if(fmt().includes(d))solved(1);else strike('توقيت الإفلات غلط')}}
+bb.addEventListener('pointerup',rel);bb.addEventListener('pointercancel',rel);bb.addEventListener('contextmenu',e=>e.preventDefault());
+
+const fs=$('fs');for(let i=0;i<12;i++){const e=document.createElement('span');e.textContent='♠♥♦♣'[i%4];e.style.left=(i*8.5)+'%';e.style.animationDuration=(18+rnd(14))+'s';e.style.animationDelay=(-rnd(20))+'s';fs.appendChild(e)}
+$('lnk1').value=$('lnk2').value=manualLink();
+route();
+</script>
+<script src="./../fullscreen.js"></script>
+</body>
+</html>
