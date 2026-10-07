@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14202a">
+<title>المحكمة الهزلية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14202a;--bg2:#1d3340;--ink:#f7efe0;--mute:#9fb3bd;--line:#ffffff26;--card:#ffffff12;--gold:#ffc21a;--red:#ff5d6c;--green:#3ee8b5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3ead8;--bg2:#fffaf0;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;--card:#1d2a330d;--gold:#b87a00;--red:#d6303f;--green:#0f9a73;color-scheme:light}}
+:root[data-theme="light"]{--bg:#f3ead8;--bg2:#fffaf0;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;--card:#1d2a330d;--gold:#b87a00;--red:#d6303f;--green:#0f9a73;color-scheme:light}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:Cairo,Tahoma,sans-serif;font-size:17px;-webkit-tap-highlight-color:transparent;
+background:radial-gradient(120% 60% at 50% 0,var(--bg2),transparent 70%),var(--bg);background-attachment:fixed}
+main{max-width:620px;margin:0 auto;padding:16px 16px 40px}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.bar a,.bar span{color:var(--mute);text-decoration:none;font-weight:700;font-size:15px}
+h1,h2{font-family:Lalezar,Cairo,sans-serif;font-weight:400;margin:0}
+h1{font-size:clamp(40px,11vw,60px);text-align:center;color:var(--gold);line-height:1.1}
+h2{font-size:28px}
+.sub{text-align:center;color:var(--mute);margin:6px 0 20px;line-height:1.8}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px}
+.btn{display:block;width:100%;border:0;border-radius:18px;padding:14px;font:800 20px Cairo,sans-serif;cursor:pointer;color:#1b0f33;background:var(--gold);box-shadow:0 5px 0 #0004;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #0004}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.red{background:var(--red);color:#fff}.btn.green{background:var(--green)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+input{width:100%;font:700 18px Cairo,sans-serif;padding:11px 14px;border-radius:14px;border:2px solid var(--line);background:transparent;color:var(--ink);margin-bottom:8px}
+input:focus{outline:3px solid var(--gold);border-color:transparent}
+.roles{display:grid;gap:8px}
+.role{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-weight:700}
+.role b{color:var(--gold)}
+.charge{text-align:center;font-size:23px;font-weight:800;line-height:1.7;color:var(--ink)}
+.big{font-size:64px;text-align:center;line-height:1.1}
+.tag{display:inline-block;background:var(--gold);color:#1b0f33;border-radius:99px;padding:2px 14px;font-weight:800;font-size:14px}
+.word{display:inline-block;background:var(--red);color:#fff;border-radius:12px;padding:2px 14px;font-weight:800}
+.timer{font:400 76px Lalezar,sans-serif;text-align:center;color:var(--green);line-height:1}
+.timer.low{color:var(--red);animation:p .5s infinite alternate}
+@keyframes p{to{transform:scale(1.12)}}
+.who{text-align:center;font:400 38px Lalezar,sans-serif;color:var(--gold)}
+.tip{text-align:center;color:var(--mute);line-height:1.8;margin:8px 0 14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc{display:flex;justify-content:space-between;padding:10px 14px;border-radius:14px;background:var(--card);margin-bottom:8px;font-weight:700}
+.sc:first-child{background:var(--gold);color:#1b0f33}
+.hammer{display:inline-block;animation:h 1.2s infinite}
+@keyframes h{50%{transform:rotate(-25deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div class="bar"><a href="../../index.html">→ الكازينو</a><span id="rd"></span></div>
+  <div id="app"></div>
+</main>
+<script>
+(function(){
+var CHARGES=["سرقة كوباية شاي من الجيران وإرجاعها فاضية","أكل آخر حتة بيتزا من غير ما يسأل حد","قراءة رسايل الواتساب بتاعة الغير من غير ما يدّعي إنه بيتمدد","اختراع حجة غريبة عشان يتأخر عن الميعاد ٣ ساعات","وضع ملح في الشاي عمداً مع سبق الإصرار","الغناء في الحمام بصوت عالي وإزعاج الجيران","قفل الواي فاي أثناء مشاهدة مباراة","نسيان عيد ميلاد أعز صاحب","الدخول في طابور وهو مش فيه","أخذ الريموت وتغيير القناة في أحلى مشهد","الاستيلاء على الشاحن بتاع حد وإنكار الواقعة","تسريب سر الصحاب في جروب العيلة","التحرش بآخر ملعقة أرز في الحلة","النوم أثناء حفلة عيد ميلاد الباشا","شراء ١٠ كيلو طماطم وهو رايح يشتري عيش","الرد على مكالمة والدته بعد ١٥ مكالمة لم يُرد عليها","لعب فيفا وكسر الجوي ستيك من الفرحة","التهرب من دفع حساب القهوة بحجة إن شبكه واقع","تسمية القطة بإسم المدير","رمي زبالة من البلكونة وإنكار الواقعة بثبات"];
+var WORDS=["طرشي","ترمس","شبشب","كشري","بطيخة","ميكروباص","فرخة","عرقسوس","طعمية","ملوخية","جزمة","كوباية","مكرونة","طبلية","فسيخ","سكر"];
+var SENT=["يغني أغنية شعبية وهو واقف على كرسي","يمشي كالبطة لمدة ٣٠ ثانية","يعترف بأغرب سر عنده","يقلد شخص من الموجودين والكل يخمّن","يقول جملة كل ما يتكلم يبدأها بـ «بسم الله ما شاء الله»","يعمل مشهد تمثيلي درامي عن علاقته بالطرشي","يتكلم بصوت الروبوت لحد نهاية الجولة","يرقص رقصة الفرحة ٢٠ ثانية","يعمل فقرة مدح للقاضي بأسلوب نشرة الأخبار","يحط شبشب على راسه لحد نهاية الجولة"];
+var app=document.getElementById('app'),rd=document.getElementById('rd');
+var S={players:[],round:0,total:0,scores:{},order:[],charge:'',word:'',phase:0,phases:[],t:null,left:0,verdict:''};
+try{var th=localStorage.getItem('hub_theme');if(th)document.documentElement.dataset.theme=th}catch(e){}
+var au;function beep(f,d,l){try{au=au||new(window.AudioContext||window.webkitAudioContext)();var s=au.currentTime+(d||0),o=au.createOscillator(),g=au.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.001,s);g.gain.linearRampToValueAtTime(.12,s+.01);g.gain.exponentialRampToValueAtTime(.001,s+(l||.15));o.connect(g).connect(au.destination);o.start(s);o.stop(s+(l||.15)+.02)}catch(e){}}
+function gavel(){beep(180,0,.2);beep(150,.18,.3)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function R(h){app.innerHTML=h}
+function $(id){return document.getElementById(id)}
+
+function setup(){
+  clearInterval(S.t);rd.textContent='';
+  var inputs='';for(var i=0;i<6;i++)inputs+='<input maxlength="14" placeholder="اسم اللاعب '+(i+1)+(i<4?'':' (اختياري)')+'" value="'+esc(S.players[i]||'')+'">';
+  R('<h1>⚖️ المحكمة الهزلية</h1><p class="sub">تهم تافهة، محامين بيهرّجوا، وقاضي أحكامه أغرب منها.<br>٤ لاعبين على الأقل، وكل ما زادوا بيزيد الشهود.</p><div class="card" id="ins">'+inputs+'<button class="btn alt" id="more">+ لاعب كمان</button></div><button class="btn" id="go">افتتاح الجلسة 🔨</button><p class="tip" id="err" style="color:var(--red)"></p>');
+  $('more').onclick=function(){if(document.querySelectorAll('#ins input').length>=12)return;var n=document.createElement('input');n.maxLength=14;n.placeholder='لاعب إضافي';$('ins').insertBefore(n,$('more'))};
+  $('go').onclick=function(){
+    var p=[].slice.call(document.querySelectorAll('#ins input')).map(function(x){return x.value.trim()}).filter(Boolean);
+    if(p.length<4){$('err').textContent='محتاجين ٤ لاعبين على الأقل عشان المحكمة تتشكل.';return}
+    if(new Set(p).size!==p.length){$('err').textContent='في اسمين متكررين، غيّر واحد فيهم.';return}
+    S.players=shuf(p);S.round=0;S.total=Math.min(p.length,8);S.scores={};p.forEach(function(n){S.scores[n]=0});gavel();intro()};
+}
+function roles(){var n=S.players.length,o=[];for(var i=0;i<n;i++)o.push(S.players[(i+S.round)%n]);S.order=o;
+  return{judge:o[0],def:o[1],lawyer:o[2],pros:o[3],wit:o.slice(4)}}
+function intro(){
+  clearInterval(S.t);var r=S.roles=roles();S.charge=pick(CHARGES);S.word=pick(WORDS);S.phase=0;S.verdict='';
+  S.phases=[
+    {n:'افتتاح النيابة',who:r.pros,sec:40,tip:'اشرح الجريمة بأقصى مبالغة وكأنها كارثة قومية، وادخل كلمة «'+S.word+'» في كلامك.'},
+    {n:'رد المتهم',who:r.def,sec:30,tip:'دافع عن نفسك بحجة غريبة ومقنعة (بالعافية). ممنوع الضحك!'},
+    {n:'مرافعة الدفاع',who:r.lawyer,sec:40,tip:'ترافع بصوت درامي وأدخل كلمة «'+S.word+'». دافع عن المتهم بأي طريقة.'}];
+  if(r.wit.length){var w=pick(r.wit);S.phases.push({n:'شهادة الشاهد',who:w,sec:20,tip:'اشهد بحاجة مش مفهومة لكن بثقة عالية، وابدأ بـ «أنا شفت بعيني...»'})}
+  rd.textContent='جولة '+(S.round+1)+' من '+S.total;
+  R('<div class="big">🏛️</div><h2 style="text-align:center">جلسة جديدة</h2><div class="card"><div class="charge">«'+esc(S.charge)+'»</div></div><div class="roles"><div class="role">القاضي <b>'+esc(r.judge)+'</b></div><div class="role">المتهم <b>'+esc(r.def)+'</b></div><div class="role">محامي الدفاع <b>'+esc(r.lawyer)+'</b></div><div class="role">وكيل النيابة <b>'+esc(r.pros)+'</b></div>'+(r.wit.length?'<div class="role">الشهود <b>'+r.wit.map(esc).join('، ')+'</b></div>':'')+'</div><p class="tip">الكلمة الإجبارية لهذه الجلسة: <span class="word">'+esc(S.word)+'</span></p><button class="btn" id="n">محكمة! 🔔</button>');
+  $('n').onclick=function(){beep(660,0,.2);phase()};
+}
+function phase(){
+  clearInterval(S.t);
+  if(S.phase>=S.phases.length)return judge();
+  var p=S.phases[S.phase];S.left=p.sec;
+  R('<div class="card"><div class="tag">'+(S.phase+1)+' / '+S.phases.length+' · '+p.n+'</div><div class="charge" style="font-size:18px;color:var(--mute);margin-top:8px">«'+esc(S.charge)+'»</div></div><div class="who">'+esc(p.who)+'</div><p class="tip">'+p.tip+'</p><div class="timer" id="tm">'+p.sec+'</div><br><button class="btn green" id="st">ابدأ الكلام ▶</button><br><button class="btn alt" id="sk">خلّصنا، اللي بعده</button>');
+  $('sk').onclick=function(){clearInterval(S.t);S.phase++;phase()};
+  $('st').onclick=function(){
+    $('st').style.display='none';beep(880,0,.12);
+    S.t=setInterval(function(){S.left--;var e=$('tm');if(e){e.textContent=Math.max(S.left,0);if(S.left<=5)e.classList.add('low')}
+      if(S.left>0&&S.left<=5)beep(500,0,.08);
+      if(S.left<=0){clearInterval(S.t);gavel();S.phase++;phase()}},1000)};
+}
+function judge(){
+  var r=S.roles;
+  R('<div class="big"><span class="hammer">🔨</span></div><h2 style="text-align:center">القاضي «'+esc(r.judge)+'» يعلن حكمه</h2><p class="tip">اسمع الجميع وفكّر… وانطق الحكم بصوت جهوري!</p><div class="row"><button class="btn green" id="in">بريء 😇</button><button class="btn red" id="gu">مذنب 😈</button></div>');
+  $('in').onclick=function(){verdict(false)};$('gu').onclick=function(){verdict(true)};
+}
+function verdict(g){
+  var r=S.roles;gavel();S.verdict=g;
+  if(g){S.scores[r.pros]+=2}else{S.scores[r.lawyer]+=2;S.scores[r.def]+=1}
+  var sen=g?pick(SENT):'تُرفع عنه التهمة ويُعوَّض بتصفيق حار من الحاضرين 👏';
+  var cand=S.players.filter(function(n){return n!==r.judge});
+  R('<div class="big">'+(g?'😈':'😇')+'</div><h2 style="text-align:center;color:'+(g?'var(--red)':'var(--green)')+'">'+(g?'مذنب!':'بريء!')+'</h2><div class="card"><div class="tag">'+(g?'العقوبة على «'+esc(r.def)+'»':'قرار المحكمة')+'</div><div class="charge" style="margin-top:8px">'+esc(sen)+'</div></div><p class="tip">القاضي يختار <b>نجم الجلسة</b> (أضحك واحد) ياخد نقطتين:</p><div class="grid" id="stars">'+cand.map(function(n,i){return'<button class="btn alt" data-n="'+i+'">'+esc(n)+'</button>'}).join('')+'</div>');
+  [].forEach.call(document.querySelectorAll('#stars button'),function(b){b.onclick=function(){S.scores[cand[+b.dataset.n]]+=2;beep(990,0,.1);beep(1320,.1,.15);next()}});
+}
+function next(){S.round++;if(S.round>=S.total)return finish();board(false)}
+function board(final){
+  var arr=Object.keys(S.scores).sort(function(a,b){return S.scores[b]-S.scores[a]});
+  R((final?'<div class="big">🏆</div><h2 style="text-align:center;color:var(--gold)">رئيس المحكمة: '+esc(arr[0])+'</h2><p class="sub">أعلى نقاط في الجلسات كلها.</p>':'<h2 style="text-align:center">الترتيب حتى الآن</h2><br>')+arr.map(function(n){return'<div class="sc"><span>'+esc(n)+'</span><span>'+S.scores[n]+' نقطة</span></div>'}).join('')+'<br>'+(final?'<button class="btn" id="a">لعبة جديدة 🔨</button><br><button class="btn alt" id="h">رجوع للكازينو</button>':'<button class="btn" id="a">الجلسة اللي بعدها ⏭</button>'));
+  $('a').onclick=final?setup:intro;if(final)$('h').onclick=function(){location.href='../../index.html'};
+}
+function finish(){beep(523,0,.15);beep(659,.15,.15);beep(784,.3,.3);board(true)}
+setup();
+})();
+</script>
+<script src="../fullscreen.js"></script>
+</body>
+</html>

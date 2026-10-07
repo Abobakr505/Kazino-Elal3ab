@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b4a5c">
+<title>خمّن من الإيموجي | كازينو الالعاب</title>
+<link rel="shortcut icon" href="./../../icon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;800&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b4a5c;--card:#f1fbfa;--ink:#08303b;--pop:#ffd447;--mute:#4f7d89;--line:#c3e3e6;--on:#fff;--red:#ff5d6c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06242d;--card:#0f3f4c;--ink:#e9fbff;--mute:#9cc7d0;--line:#1d5a69}}
+:root[data-theme="dark"]{--bg:#06242d;--card:#0f3f4c;--ink:#e9fbff;--mute:#9cc7d0;--line:#1d5a69}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--on);font-family:Cairo,Tahoma,system-ui,sans-serif;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+#app{max-width:520px;margin:0 auto;padding:18px 16px 48px}
+.scr{animation:in .28s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{transform:scale(.8) rotate(-3deg);opacity:.3}to{transform:none;opacity:1}}
+@keyframes pulse{50%{transform:scale(1.12)}}
+@keyframes chase{50%{opacity:.3}}
+h1{font-family:Lalezar,Cairo,sans-serif;text-align:center;font-size:clamp(2.6rem,12vw,3.4rem);margin:6px 0 0;color:#ffe9a8;font-weight:400;line-height:1.1;text-shadow:0 0 8px #ffb52e,0 0 26px rgba(255,150,30,.45),0 4px 0 #0a7a8c}
+h1::after{content:"";display:block;height:10px;margin:12px auto 0;max-width:250px;background:radial-gradient(circle,#ffd86b 0 2.6px,transparent 3.6px) 0 0/20px 10px repeat-x;filter:drop-shadow(0 0 4px #ffd86b);animation:chase 1.4s ease-in-out infinite}
+h2{font-size:1rem;margin:0 0 10px;color:var(--ink)}
+p{margin:6px 0 16px;line-height:1.8}
+.card{background:var(--card);color:var(--ink);border-radius:22px;padding:16px;margin-bottom:16px;box-shadow:0 6px 0 rgba(0,0,0,.25),inset 0 0 0 2px rgba(255,255,255,.35)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;gap:6px;align-items:center;min-height:42px;border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 16px;font:inherit;font-weight:500;cursor:pointer;transition:background .15s,color .15s,transform .12s}
+.opt.on{background:var(--ink);border-color:var(--ink);color:var(--card);font-weight:800;box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.opt.on::before{content:"✓";font-size:.9em}
+.opt:active{transform:translateY(2px)}
+.row{display:flex;gap:8px;margin-top:12px}
+input{flex:1;min-width:0;font:inherit;padding:11px 14px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--ink)}
+input:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(255,212,71,.45);outline:0}
+.btn{position:relative;overflow:hidden;display:block;width:100%;font:inherit;font-weight:800;font-size:1.2rem;border:0;border-radius:20px;padding:15px;cursor:pointer;margin-top:14px;background:var(--pop);color:#08303b;box-shadow:0 6px 0 #b8901a,0 14px 22px rgba(255,212,71,.2);transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #b8901a}
+.btn.alt{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.7);color:var(--on);box-shadow:0 5px 0 rgba(0,0,0,.28)}
+.btn:disabled{opacity:.45;box-shadow:none}
+.sm{font:inherit;font-weight:800;border:0;border-radius:12px;padding:10px 18px;background:var(--ink);color:var(--card);cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.link{background:none;border:0;color:var(--mute);font:inherit;text-decoration:underline;cursor:pointer;padding:6px 0}
+a.link{display:inline-block}
+.link.on-bg{color:var(--on);opacity:.85}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--pop);outline-offset:2px}
+.top{font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{border-radius:999px;padding:4px 14px;font-weight:800;color:#08303b;background:var(--pop);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.ticket{position:relative;background:linear-gradient(180deg,#ffe58a,var(--pop) 45%,#ffc21a);color:#08303b;border-radius:22px;margin:18px 0 16px;animation:pop .3s ease-out;box-shadow:0 10px 0 rgba(0,0,0,.22)}
+.ticket::before{content:"";position:absolute;inset:7px;border:2px dashed rgba(8,48,59,.22);border-radius:16px;pointer-events:none}
+.stub{padding:14px;text-align:center;font-weight:800}
+.stub::before{content:"★  "}.stub::after{content:"  ★"}
+.perf{position:relative;border-top:3px dashed rgba(8,48,59,.3)}
+.perf::before,.perf::after{content:"";position:absolute;top:-15px;width:27px;height:27px;border-radius:50%;background:var(--bg);box-shadow:inset 0 3px 4px rgba(0,0,0,.25)}
+.perf::before{right:-14px}.perf::after{left:-14px}
+.emo{font-size:clamp(3rem,17vw,5rem);line-height:1.4;text-align:center;padding:24px 12px;min-height:9rem;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;letter-spacing:.08em;direction:rtl}
+.hint{min-height:2.2rem;text-align:center;font-weight:800;font-size:1.15rem;padding:0 12px 14px;color:#8a4a00}
+.timer{font-family:Lalezar,Cairo,sans-serif;font-size:2.4rem;line-height:1;color:var(--pop);text-shadow:0 0 14px rgba(255,212,71,.5)}
+.timer.low{color:var(--red);animation:pulse .6s infinite}
+.bar{height:12px;border-radius:9px;background:rgba(0,0,0,.3);overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff9f43,#ffd447);border-radius:9px}
+.pr{display:flex;border-radius:1rem;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--line);color:var(--ink)}
+.pr:first-child{border-top:0}
+.pr span{font-weight:800}
+.big{font-family:Lalezar,Cairo,sans-serif;font-size:3.4rem;color:#ffe9a8;text-align:center;line-height:1.2;text-shadow:0 0 22px rgba(255,150,30,.5),0 5px 0 #0a7a8c;overflow-wrap:anywhere}
+.roll{font-family:Lalezar,Cairo,sans-serif;font-size:3.4rem;color:#ffe9a8;text-align:center;min-height:5rem;margin:10px 0;text-shadow:0 4px 0 #0a7a8c;overflow-wrap:anywhere}
+.cd{font-family:Lalezar,Cairo,sans-serif;font-size:min(11rem,38vw);color:#ffe9a8;text-align:center;line-height:1.4;animation:pulse .9s;text-shadow:0 0 30px rgba(255,150,30,.65),0 8px 0 #0a7a8c}
+.wins{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:6px}
+.tb{position:relative;overflow:hidden;border:0;border-radius:20px;padding:14px 8px;font:inherit;font-weight:800;color:#08303b;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:1.05rem;box-shadow:0 6px 0 rgba(0,0,0,.3),inset 0 0 0 2px rgba(255,255,255,.35);transition:transform .1s,box-shadow .1s}
+.tb:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.3)}
+.tb b{font-family:Lalezar,Cairo,sans-serif;font-size:1.8rem;line-height:1.1;font-weight:400}
+.ans{background:linear-gradient(180deg,#ffe58a,var(--pop));color:#08303b;border-radius:20px;padding:14px;text-align:center;margin:12px 0 8px;box-shadow:0 6px 0 rgba(0,0,0,.22)}
+.ans .emo{font-size:2.4rem;min-height:0;padding:6px}
+.ans b{font-family:Lalezar,Cairo,sans-serif;font-size:2rem;font-weight:400;line-height:1.4}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;z-index:9;padding-top:env(safe-area-inset-top,0px)}
+.sheet{background:var(--card);color:var(--ink);width:100%;max-width:520px;max-height:88vh;max-height:88dvh;overflow-y:auto;border-radius:26px 26px 0 0;border-top:5px solid var(--pop);padding:20px 18px calc(24px + env(safe-area-inset-bottom,0px));animation:in .25s ease-out}
+.sheet h3{font-family:Lalezar,Cairo,sans-serif;font-size:2rem;font-weight:400;margin:0 0 6px}
+.sheet ol{padding-inline-start:22px;margin:0}
+.sheet li{margin-bottom:12px;line-height:1.8}
+.hero .emo{font-size:3rem;min-height:6rem;transition:opacity .25s}
+@media (prefers-reduced-motion:reduce){.scr,.ticket,.cd,.timer.low,.sheet,h1::after{animation:none}.btn,.tb,.opt{transition:none}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const D={
+'أفلام':[['🪁 🐱','الكيت كات'],['💡','اللمبي'],['🐘 🔵','الفيل الأزرق'],['🏝️','الجزيرة'],['🍯 ⚫','عسل أسود'],['💣 🍢','الإرهاب والكباب'],['🌍','الأرض'],['🤴 ⚓','أمير البحار'],['🩳 👕 🧢','شورت وفانلة وكاب'],['❤️ 🎬','بحب السيما'],['🐦 🌑','طيور الظلام'],['🪸 👨 🪸','مرجان أحمد مرجان'],['🕌 ⛪','حسن ومرقص'],['👨‍✈️ 🇪🇬','كابتن مصر'],['🎩 🧑‍🎓','الباشا تلميذ'],['🗣️ ❤️','إشاعة حب'],['🥱 🌙','سهر الليالي'],['🧒🧒 👨','ولاد العم'],['🦹 🏫 2️⃣','حرامية في كي جي تو'],
+['🏜️ 👨 🎓 🇺🇸','صعيدي في الجامعة الأمريكية'],['🧔 🌷 🇳🇱','همام في أمستردام'],['🎞️ 📚','فيلم ثقافي'],['❌ 📏','إكس لارج'],['🚗 😇 🏖️','ملاكي إسكندرية'],['🪖 ⛺','عسكر في المعسكر'],['👦 🎩 🧹','الواد سيد الشغال'],['🙋 👩','يا أنا يا خالتي'],['🏫 👨‍🏫','الناظر'],['🧔 🔛 🚧','عبود على الحدود'],['😂 📸 🌟','اضحك الصورة تطلع حلوة'],['🦸 🇪🇬 🏙️','البطل'],['🕵️ 🔍 🏠','المخبر']],
+'أمثال':[['✋ 1️⃣ 🚫 👏','إيد وحدة ما تصقفش'],['🧑‍🤝‍🧑 ⏮️ 🏠','الجار قبل الدار'],['🎁 🍞 👨‍🍳','إدّي العيش لخبازه'],['💧 🤥 🤿','المية تكدّب الغطاس'],['🪢 🤥 🤏','حبل الكدب قصير'],['📏 🛏️ ↔️ 🦵','على قد لحافك مد رجليك'],['🐦 👯 ⬇️','الطيور على أشكالها تقع'],['♾️ 🐢 ✅','كل تأخيرة فيها خيرة'],['🧔 🥇 🥩 🐂','جحا أولى بلحم توره'],['🏃 😈 🎤','ابعد عن الشر وغنّي له'],['🐒 👁️ 👩 🦌','القرد في عين أمه غزال'],['⏳ 🔑 😌','الصبر مفتاح الفرج'],['🎉 🚫 🏁','يا فرحة ما تمت'],['🥊 😭 🏃 🗣️','ضربني وبكى وسبقني واشتكى'],['🐦 ✋ 👍 🔟 🌳','عصفور في اليد خير من عشرة على الشجرة'],['🏠 🪟 🚫 🤾 👥 🧱','اللي بيته من إزاز ما يحدفش الناس بالطوب'],['🚪 💨 🧱 😌','الباب اللي يجيلك منه الريح سده واستريح'],['🦸 🧵 🦵 🫏','الشاطر يغزل برجل حمار'],['🔥 🥣 😮‍💨 🥛','اللي يتلسع من الشوربة ينفخ في الزبادي'],
+['🙈 ⚰️','اللي اختشوا ماتوا'],['⏰ 🥇','الوقت من دهب'],['🧱 👂','الحيطان لها ودان'],['🤝 🧲','الصاحب ساحب'],['👤 ⚖️ 🧱','ضل راجل ولا ضل حيطة'],['🍯 🐝 😣','اللي عايز العسل يستحمل قرص النحل'],['👁️ 👀 ✋ 📏','العين بصيرة واليد قصيرة'],['🤏 🗣️ ✅','خير الكلام ما قل ودل'],['💥 👥 ➡️ 💰 👥','مصائب قوم عند قوم فوائد']],
+'أكلات':[['🍝 🍚 🥫','كشري'],['🫘 🧆','فول وطعمية'],['🌿 🥣','ملوخية'],['🥬 🍚','محشي'],['🕊️ 🍚','حمام محشي'],['🟨 🍯 🥥','بسبوسة'],['🍚 🥛','رز بلبن'],['🥞 🧈','فطير مشلتت'],['🥙 🐔','شاورما'],['🍝 🥛 🧀','مكرونة بشاميل'],['🍆 🥘','باذنجان مخلل'],['🧀 🍮 🍯','كنافة']]
+};
+const PC=['#ffd447','#3ad6c4','#8ec5ff','#b6f06b','#ff9ecb','#ffb35c'];
+const A=document.getElementById('app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const num=n=>n.toLocaleString('ar-EG');
+const pcol=i=>PC[i%PC.length];
+const TOTAL=Object.values(D).reduce((n,a)=>n+a.length,0);
+const S={pl:[],cats:new Set(['أفلام','أمثال']),t:45,nw:10,sound:true,sc:{},ix:0,q:[],pool:[],cur:null,actor:null,hint:false};
+const KEY='emo_v1';
+try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){
+ if(Array.isArray(d.pl))S.pl=d.pl.filter(x=>typeof x==='string'&&x.trim()).slice(0,12);
+ if(Array.isArray(d.cats)){const c=d.cats.filter(x=>D[x]);if(c.length)S.cats=new Set(c)}
+ if([0,30,45,60].includes(d.t))S.t=d.t;
+ if([5,10,15,20].includes(d.nw))S.nw=d.nw;
+ if(typeof d.sound==='boolean')S.sound=d.sound;
+}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({pl:S.pl,cats:[...S.cats],t:S.t,nw:S.nw,sound:S.sound}))}catch(e){}};
+let iv,iv2,ac;
+const h=s=>{clearInterval(iv);clearInterval(iv2);A.innerHTML='<div class=scr>'+s+'</div>';window.scrollTo(0,0)};
+function tone(f=660,d=.08,v=.06,delay=0){if(!S.sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+delay;o.type='triangle';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
+const ALL=Object.values(D).flat();
+
+function home(){
+ h(`<div class=hero style="text-align:center"><div style="text-align:start"><a class="link on-bg" href="../../index.html">← كل الألعاب</a></div><h1>خمّن من الإيموجي</h1>
+ <p style="margin-bottom:0">كل إيموجي = كلمة من اسم الفيلم أو المثل. اقرا الإيموجيز بالترتيب وركّب الجملة!</p>
+ <div class=ticket aria-hidden="true"><div class=stub>إيه ده؟</div><div class=perf></div><div class=emo id=he>🍯⚫</div></div>
+ <button class=btn data-setup>جهّز اللعبة</button><button class="btn alt" data-guide>دليل اللعبة</button>
+ <p style="opacity:.8;margin-top:18px">${num(TOTAL)} لغز في ${num(Object.keys(D).length)} أنواع</p></div>`);
+ const e=document.getElementById('he');
+ iv2=setInterval(()=>{e.style.opacity=0;setTimeout(()=>{e.textContent=ALL[Math.random()*ALL.length|0][0];e.style.opacity=1},250)},2400);
+}
+function setup(){
+ save();
+ const ok=S.pl.length>=2&&S.cats.size>=1;
+ const pick=(k,arr)=>arr.map(a=>`<button class="opt ${S[k]===a[0]?'on':''}" data-k=${k} data-v="${a[0]}">${a[1]}</button>`).join('');
+ h(`<div class=top><button class="link on-bg" data-home>الرئيسية</button><button class="link on-bg" data-guide>دليل اللعبة</button></div><h1>جهّز اللعبة</h1>
+ <section class=card style="margin-top:14px"><h2>اللاعبين</h2><div class=chips>${S.pl.map((p,i)=>`<span class=opt>${esc(p)}<button data-rm=${i} aria-label="حذف" style="border:0;background:none;color:inherit;font-size:1.3rem;cursor:pointer">×</button></span>`).join('')}</div>
+ <div class=row><input id=nm placeholder="اكتب اسم لاعب" maxlength=14><button class=sm data-add>إضافة</button></div></section>
+ <section class=card><h2>النوع</h2><div class=chips>${Object.keys(D).map(c=>`<button class="opt ${S.cats.has(c)?'on':''}" data-cat="${c}">${c}</button>`).join('')}</div></section>
+ <section class=card><h2>وقت اللغز</h2><div class=chips>${pick('t',[[0,'من غير وقت'],[30,'٣٠ ثانية'],[45,'٤٥ ثانية'],[60,'دقيقة']])}</div>
+ <h2 style="margin-top:16px">عدد الألغاز</h2><div class=chips>${pick('nw',[[5,'٥'],[10,'١٠'],[15,'١٥'],[20,'٢٠']])}</div></section>
+ <button class=btn data-start ${ok?'':'disabled'}>${ok?'ابدأ اللعب':'ضيف لاعبين اتنين على الأقل'}</button>`);
+}
+function guide(){
+ if(document.getElementById('ov'))return;
+ const o=document.createElement('div');o.className='ov';o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+ o.innerHTML=`<div class=sheet><h3>دليل اللعبة</h3><p style="color:var(--mute);margin-top:0">كل لغز بيتعرض على الشاشة للكل، والكل بيخمّن.</p><ol>
+ <li><b>التجهيز:</b> ضيفوا أسماء اللاعبين واختاروا النوع والوقت وعدد الألغاز.</li>
+ <li><b>الحَكَم:</b> في كل لغز اللعبة بتختار لاعب بيمسك الموبايل ومعاه الإجابة. هو اللي بيدوس على الأزرار، ومش بيخمّن في اللغز ده.</li>
+ <li><b>التخمين:</b> كل إيموجي بيمثّل كلمة من اسم الفيلم أو المثل بالترتيب (من اليمين لليسار). اقروا الإيموجيز وركّبوا الجملة، وأول واحد يقولها صح بصوت عالي.</li>
+ <li><b>النقطة:</b> الحَكَم يدوس على اسم أول واحد جاوب صح. نقطتين لو من غير تلميح، ونقطة لو استخدمتوا التلميح.</li>
+ <li><b>التلميح:</b> بيظهر أول حرف من الإجابة.</li>
+ <li><b>محدش عرف:</b> لو الوقت خلص أو محدش عرف، دوس "محدش عرف" والإجابة هتظهر من غير نقطة.</li>
+ <li><b>الفوز:</b> بعد آخر لغز، صاحب أعلى نقاط يكسب.</li></ol>
+ <button class=btn data-close>فهمت</button></div>`;
+ o.addEventListener('click',e=>{if(e.target===o)o.remove()});
+ document.body.appendChild(o);o.querySelector('button').focus();
+}
+function board(){return `<section class=card style="padding:6px 4px">${S.pl.map((p,i)=>({p,i,s:S.sc[p]||0})).sort((a,b)=>b.s-a.s).map(o=>`<div class=pr style="border-inline-start:6px solid ${pcol(o.i)}"><span>${esc(o.p)}</span><b style="font-size:1.2rem">${num(o.s)}</b></div>`).join('')}</section>`}
+function start(){S.sc={};S.pl.forEach(p=>S.sc[p]=0);S.ix=0;S.q=[];S.pool=[];turn()}
+function turn(){
+ if(!S.q.length)S.q=shuf(S.pl);
+ if(!S.pool.length)S.pool=shuf([...S.cats].flatMap(c=>D[c].map(x=>({c,e:x[0],a:x[1]}))));
+ const actor=S.q.pop();S.actor=actor;S.cur=S.pool.pop();S.hint=false;
+ h(`<div class=top><span>اللغز ${num(S.ix+1)} من ${num(S.nw)}</span><span class=tag>${S.t?num(S.t)+' ثانية':'من غير وقت'}</span></div>
+ <p style="margin:18px 0 0;text-align:center">اللعبة بتختار الحَكَم...</p><div class=roll id=r>؟</div><div id=rest></div>`);
+ const r=document.getElementById('r');let n=0;
+ iv2=setInterval(()=>{r.textContent=S.pl[Math.random()*S.pl.length|0];if(++n%3===0)tone(520+n*12,.045,.025);
+  if(n>12){clearInterval(iv2);tone(1046,.16,.065);r.textContent=actor;buzz(60);
+   document.getElementById('rest').innerHTML=`<div style="background:rgba(0,0,0,.2);border:2px dashed rgba(255,255,255,.25);border-radius:18px;padding:14px;line-height:1.9;margin-bottom:8px"><b>${esc(actor)}</b> يمسك الموبايل ويقرا الإجابة.<br>الكل يخمّن من الإيموجيز، وهو يدوس على اسم اللي جاوب صح.</div>${board()}<button class=btn data-count>جاهزين، ابدأ العد</button><button class="link on-bg" style="display:block;margin:6px auto 0" data-guide>كيف نلعب؟</button>`}},90);
+}
+function count(){
+ let n=3;h(`<div class=cd id=n>${n}</div>`);
+ iv2=setInterval(()=>{n--;if(n<=0){clearInterval(iv2);tone(1046,.24,.08);play();return}tone(n===1?880:620,.1,.055);const e=document.getElementById('n');e.textContent=n;e.style.animation='none';void e.offsetWidth;e.style.animation=''},900);
+}
+function play(){
+ const btns=S.pl.map((p,i)=>({p,i})).filter(o=>o.p!==S.actor);
+ h(`<div class=top><span>${num(S.ix+1)} / ${num(S.nw)}</span><button class=sm data-sound aria-pressed="${S.sound}" aria-label="الصوت">${S.sound?'🔊':'🔇'}</button><span class=timer id=tm>${S.t?num(S.t):'∞'}</span></div>
+ <div class=bar style="margin-top:12px"><i id=bar></i></div>
+ <div class=ticket><div class=stub>${S.cur.c}</div><div class=perf></div><div class=emo>${S.cur.e}</div><div class=hint id=hint></div></div>
+ <button class="btn alt" data-hint style="margin-top:0">💡 تلميح (النقطة بتبقى ١)</button>
+ <p style="text-align:center;margin:0 0 6px;opacity:.85">كل إيموجي = كلمة، اقرا من اليمين</p><p style="text-align:center;margin:10px 0 4px;font-weight:800">مين خمّن صح؟ ${esc(S.actor)} يدوس على اسمه</p>
+ <div class=wins>${btns.map(o=>`<button class=tb data-sw=${o.i} style="background:${pcol(o.i)}"><span>${esc(o.p)}</span><b>${num(S.sc[o.p]||0)}</b></button>`).join('')}</div>
+ <button class="btn alt" data-none>محدش عرف</button>`);
+ if(!S.t)return;
+ const t0=Date.now(),bar=document.getElementById('bar'),tm=document.getElementById('tm');let last=-1;
+ iv=setInterval(()=>{const el=(Date.now()-t0)/1000,left=Math.ceil(S.t-el);bar.style.width=Math.max(0,1-el/S.t)*100+'%';tm.textContent=num(Math.max(0,left));tm.classList.toggle('low',left<=10);
+  if(left<=5&&left>0&&left!==last){last=left;tone(800+(5-left)*90,.09,.06);buzz(25)}
+  if(el>=S.t)result(null,true)},150);
+}
+function showHint(){
+ if(S.hint)return;S.hint=true;tone(700,.1,.05);
+ const w=S.cur.a;
+ document.getElementById('hint').textContent=`أول حرف: «${w.replace(/^ال/,'')[0]}»`;
+ const b=A.querySelector('[data-hint]');if(b)b.disabled=true;
+}
+function result(winner,timeout){
+ clearInterval(iv);S.ix++;const done=S.ix>=S.nw,pts=S.hint?1:2;
+ if(winner){S.sc[winner]=(S.sc[winner]||0)+pts;tone(880,.12,.065);tone(1175,.2,.06,.11);buzz(40)}else{tone(440,.2,.08);tone(330,.32,.07,.18)}
+ h(`<div class=top><span>${timeout?'خلص الوقت!':winner?'إجابة صح!':'محدش عرف'}</span></div>
+ <div class=big style="margin-top:10px">${winner?esc(winner):'مفيش نقطة'}</div>
+ ${winner?`<p style="text-align:center;margin:0">+${num(pts)} ${pts===1?'نقطة':'نقطتين'}</p>`:''}
+ <div class=ans><div class=emo>${S.cur.e}</div>الإجابة<br><b>${esc(S.cur.a)}</b></div>${board()}
+ <button class=btn data-${done?'end':'turn'}>${done?'شوفوا مين كسب':'اللغز اللي بعده'}</button>`);
+}
+function end(){
+ const r=S.pl.map(p=>({p,s:S.sc[p]||0})).sort((a,b)=>b.s-a.s),top=r.filter(o=>o.s===r[0].s),tie=top.length>1;
+ h(`<div class=top><span>النتيجة النهائية</span></div><div class=big style="margin-top:10px">${tie?'تعادل!':esc(r[0].p)}</div>
+ <p style="text-align:center">${tie?esc(top.map(o=>o.p).join(' و '))+' محتاجين لغز فاصل':'كسب بـ '+num(r[0].s)+' نقطة'}</p>${board()}
+ <button class=btn data-start>العب تاني بنفس اللاعبين</button><button class="btn alt" data-setup>الإعدادات من الأول</button><a class="btn alt" style="text-align:center;text-decoration:none" href="../../index.html">كل الألعاب</a>`);
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b||b.disabled)return;const d=b.dataset;
+ if('close' in d){document.getElementById('ov').remove();return}
+ if(!A.contains(b))return;
+ if('sound' in d){S.sound=!S.sound;save();b.textContent=S.sound?'🔊':'🔇';b.setAttribute('aria-pressed',String(S.sound));if(S.sound)tone(880,.08,.05)}
+ else if('add' in d){const v=document.getElementById('nm').value.trim();if(v&&!S.pl.includes(v)&&S.pl.length<12)S.pl.push(v);setup();document.getElementById('nm').focus()}
+ else if('rm' in d){S.pl.splice(+d.rm,1);setup()}
+ else if('cat' in d){S.cats.has(d.cat)?S.cats.delete(d.cat):S.cats.add(d.cat);setup()}
+ else if('k' in d){S[d.k]=+d.v;setup()}
+ else if('setup' in d)setup();
+ else if('home' in d)home();
+ else if('guide' in d)guide();
+ else if('start' in d)start();
+ else if('turn' in d)turn();
+ else if('count' in d)count();
+ else if('hint' in d)showHint();
+ else if('sw' in d)result(S.pl[+d.sw],false);
+ else if('none' in d)result(null,false);
+ else if('end' in d)end();
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Enter'&&e.target.id==='nm')A.querySelector('[data-add]').click();
+ if(e.key==='Escape'){const o=document.getElementById('ov');if(o)o.remove()}
+});
+home();
+</script>
+<script src="./../fullscreen.js"></script>
+</body>
+</html>

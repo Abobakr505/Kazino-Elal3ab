@@ -60,14 +60,15 @@ transition:transform .18s,box-shadow .18s;animation:deal .6s cubic-bezier(.2,.8,
 .game p{margin:0 0 12px;line-height:1.7;font-size:15px;font-weight:500;opacity:.88}
 .meta{display:flex;flex-wrap:wrap;gap:6px}
 .meta span{background:var(--b);color:var(--a);border-radius:99px;padding:2px 12px;font-size:13px;font-weight:700}
-.g-bomb{--a:#ffc21a;--b:#a87b00;--fg:#0f1f26}.g-bomb .meta span{color:#ffc21a}
+.g-emo{--a:#ffc21a;--b:#a87b00;--fg:#0f1f26}.g-emo .meta span{color:#ffc21a}
 .g-tod{--a:#3ee8b5;--b:#12795c;--fg:#1b0f33}.g-tod .meta span{color:#3ee8b5}
 .g-act{--a:#ff5d6c;--b:#8e1d2c;--fg:#2a0d1a}.g-act .meta span{color:#ffd0d4}
 .g-kasa{--a:#cfd6dc;--b:#5f6b74;--fg:#0e1a17}.g-kasa .meta span{color:#c6f24e}
 .g-harf{--a:#7f8cff;--b:#262f7a;--fg:#0c1030}.g-harf .meta span{color:#f4c24d}
 .g-jack{--a:#34c77b;--b:#0b4a2e;--fg:#06220f}.g-jack .meta span{color:#f5c542}
 .g-rev{--a:#ff9f43;--b:#7a3d00;--fg:#1b1230}.g-rev .meta span{color:#ff9f43}
-
+.g-bomb{--a:#4fd1e8;--b:#0b5566;--fg:#04222b}.g-bomb .meta span{color:#4fd1e8}
+.g-court{--a:#c98a3d;--b:#5a3510;--fg:#1f1206}.g-court .meta span{color:#ffd9a0}
 footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 #th{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;width:46px;height:46px;font-size:20px;cursor:pointer;transition:transform .15s}
 #th:active{transform:scale(.92) rotate(20deg)}
@@ -139,7 +140,19 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
         <div class="meta"><span>فريقين لـ ٤</span><span>أفلام وأمثال</span></div>
       </div>
     </a>
-
+<a class="game g-emo" style="--i:7" href="games/emoji/index.html">
+  <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
+    <circle cx="60" cy="60" r="46" fill="#08303b"/>
+    <text x="60" y="78" text-anchor="middle" font-size="52">🤔</text>
+    <text x="22" y="34" font-size="22">🎬</text>
+    <text x="84" y="104" font-size="22">🍿</text>
+  </svg></div>
+  <div>
+    <div class="top"><h2>خمّن من الإيموجي</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
+    <p>إيموجيز بس، وإنت تعرف الفيلم أو المثل المصري. أول واحد يخمّن ياخد النقطة.</p>
+    <div class="meta"><span>٢ لـ ١٢ لاعب</span><span>أفلام وأمثال</span></div>
+  </div>
+</a>
     <a class="game g-kasa" style="--i:3" href="games/bkasa/index.html">
       <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <rect x="10" y="22" width="100" height="76" rx="14" fill="#cfd6dc" stroke="#0e1a17" stroke-width="4"/>
@@ -203,6 +216,18 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
         <div class="meta"><span>٢ لـ ٨ لاعبين</span><span>سرعة</span></div>
       </div>
     </a>
+    <a class="game g-court" style="--i:8" href="games/court/index.html">
+  <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
+    <circle cx="60" cy="60" r="46" fill="#2b1a06"/>
+    <text x="60" y="80" text-anchor="middle" font-size="56">⚖️</text>
+    <text x="24" y="36" font-size="22">🔨</text>
+  </svg></div>
+  <div>
+    <div class="top"><h2>المحكمة الهزلية</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
+    <p>قاضي ومتهم ومحامي ونيابة وشهود، وتهم تافهة وأحكام أغرب منها.</p>
+    <div class="meta"><span>٤ لـ ١٢ لاعب</span><span>هزار</span></div>
+  </div>
+</a>
   </nav>
 
   <footer>
