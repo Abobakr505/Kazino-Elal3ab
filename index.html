@@ -5,85 +5,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14202a">
 <title>كازينو الالعاب | ألعاب جماعية</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Lalezar&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Lalezar&display=swap" rel="stylesheet">
 <link rel="shortcut icon" href="icon.png" type="image/png">
 <style>
-:root{--bg:#14202a;--ink:#f7efe0;--mute:#9fb3bd;--line:#ffffff26;
+:root{--bg:#14202a;--bg2:#1d3340;--ink:#f7efe0;--mute:#9fb3bd;--line:#ffffff26;--suit:#9fb3bd;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3ead8;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;color-scheme:light}}
-:root[data-theme="light"]{--bg:#f3ead8;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;color-scheme:light}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3ead8;--bg2:#fffaf0;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;--suit:#5d6b73;color-scheme:light}}
+:root[data-theme="light"]{--bg:#f3ead8;--bg2:#fffaf0;--ink:#1d2a33;--mute:#5d6b73;--line:#1d2a3333;--suit:#5d6b73;color-scheme:light}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,sans-serif;font-size:17px;min-height:100%;-webkit-tap-highlight-color:transparent}
-main{max-width:640px;margin:0 auto;padding:28px 18px 40px}
-header{margin-bottom:26px}
-h1{font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:clamp(46px,14vw,78px);line-height:1.05;margin:0}
-h1{display:flex;align-items:center;gap:14px}
-h1 img{width:clamp(52px,15vw,84px);height:auto;flex:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.25))}
-header p{margin:10px 0 0;color:var(--mute);max-width:34ch;line-height:1.8}
-.games{display:flex;flex-direction:column;gap:18px}
-.game{--a:#fff;--b:#000;--fg:#000;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;text-decoration:none;color:var(--fg);background:var(--a);border-radius:26px;padding:20px;position:relative;overflow:hidden;box-shadow:0 8px 0 var(--b);transition:transform .15s,box-shadow .15s}
-.game:nth-child(1){transform:rotate(-1deg)}
-.game:nth-child(3){transform:rotate(1deg)}
-.game:active{transform:translateY(6px);box-shadow:0 2px 0 var(--b)}
+body{margin:0;min-height:100%;color:var(--ink);font-family:Cairo,Tahoma,sans-serif;font-size:17px;-webkit-tap-highlight-color:transparent;
+background:radial-gradient(120% 60% at 50% 0,var(--bg2),transparent 70%),var(--bg);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.07;z-index:0;
+background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='%23888' font-size='34' font-family='sans-serif'%3E%3Ctext x='14' y='46'%3E%E2%99%A0%3C/text%3E%3Ctext x='84' y='60' %3E%E2%99%A5%3C/text%3E%3Ctext x='24' y='126'%3E%E2%99%A6%3C/text%3E%3Ctext x='90' y='128'%3E%E2%99%A3%3C/text%3E%3C/g%3E%3C/svg%3E")}
+main{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:22px 16px 40px}
+
+/* marquee sign */
+.sign{--bulb:#ffd86b;position:relative;text-align:center;padding:34px 22px 30px;margin-bottom:34px;border-radius:30px;
+background:linear-gradient(180deg,#1b0f33,#2a1650);color:#fff3cf;box-shadow:0 10px 0 #0b0618,0 24px 50px rgba(0,0,0,.35);border:3px solid #ffd86b}
+.sign::before,.sign::after{content:"";position:absolute;inset:9px;pointer-events:none;border-radius:20px;
+background:
+radial-gradient(circle,var(--bulb) 0 2.6px,transparent 3.6px) 0 0/22px 9px repeat-x,
+radial-gradient(circle,var(--bulb) 0 2.6px,transparent 3.6px) 0 100%/22px 9px repeat-x,
+radial-gradient(circle,var(--bulb) 0 2.6px,transparent 3.6px) 0 0/9px 22px repeat-y,
+radial-gradient(circle,var(--bulb) 0 2.6px,transparent 3.6px) 100% 0/9px 22px repeat-y;
+filter:drop-shadow(0 0 4px var(--bulb));animation:chase 1.4s ease-in-out infinite}
+.sign::after{background-position:11px 0,11px 100%,0 11px,100% 11px;animation-delay:-.7s}
+@keyframes chase{50%{opacity:.2}}
+h1{font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:clamp(46px,13vw,88px);line-height:1.05;margin:0;
+display:flex;align-items:center;justify-content:center;gap:14px;color:#ffe9a8;
+text-shadow:0 0 6px #ffb52e,0 0 22px rgba(255,150,30,.7),0 4px 0 #8a4a00}
+h1 img{width:clamp(52px,14vw,92px);height:auto;flex:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.35))}
+.sign p{margin:12px auto 0;max-width:36ch;line-height:1.9;color:#d9cbf0;font-weight:500}
+
+/* cards */
+.games{display:grid;grid-template-columns:1fr;gap:24px}
+.game{--a:#fff;--b:#000;--fg:#000;--r:-.8deg;position:relative;display:grid;grid-template-columns:104px 1fr;gap:16px;align-items:center;
+text-decoration:none;color:var(--fg);background:var(--a);border-radius:26px;padding:20px;overflow:hidden;
+box-shadow:0 8px 0 var(--b),0 18px 28px rgba(0,0,0,.22);transform:rotate(var(--r));
+transition:transform .18s,box-shadow .18s;animation:deal .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i)*70ms)}
+.game:nth-child(even){--r:.8deg}
+.game::before{content:"";position:absolute;inset:7px;border:2px dashed var(--b);border-radius:20px;opacity:.28;pointer-events:none}
+.game::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.45) 50%,transparent 60%) 120% 0/250% 100% no-repeat;transition:background-position .7s}
+@keyframes deal{from{opacity:0;transform:translateY(-36px) rotate(calc(var(--r)*6))}}
+@media (hover:hover){.game:hover{transform:translateY(-5px) rotate(0);box-shadow:0 13px 0 var(--b),0 26px 34px rgba(0,0,0,.28)}.game:hover::after{background-position:-20% 0}.game:hover .go{transform:translateX(-4px)}}
+.game:active{transform:translateY(6px) rotate(var(--r));box-shadow:0 2px 0 var(--b)}
 .game:focus-visible{outline:4px solid var(--ink);outline-offset:4px}
-.game svg{width:96px;height:96px;display:block}
-.game h2{font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:clamp(30px,8vw,40px);line-height:1.1;margin:0 0 6px}
-.game p{margin:0 0 10px;line-height:1.6;font-size:15px;opacity:.85}
+.art{width:104px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.32);box-shadow:inset 0 0 0 3px var(--b),inset 0 0 0 7px rgba(255,255,255,.35)}
+.art svg{width:76px;height:76px;display:block}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.game h2{font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:clamp(30px,7.5vw,38px);line-height:1.1;margin:0}
+.go{flex:none;width:36px;height:36px;border-radius:50%;background:var(--b);color:var(--a);display:grid;place-items:center;transition:transform .18s}
+.go svg{width:18px;height:18px}
+.game p{margin:0 0 12px;line-height:1.7;font-size:15px;font-weight:500;opacity:.88}
 .meta{display:flex;flex-wrap:wrap;gap:6px}
 .meta span{background:var(--b);color:var(--a);border-radius:99px;padding:2px 12px;font-size:13px;font-weight:700}
-.g-bomb{--a:#ffc21a;--b:#a87b00;--fg:#0f1f26}
-.g-bomb .meta span{color:#ffc21a}
-.g-tod{--a:#3ee8b5;--b:#12795c;--fg:#1b0f33}
-.g-tod .meta span{color:#3ee8b5}
-.g-act{--a:#ff5d6c;--b:#8e1d2c;--fg:#2a0d1a}
-.g-act .meta span{color:#ffd0d4}
-.g-kasa{--a:#cfd6dc;--b:#5f6b74;--fg:#0e1a17}
-.g-kasa .meta span{color:#c6f24e}
-.g-harf{--a:#7f8cff;--b:#262f7a;--fg:#0c1030}
-.g-harf .meta span{color:#f4c24d}
-.g-jack{--a:#34c77b;--b:#0b4a2e;--fg:#06220f}
-.g-jack .meta span{color:#f5c542}
-.g-rev{--a:#ff9f43;--b:#7a3d00;--fg:#1b1230}
-.g-rev .meta span{color:#ff9f43}
-.game:nth-child(4){transform:rotate(-1deg)}
-.game:nth-child(5){transform:rotate(1deg)}
-.game:nth-child(5):active{transform:translateY(6px) rotate(1deg)}
-.game:nth-child(6){transform:rotate(-1deg)}
-.game:nth-child(6):active{transform:translateY(6px) rotate(-1deg)}
-.game:nth-child(7){transform:rotate(1deg)}
-.game:nth-child(7):active{transform:translateY(6px) rotate(1deg)}
-footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-#th{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:12px;width:44px;height:44px;font-size:20px;cursor:pointer}
+.g-bomb{--a:#ffc21a;--b:#a87b00;--fg:#0f1f26}.g-bomb .meta span{color:#ffc21a}
+.g-tod{--a:#3ee8b5;--b:#12795c;--fg:#1b0f33}.g-tod .meta span{color:#3ee8b5}
+.g-act{--a:#ff5d6c;--b:#8e1d2c;--fg:#2a0d1a}.g-act .meta span{color:#ffd0d4}
+.g-kasa{--a:#cfd6dc;--b:#5f6b74;--fg:#0e1a17}.g-kasa .meta span{color:#c6f24e}
+.g-harf{--a:#7f8cff;--b:#262f7a;--fg:#0c1030}.g-harf .meta span{color:#f4c24d}
+.g-jack{--a:#34c77b;--b:#0b4a2e;--fg:#06220f}.g-jack .meta span{color:#f5c542}
+.g-rev{--a:#ff9f43;--b:#7a3d00;--fg:#1b1230}.g-rev .meta span{color:#ff9f43}
+
+footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+#th{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;width:46px;height:46px;font-size:20px;cursor:pointer;transition:transform .15s}
+#th:active{transform:scale(.92) rotate(20deg)}
 #th:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
-@media (max-width:420px){.game{grid-template-columns:72px 1fr;padding:16px}.game svg{width:72px;height:72px}}
-@media (prefers-reduced-motion:reduce){.game{transition:none}}
+
+@media (min-width:720px){
+  .games{grid-template-columns:1fr 1fr;gap:28px 24px}
+  .game:last-child{grid-column:1/-1;--r:0deg}
+  .game:last-child .art{justify-self:end}
+}
+@media (max-width:420px){.sign{padding:30px 14px 24px}.game{grid-template-columns:76px 1fr;padding:16px;gap:12px}.art{width:76px}.art svg{width:56px;height:56px}.go{width:30px;height:30px}}
+@media (prefers-reduced-motion:reduce){.game,.game::after,.go,#th{transition:none;animation:none}.sign::before,.sign::after{animation:none}.sign::after{opacity:.45}}
 </style>
 </head>
 <body>
 <main>
-  <header>
-<h1><span>كازينو الالعاب</span><img src="icon.png" alt="" aria-hidden="true"></h1>    <p>سبع ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
+  <header class="sign">
+    <h1><span>كازينو الالعاب</span><img src="icon.png" alt="" aria-hidden="true"></h1>
+    <p>سبع ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
   </header>
 
   <nav class="games" aria-label="الألعاب">
-    <a class="game g-bomb" href="games/bomb/index.html">
-      <svg viewBox="0 0 200 220" aria-hidden="true">
+    <a class="game g-bomb" style="--i:0" href="games/bomb/index.html">
+      <div class="art"><svg viewBox="0 0 200 220" aria-hidden="true">
         <circle cx="100" cy="132" r="76" fill="#14262d" stroke="#0f1f26" stroke-width="4"/>
         <ellipse cx="74" cy="104" rx="16" ry="9" fill="#fff" opacity=".3" transform="rotate(-35 74 104)"/>
         <rect x="86" y="44" width="28" height="22" rx="4" fill="#2c4a55"/>
         <path d="M100 44 C100 28 124 30 130 14" fill="none" stroke="#7a5a1c" stroke-width="6" stroke-linecap="round"/>
         <circle cx="132" cy="12" r="10" fill="#ff4b3e"/><circle cx="132" cy="12" r="4" fill="#fff"/>
-      </svg>
+      </svg></div>
       <div>
-        <h2>القنبلة المتنقلة</h2>
+        <div class="top"><h2>القنبلة المتنقلة</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
         <p>فئة على الشاشة، رد بسرعة وعدّي الموبايل. اللي القنبلة تنفجر في إيده ياخد عقاب.</p>
         <div class="meta"><span>٣ لاعبين أو أكتر</span><span>سريعة</span></div>
       </div>
     </a>
 
-    <a class="game g-tod" href="games/truth-or-dare/index.html">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
+    <a class="game g-tod" style="--i:1" href="games/truth-or-dare/index.html">
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <circle cx="60" cy="60" r="52" fill="#1b0f33"/>
         <path d="M60 60L60 8A52 52 0 0 1 105 34Z" fill="#ffc857"/>
         <path d="M60 60L105 34A52 52 0 0 1 105 86Z" fill="#ff8fa3"/>
@@ -93,62 +116,62 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
         <path d="M60 60L15 34A52 52 0 0 1 60 8Z" fill="#7df0ff"/>
         <g transform="rotate(35 60 60)"><rect x="54" y="14" width="12" height="46" rx="5" fill="#3ee8b5" stroke="#fff7ec" stroke-width="2"/></g>
         <circle cx="60" cy="60" r="8" fill="#1b0f33"/>
-      </svg>
+      </svg></div>
       <div>
-        <h2>صراحة ولا تحدي؟</h2>
+        <div class="top"><h2>صراحة ولا تحدي؟</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
         <p>لِف الإزازة وشوف مين هيتحشر. أسئلة وتحديات من اللاعبين نفسهم.</p>
         <div class="meta"><span>٢ لـ ١٢ لاعب</span><span>نقاط</span></div>
       </div>
     </a>
 
-    <a class="game g-act" href="games/charades/index.html">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
+    <a class="game g-act" style="--i:2" href="games/charades/index.html">
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true" style="background-color: rgb(255, 93, 108); border-radius: 50%;">
         <g transform="rotate(-8 60 60)">
           <rect x="12" y="26" width="96" height="68" rx="10" fill="#ffd447"/>
           <circle cx="12" cy="60" r="9" fill="#ff5d6c"/><circle cx="108" cy="60" r="9" fill="#ff5d6c"/>
           <path d="M34 60h52" stroke="#2a0d1a" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round"/>
           <path d="M40 78h40M48 40h24" stroke="#2a0d1a" stroke-width="6" stroke-linecap="round"/>
         </g>
-      </svg>
+      </svg></div>
       <div>
-        <h2>بيت بيوت مصري</h2>
+        <div class="top"><h2>بيت بيوت مصري</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
         <p>تمثيل بدون كلام: أفلام وأمثال ومواقف مصرية، والفرق بتتحدى بعض.</p>
         <div class="meta"><span>فريقين لـ ٤</span><span>أفلام وأمثال</span></div>
       </div>
     </a>
 
-    <a class="game g-kasa" href="games/bkasa/index.html">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
+    <a class="game g-kasa" style="--i:3" href="games/bkasa/index.html">
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <rect x="10" y="22" width="100" height="76" rx="14" fill="#cfd6dc" stroke="#0e1a17" stroke-width="4"/>
         <path d="M14 40L40 94M32 26L70 94M60 26L100 90" stroke="#fff" stroke-width="3" opacity=".6"/>
         <ellipse cx="62" cy="60" rx="34" ry="22" fill="#0e1a17"/>
         <text x="62" y="73" text-anchor="middle" font-size="40" font-weight="800" fill="#c6f24e" font-family="Cairo,sans-serif">؟</text>
-      </svg>
+      </svg></div>
       <div>
-        <h2>بكاسة</h2>
+        <div class="top"><h2>بكاسة</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
         <p>خربش الاستيكر وشوف الكلمة، إلا لو إنت الجاسوس. اسألوا بعض وكشفوه.</p>
         <div class="meta"><span>٣ لـ ١٢ لاعب</span><span>جاسوس</span></div>
       </div>
     </a>
 
-    <a class="game g-harf" href="games/harf/index.html">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
+    <a class="game g-harf" style="--i:4" href="games/harf/index.html">
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <g font-family="Cairo,sans-serif" font-weight="800" font-size="40" text-anchor="middle">
           <g transform="rotate(-8 28 62)"><rect x="6" y="34" width="40" height="52" rx="9" fill="#0c1030"/><text x="26" y="72" fill="#f4c24d">ح</text></g>
           <g transform="rotate(4 60 60)"><rect x="40" y="30" width="40" height="52" rx="9" fill="#f4c24d" stroke="#0c1030" stroke-width="3"/><text x="60" y="68" fill="#0c1030">ر</text></g>
           <g transform="rotate(-3 92 62)"><rect x="74" y="34" width="40" height="52" rx="9" fill="#0c1030"/><text x="94" y="72" fill="#f4c24d">ف</text></g>
         </g>
         <circle cx="60" cy="102" r="6" fill="#0c1030"/><circle cx="40" cy="102" r="3" fill="#0c1030" opacity=".5"/><circle cx="80" cy="102" r="3" fill="#0c1030" opacity=".5"/>
-      </svg>
+      </svg></div>
       <div>
-        <h2>حرف وكلمة</h2>
+        <div class="top"><h2>حرف وكلمة</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
         <p>حرف واحد وفئات كتير. اللي يخلّص كلمات الأول ياخد النقاط، والعداد مش هيرحمك.</p>
         <div class="meta"><span>٢ لـ ٨ لاعبين</span><span>سرعة</span></div>
       </div>
     </a>
 
-    <a class="game g-jack" href="games/tfkek/index.html">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
+    <a class="game g-jack" style="--i:5" href="games/tfkek/index.html">
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <circle cx="60" cy="66" r="46" fill="#06220f"/>
         <circle cx="60" cy="66" r="46" fill="none" stroke="#f5c542" stroke-width="6" stroke-dasharray="14 10"/>
         <circle cx="60" cy="66" r="32" fill="#f5c542"/>
@@ -156,16 +179,16 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
         <text x="60" y="80" text-anchor="middle" font-size="38" fill="#f5c542" font-family="Cairo,sans-serif">♠</text>
         <path d="M60 20 C60 10 76 12 82 4" fill="none" stroke="#f5c542" stroke-width="5" stroke-linecap="round"/>
         <circle cx="84" cy="4" r="6" fill="#ff4b3e"/>
-      </svg>
+      </svg></div>
       <div>
-        <h2>فرقة التفكيك</h2>
+        <div class="top"><h2>فرقة التفكيك</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
         <p>واحد قدامه القنبلة والباقي معاهم الدليل. اتكلموا بسرعة قبل ما الكازينو يتفجّر.</p>
         <div class="meta"><span>٢ لـ ٦ لاعبين</span><span>تعاونية</span></div>
       </div>
     </a>
 
-    <a class="game g-rev" href="games/kalmat/index.html">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
+    <a class="game g-rev" style="--i:6" href="games/kalmat/index.html">
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <rect x="8" y="18" width="104" height="84" rx="16" fill="#1b1230"/>
         <g font-family="Cairo,sans-serif" font-weight="800" text-anchor="middle">
           <text x="60" y="52" font-size="26" fill="#ff9f43" transform="translate(120 0) scale(-1 1)">قمر</text>
@@ -173,9 +196,9 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
           <path d="M44 62l-8 -7M44 62l-8 7" stroke="#ff9f43" stroke-width="3" stroke-linecap="round" fill="none"/>
           <text x="60" y="92" font-size="26" fill="#ffffff">قمر</text>
         </g>
-      </svg>
+      </svg></div>
       <div>
-        <h2>الكلمات المعكوسة</h2>
+        <div class="top"><h2>الكلمات المعكوسة</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
         <p>كلمة بتظهر مقلوبة على الشاشة. أول واحد يقراها صح ياخد النقطة.</p>
         <div class="meta"><span>٢ لـ ٨ لاعبين</span><span>سرعة</span></div>
       </div>
@@ -219,6 +242,6 @@ footer{margin-top:30px;color:var(--mute);font-size:14px;display:flex;justify-con
   };
 })();
 </script>
-  <script src="./games/fullscreen.js"></script>
+<script src="./games/fullscreen.js"></script>
 </body>
 </html>

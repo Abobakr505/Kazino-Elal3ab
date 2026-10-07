@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1F26">
 <title>القنبلة المتنقلة | كازينو الالعاب</title>
 <link rel="shortcut icon" href="./../../icon.png" type="image/png">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Lalezar&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Lalezar&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0F1F26;--panel:#183039;--paper:#F4EEDC;--fuse:#FFC21A;--blast:#FF4B3E;--mute:#9DB1B8;
+:root{--ink:#0F1F26;--panel:#183039;--panel2:#22434f;--paper:#F4EEDC;--fuse:#FFC21A;--blast:#FF4B3E;--mute:#9DB1B8;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
 *,*::before,*::after{box-sizing:inherit}
 html,body{height:100%;margin:0}
@@ -16,46 +17,55 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{background:radial-gradient(circle at 50% 35%,#1f3e49,var(--ink) 70%) fixed;color:var(--paper);font-family:Cairo,Tahoma,sans-serif;font-size:18px;-webkit-tap-highlight-color:transparent;overflow:hidden}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,a:focus-visible,input:focus-visible+span,textarea:focus-visible{outline:3px solid var(--fuse);outline-offset:3px}
-.screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:18px;text-align:center;overflow-y:auto}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:flex-start;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));gap:12px;text-align:center;overflow-x:hidden;overflow-y:auto}
+.screen>:first-child{margin-top:auto}.screen>:last-child{margin-bottom:auto}
 .screen.on{display:flex}
 h1,.big{font-family:Lalezar,Cairo,sans-serif;font-weight:400;margin:0;line-height:1.1}
-h1{font-size:clamp(44px,13vw,72px)}
-.sub{color:var(--mute);margin:0;max-width:30ch}
-.bomb{width:min(52vw,240px);height:auto;display:block}
+h1{font-size:clamp(38px,min(12vw,7dvh),72px);text-wrap:balance;color:#ffe9a8;text-shadow:0 0 8px #ffb52e,0 0 26px rgba(255,150,30,.55),0 5px 0 var(--blast)}
+.sub{color:var(--mute);margin:0;max-width:30ch;line-height:1.8}
+.bomb{width:min(52vw,240px,28dvh);height:auto;display:block}
+.bomb{overflow:visible}
+.halo{position:relative;display:grid;place-items:center;width:min(58vw,260px,26dvh);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 40%,#2c5260,#14262d 72%);box-shadow:inset 0 0 0 4px #ffffff1f,0 0 70px rgba(255,194,26,.22)}
+.halo::before{content:"";position:absolute;inset:-12px;border-radius:50%;border:4px dashed var(--fuse);opacity:.85;animation:spin 28s linear infinite}
+.halo .bomb{width:68%}
+@keyframes spin{to{transform:rotate(-360deg)}}
 .pulse{animation:pulse var(--beat,1s) ease-in-out infinite;transform-origin:50% 60%}
 @keyframes pulse{50%{transform:scale(1.07)}}
 .spark{animation:spark .25s steps(2) infinite;transform-box:fill-box;transform-origin:center;transform:scale(var(--sp,1))}
 @keyframes spark{50%{opacity:.35}}
-.seg{display:flex;gap:6px;background:var(--panel);padding:5px;border-radius:14px}
+.seg{display:flex;gap:6px;background:var(--panel);padding:6px;border-radius:18px;box-shadow:inset 0 0 0 2px #ffffff14,0 5px 0 #0006}
 .seg label{position:relative}
 .seg input{position:absolute;opacity:0}
-.seg span{display:block;padding:9px 18px;border-radius:10px;font-weight:700}
-.seg input:checked+span{background:var(--fuse);color:var(--ink)}
+.seg span{display:block;padding:9px 20px;border-radius:12px;font-weight:700;transition:background .15s,color .15s}
+.seg input:checked+span{background:var(--fuse);color:var(--ink);box-shadow:0 3px 0 #a87b00}
 .opt{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:16px}
 .opt input{width:22px;height:22px;accent-color:var(--fuse)}
-.btn{border:0;border-radius:16px;padding:14px 34px;font-weight:700;background:var(--panel)}
+.btn{border:0;border-radius:16px;padding:12px 24px;font-weight:700;background:var(--panel2);box-shadow:0 5px 0 #0008,inset 0 0 0 2px #ffffff14;transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #0008}
 a.btn{display:inline-block;text-decoration:none;color:var(--paper)}
-.btn.main{background:var(--fuse);color:var(--ink);font-family:Lalezar,Cairo;font-size:30px;padding:10px 54px}
-.stage{all:unset;box-sizing:border-box;position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:20px;text-align:center;cursor:pointer}
-.cat{font-family:Lalezar,Cairo;font-size:clamp(34px,10vw,56px);line-height:1.25;max-width:14ch;background:var(--paper);color:var(--ink);padding:14px 28px;border-radius:22px;transform:rotate(-2deg);box-shadow:0 8px 0 #0007,0 0 0 4px var(--fuse)}
-.hint{color:var(--mute);font-size:16px}
-#boom{background:var(--blast);color:var(--ink)}
-#boom .big{font-size:clamp(56px,18vw,96px)}
-#boom .pen{background:var(--ink);color:var(--paper);padding:14px 20px;border-radius:16px;max-width:30ch}
+.btn.main{background:var(--fuse);color:var(--ink);font-family:Lalezar,Cairo;font-size:32px;padding:8px 48px;border-radius:20px;box-shadow:0 7px 0 #a87b00,0 14px 24px rgba(255,194,26,.25)}
+.btn.main:active{box-shadow:0 2px 0 #a87b00}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.row .btn{padding:9px 18px;font-size:16px}
+.stage{all:unset;box-sizing:border-box;position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:16px;text-align:center;cursor:pointer;overflow:hidden}
+.cat{position:relative;font-family:Lalezar,Cairo;font-size:clamp(30px,min(9vw,6.5dvh),52px);line-height:1.25;max-width:min(82vw,14ch);min-width:min(74vw,280px);background:var(--paper);color:var(--ink);padding:22px 26px;border-radius:24px;transform:rotate(-2deg);box-shadow:0 9px 0 #0008,0 0 0 4px var(--fuse),0 22px 40px rgba(0,0,0,.4)}
+.cat::before,.cat::after{position:absolute;font-family:Cairo,sans-serif;font-size:24px;line-height:1}
+.cat::before{content:"♠";top:10px;right:14px}
+.cat::after{content:"♦";bottom:10px;left:14px;color:var(--blast)}
+.hint{color:var(--mute);font-size:16px;background:#0004;padding:6px 18px;border-radius:99px}
+#boom{background:repeating-conic-gradient(from 0deg at 50% 40%,#ff5f4a 0 7deg,#e23a2d 7deg 14deg);color:var(--ink)}
+#boom .big{font-size:clamp(46px,min(17vw,11dvh),96px);color:#fff3cf;text-shadow:0 6px 0 #7a0f08,0 0 30px rgba(255,220,120,.6)}
+#res{font-weight:800;background:#0003;padding:4px 18px;border-radius:99px}
+#boom .pen{background:var(--ink);color:var(--paper);padding:16px 22px;border-radius:18px;max-width:30ch;line-height:1.7;box-shadow:0 6px 0 #0008,0 0 0 3px var(--fuse)}
 #boom .btn{background:var(--ink);color:var(--paper)}
-#boom .btn.main{background:var(--paper);color:var(--ink)}
+#boom .btn.main{background:var(--paper);color:var(--ink);box-shadow:0 7px 0 #8a8268}
 .flash{animation:flash .5s ease-out}
 @keyframes flash{from{filter:brightness(3)}}
-dialog{background:var(--panel);color:var(--paper);border:0;border-radius:20px;padding:22px;max-width:min(92vw,420px);width:100%;text-align:right}
-dialog::backdrop{background:#000a}
-dialog ol{padding-inline-start:22px;line-height:1.8;margin:10px 0 16px}
-#ptxt{display:block;width:100%;min-height:240px;margin:12px 0;padding:12px;border-radius:12px;border:2px solid var(--mute);background:var(--ink);color:var(--paper);font:inherit;font-size:17px;line-height:1.7;resize:vertical}
-.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.row .btn{padding:10px 22px}
+dialog{background:var(--panel);color:var(--paper);border:0;border-radius:24px;padding:24px;max-width:min(92vw,420px);width:100%;text-align:right;box-shadow:0 0 0 3px var(--fuse),0 24px 60px #000a}
+dialog::backdrop{background:#000b;backdrop-filter:blur(3px)}
+dialog ol{padding-inline-start:22px;line-height:1.9;margin:10px 0 16px}
+#ptxt{display:block;width:100%;min-height:240px;margin:12px 0;padding:12px;border-radius:14px;border:2px solid var(--panel2);background:var(--ink);color:var(--paper);font:inherit;font-size:17px;line-height:1.7;resize:vertical}
 #pmsg{min-height:1.4em;color:var(--fuse);font-size:15px;margin:0}
-h1{color:var(--fuse);text-shadow:4px 4px 0 var(--blast)}
-.btn.main{box-shadow:0 6px 0 #a87b00}
-.btn:active{transform:translateY(3px)}
 #vig{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:5;transition:opacity .15s;background:radial-gradient(circle,transparent 40%,#ff2a1ad9 100%)}
 .shake{animation:shake .09s linear infinite}
 @keyframes shake{25%{transform:translate(var(--sx,2px),-1px)}75%{transform:translate(calc(var(--sx,2px)*-1),1px)}}
@@ -65,22 +75,45 @@ h1{color:var(--fuse);text-shadow:4px 4px 0 var(--blast)}
 @keyframes pop{from{transform:scale(.6) rotate(-6deg);opacity:0}}
 .ring{position:fixed;left:50%;top:45%;width:40px;height:40px;margin:-20px;border-radius:50%;border:8px solid #fff;pointer-events:none;z-index:6;animation:ring .9s ease-out forwards}
 @keyframes ring{to{transform:scale(24);opacity:0;border-width:1px}}
-@media (max-height:640px){.bomb{width:min(34vw,150px)}.screen{gap:12px}}
-@media (prefers-reduced-motion:reduce){.pulse,.spark,.flash,.shake,.toss,.pop,.ring{animation:none}}
+@media (max-height:640px){.bomb{width:min(34vw,150px)}.halo{width:min(34vw,150px)}.screen{gap:8px}.btn.main{font-size:26px;padding:6px 50px}}
+@media (prefers-reduced-motion:reduce){.pulse,.spark,.flash,.shake,.toss,.pop,.ring,.halo::before{animation:none}}
 </style>
 </head>
 <body>
 <div id="vig"></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><radialGradient id="bg" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#3f6370"/><stop offset=".45" stop-color="#14262d"/><stop offset="1" stop-color="#050b0e"/></radialGradient></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="bg" cx="34%" cy="28%" r="88%"><stop offset="0" stop-color="#6a8995"/><stop offset=".16" stop-color="#3a5a66"/><stop offset=".5" stop-color="#162b33"/><stop offset="1" stop-color="#03080a"/></radialGradient>
+<radialGradient id="bounce" cx="72%" cy="88%" r="50%"><stop offset="0" stop-color="#7fa8b8" stop-opacity=".42"/><stop offset="1" stop-color="#7fa8b8" stop-opacity="0"/></radialGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b4d0db" stop-opacity=".85"/><stop offset=".5" stop-color="#2c4a55" stop-opacity=".3"/><stop offset="1" stop-color="#6f97a6" stop-opacity=".6"/></linearGradient>
+<linearGradient id="metal"><stop offset="0" stop-color="#14262d"/><stop offset=".3" stop-color="#7a98a4"/><stop offset=".6" stop-color="#2a444f"/><stop offset="1" stop-color="#0a161b"/></linearGradient>
+<linearGradient id="brass"><stop offset="0" stop-color="#6a4c12"/><stop offset=".35" stop-color="#f0d587"/><stop offset=".62" stop-color="#b08934"/><stop offset="1" stop-color="#4f370b"/></linearGradient>
+<radialGradient id="flame"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#fff3b0"/><stop offset=".55" stop-color="#ffc21a"/><stop offset=".85" stop-color="#ff4b3e"/><stop offset="1" stop-color="#ff4b3e" stop-opacity="0"/></radialGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#ffb52e" stop-opacity=".9"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient>
+<filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+</defs></svg>
 
 <section class="screen on" id="home">
+  <div class="halo" style="margin-bottom: 1rem;">
   <svg class="bomb pulse" viewBox="0 0 200 220" aria-hidden="true">
-    <circle cx="100" cy="132" r="76" fill="url(#bg)" stroke="#2c4a55" stroke-width="4"/>
-    <ellipse cx="74" cy="104" rx="16" ry="9" fill="#fff" opacity=".28" transform="rotate(-35 74 104)"/>
-    <rect x="86" y="44" width="28" height="22" rx="4" fill="#2c4a55"/>
-    <path d="M100 44 C100 28 124 30 130 14" fill="none" stroke="#C9A66B" stroke-width="5" stroke-linecap="round"/>
-    <g class="spark"><circle cx="132" cy="12" r="9" fill="#FFC21A"/><circle cx="132" cy="12" r="4" fill="#FF4B3E"/></g>
+    <ellipse cx="100" cy="211" rx="62" ry="7" fill="#000" opacity=".4" filter="url(#soft)"/>
+    <circle cx="100" cy="132" r="76" fill="url(#bg)"/>
+    <circle cx="100" cy="132" r="76" fill="url(#bounce)"/>
+    <path d="M24 140Q100 168 176 140" fill="none" stroke="#050b0e" stroke-width="4"/>
+    <path d="M24 143Q100 171 176 143" fill="none" stroke="#4d7886" stroke-width="1.2" opacity=".5"/>
+    <g fill="#2c4a55" stroke="#050b0e" stroke-width="1"><circle cx="39" cy="146" r="3.4"/><circle cx="62" cy="151" r="3.4"/><circle cx="100" cy="155" r="3.4"/><circle cx="138" cy="151" r="3.4"/><circle cx="161" cy="146" r="3.4"/></g>
+    <g fill="#9bbac6" opacity=".7"><circle cx="38" cy="145" r="1"/><circle cx="61" cy="150" r="1"/><circle cx="99" cy="154" r="1"/><circle cx="137" cy="150" r="1"/><circle cx="160" cy="145" r="1"/></g>
+    <circle cx="100" cy="132" r="75" fill="none" stroke="url(#rim)" stroke-width="3"/>
+    <ellipse cx="72" cy="100" rx="24" ry="13" fill="#fff" opacity=".28" transform="rotate(-35 72 100)" filter="url(#soft)"/>
+    <ellipse cx="64" cy="92" rx="7" ry="3.2" fill="#fff" opacity=".85" transform="rotate(-35 64 92)"/>
+    <rect x="84" y="46" width="32" height="26" rx="4" fill="url(#metal)" stroke="#050b0e" stroke-width="1.5"/>
+    <path d="M85 54h30M85 60h30M85 66h30" stroke="#050b0e" stroke-width="1.4" opacity=".55"/>
+    <rect x="79" y="66" width="42" height="9" rx="4" fill="url(#brass)" stroke="#3a2a08"/>
+    <rect x="79" y="40" width="42" height="9" rx="4" fill="url(#brass)" stroke="#3a2a08"/>
+    <ellipse cx="100" cy="41" rx="6" ry="2.2" fill="#050b0e"/>
+    <g fill="none" stroke-linecap="round"><path d="M100 41C100 24 122 28 128 12" stroke="#2e2010" stroke-width="8"/><path d="M100 41C100 24 122 28 128 12" stroke="#b9976a" stroke-width="6"/><path d="M100 41C100 24 122 28 128 12" stroke="#6b4f2a" stroke-width="6" stroke-dasharray="2 3.5"/><path d="M100 41C100 24 122 28 128 12" stroke="#f0dcae" stroke-width="1.5" stroke-dasharray="3 4" stroke-dashoffset="1" opacity=".8"/></g>
+    <g class="spark"><circle cx="128" cy="12" r="24" fill="url(#glow)"/><polygon points="142,12 133.1,14.1 137.9,21.9 130.1,17.1 128,26 125.9,17.1 118.1,21.9 122.9,14.1 114,12 122.9,9.9 118.1,2.1 125.9,6.9 128,-2 130.1,6.9 137.9,2.1 133.1,9.9" fill="url(#flame)"/><circle cx="128" cy="12" r="3.2" fill="#fff"/><g fill="#ffd86b"><circle cx="141" cy="3" r="1.4"/><circle cx="115" cy="5" r="1.2"/><circle cx="137" cy="25" r="1.2"/></g></g>
   </svg>
+  </div>
   <h1>القنبلة المتنقلة</h1>
   <p class="sub">فئة على الشاشة، رد بسرعة وعدّي الموبايل. اللي القنبلة تنفجر في إيده يخسر.</p>
   <div class="seg" role="radiogroup" aria-label="مدة القنبلة">
@@ -89,7 +122,7 @@ h1{color:var(--fuse);text-shadow:4px 4px 0 var(--blast)}
     <label><input type="radio" name="len" value="long"><span>طويلة</span></label>
   </div>
   <label class="opt"><input type="checkbox" id="each"> غيّر الفئة مع كل تمريرة</label>
-  <button class="btn main" id="start">ابدأ</button>
+  <button class="btn main" id="start" style="margin-bottom: 1rem;">ابدأ</button>
   <div class="row">
     <button class="btn" id="how">إزاي نلعب؟</button>
     <button class="btn" id="editPen">✏️ عدّل العقاب</button>
@@ -101,12 +134,24 @@ h1{color:var(--fuse);text-shadow:4px 4px 0 var(--blast)}
 <section class="screen" id="game">
   <button class="stage" id="stage" aria-label="عدّي القنبلة للي جنبك">
     <svg class="bomb pulse" id="gb" viewBox="0 0 200 220" aria-hidden="true">
-      <circle cx="100" cy="132" r="76" fill="url(#bg)" stroke="#2c4a55" stroke-width="4"/>
-      <ellipse cx="74" cy="104" rx="16" ry="9" fill="#fff" opacity=".28" transform="rotate(-35 74 104)"/>
-      <rect x="86" y="44" width="28" height="22" rx="4" fill="#2c4a55"/>
-      <path d="M100 44 C100 28 124 30 130 14" fill="none" stroke="#C9A66B" stroke-width="5" stroke-linecap="round"/>
-      <g class="spark"><circle cx="132" cy="12" r="9" fill="#FFC21A"/><circle cx="132" cy="12" r="4" fill="#FF4B3E"/></g>
-    </svg>
+    <ellipse cx="100" cy="211" rx="62" ry="7" fill="#000" opacity=".4" filter="url(#soft)"/>
+    <circle cx="100" cy="132" r="76" fill="url(#bg)"/>
+    <circle cx="100" cy="132" r="76" fill="url(#bounce)"/>
+    <path d="M24 140Q100 168 176 140" fill="none" stroke="#050b0e" stroke-width="4"/>
+    <path d="M24 143Q100 171 176 143" fill="none" stroke="#4d7886" stroke-width="1.2" opacity=".5"/>
+    <g fill="#2c4a55" stroke="#050b0e" stroke-width="1"><circle cx="39" cy="146" r="3.4"/><circle cx="62" cy="151" r="3.4"/><circle cx="100" cy="155" r="3.4"/><circle cx="138" cy="151" r="3.4"/><circle cx="161" cy="146" r="3.4"/></g>
+    <g fill="#9bbac6" opacity=".7"><circle cx="38" cy="145" r="1"/><circle cx="61" cy="150" r="1"/><circle cx="99" cy="154" r="1"/><circle cx="137" cy="150" r="1"/><circle cx="160" cy="145" r="1"/></g>
+    <circle cx="100" cy="132" r="75" fill="none" stroke="url(#rim)" stroke-width="3"/>
+    <ellipse cx="72" cy="100" rx="24" ry="13" fill="#fff" opacity=".28" transform="rotate(-35 72 100)" filter="url(#soft)"/>
+    <ellipse cx="64" cy="92" rx="7" ry="3.2" fill="#fff" opacity=".85" transform="rotate(-35 64 92)"/>
+    <rect x="84" y="46" width="32" height="26" rx="4" fill="url(#metal)" stroke="#050b0e" stroke-width="1.5"/>
+    <path d="M85 54h30M85 60h30M85 66h30" stroke="#050b0e" stroke-width="1.4" opacity=".55"/>
+    <rect x="79" y="66" width="42" height="9" rx="4" fill="url(#brass)" stroke="#3a2a08"/>
+    <rect x="79" y="40" width="42" height="9" rx="4" fill="url(#brass)" stroke="#3a2a08"/>
+    <ellipse cx="100" cy="41" rx="6" ry="2.2" fill="#050b0e"/>
+    <g fill="none" stroke-linecap="round"><path d="M100 41C100 24 122 28 128 12" stroke="#2e2010" stroke-width="8"/><path d="M100 41C100 24 122 28 128 12" stroke="#b9976a" stroke-width="6"/><path d="M100 41C100 24 122 28 128 12" stroke="#6b4f2a" stroke-width="6" stroke-dasharray="2 3.5"/><path d="M100 41C100 24 122 28 128 12" stroke="#f0dcae" stroke-width="1.5" stroke-dasharray="3 4" stroke-dashoffset="1" opacity=".8"/></g>
+    <g class="spark"><circle cx="128" cy="12" r="24" fill="url(#glow)"/><polygon points="142,12 133.1,14.1 137.9,21.9 130.1,17.1 128,26 125.9,17.1 118.1,21.9 122.9,14.1 114,12 122.9,9.9 118.1,2.1 125.9,6.9 128,-2 130.1,6.9 137.9,2.1 133.1,9.9" fill="url(#flame)"/><circle cx="128" cy="12" r="3.2" fill="#fff"/><g fill="#ffd86b"><circle cx="141" cy="3" r="1.4"/><circle cx="115" cy="5" r="1.2"/><circle cx="137" cy="25" r="1.2"/></g></g>
+  </svg>
     <div class="cat" id="cat"></div>
     <div class="hint">رد وعدّي الموبايل (دوس على الشاشة)</div>
   </button>
@@ -135,7 +180,7 @@ h1{color:var(--fuse);text-shadow:4px 4px 0 var(--blast)}
 
 <dialog id="pdlg">
   <h2 class="big" id="ptitle" style="font-size:32px;margin:0">عدّل العقاب</h2>
-  <p class="hint" id="phint" style="margin:6px 0 0">اكتب كل عقاب في سطر لوحده.</p>
+  <p class="hint" id="phint" style="margin:6px 0 0;background:none;padding:0">اكتب كل عقاب في سطر لوحده.</p>
   <textarea id="ptxt" aria-label="القائمة" spellcheck="false"></textarea>
   <p id="pmsg" role="status"></p>
   <div class="row">
