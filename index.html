@@ -81,6 +81,396 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
 }
 @media (max-width:420px){.sign{padding:30px 14px 24px}.game{grid-template-columns:76px 1fr;padding:16px;gap:12px}.art{width:76px}.art svg{width:56px;height:56px}.go{width:30px;height:30px}}
 @media (prefers-reduced-motion:reduce){.game,.game::after,.go,#th{transition:none;animation:none}.sign::before,.sign::after{animation:none}.sign::after{opacity:.45}}
+/* =========================
+   ROULETTE BUTTON
+========================= */
+
+.roulette-open{
+  width:100%;
+  margin:0 auto 30px;
+  padding:16px 20px;
+  border:3px solid #ffd86b;
+  border-radius:22px;
+  background:
+    linear-gradient(135deg,#35145f,#1b0f33);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-align:right;
+  cursor:pointer;
+  box-shadow:
+    0 7px 0 #10071c,
+    0 15px 30px rgba(0,0,0,.25);
+  transition:.2s ease;
+  font-family:Cairo,Tahoma,sans-serif;
+}
+
+.roulette-open:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    0 11px 0 #10071c,
+    0 22px 35px rgba(0,0,0,.3);
+}
+
+.roulette-open:active{
+  transform:translateY(4px);
+  box-shadow:
+    0 3px 0 #10071c,
+    0 8px 15px rgba(0,0,0,.2);
+}
+
+.roulette-icon{
+  width:55px;
+  height:55px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  background:#ffd86b;
+  font-size:31px;
+  flex:none;
+  box-shadow:inset 0 -4px 0 rgba(0,0,0,.18);
+}
+
+.roulette-open strong{
+  display:block;
+  font-family:Lalezar,Cairo,sans-serif;
+  font-size:27px;
+  line-height:1.1;
+  color:#ffe9a8;
+}
+
+.roulette-open small{
+  display:block;
+  margin-top:3px;
+  color:#d9cbf0;
+  font-size:13px;
+}
+
+.roulette-arrow{
+  margin-right:auto;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#ffd86b;
+  color:#35145f;
+  font-size:22px;
+  font-weight:900;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.roulette-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.roulette-modal.active{
+  display:flex;
+}
+
+.roulette-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(5,7,12,.82);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  animation:rouletteFade .25s ease;
+}
+
+@keyframes rouletteFade{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+.roulette-box{
+  position:relative;
+  z-index:2;
+  width:min(620px,100%);
+  max-height:95vh;
+  overflow:auto;
+  padding:28px 20px 24px;
+  border-radius:30px;
+  background:
+    radial-gradient(
+      circle at 50% 0,
+      #3c2164,
+      transparent 45%
+    ),
+    #151923;
+  border:2px solid #ffd86b;
+  box-shadow:
+    0 0 0 5px rgba(255,216,107,.08),
+    0 25px 70px rgba(0,0,0,.6);
+  text-align:center;
+  animation:rouletteBoxIn .35s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes rouletteBoxIn{
+  from{
+    opacity:0;
+    transform:scale(.8) translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+}
+
+.roulette-close{
+  position:absolute;
+  top:12px;
+  left:12px;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:#ffffff15;
+  color:#fff;
+  font-size:30px;
+  line-height:1;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.roulette-close:hover{
+  background:#ff5d6c;
+  transform:rotate(90deg);
+}
+
+.roulette-title span{
+  display:block;
+  font-size:38px;
+  margin-bottom:3px;
+}
+
+.roulette-title h2{
+  margin:0;
+  color:#ffe9a8;
+  font-family:Lalezar,Cairo,sans-serif;
+  font-size:36px;
+  font-weight:400;
+}
+
+.roulette-title p{
+  margin:0 0 18px;
+  color:#bfc8d0;
+  font-size:14px;
+}
+
+
+/* =========================
+   WHEEL
+========================= */
+
+.wheel-wrap{
+  position:relative;
+  width:min(480px,90vw);
+  aspect-ratio:1;
+  margin:0 auto 20px;
+}
+
+#rouletteWheel{
+  display:block;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  filter:
+    drop-shadow(0 15px 20px rgba(0,0,0,.45));
+}
+
+.wheel-pointer{
+  position:absolute;
+  z-index:5;
+  top:-7px;
+  left:50%;
+  transform:translateX(-50%);
+  width:54px;
+  height:62px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  pointer-events:none;
+}
+
+.wheel-pointer span{
+  display:block;
+  color:#ff4b4b;
+  font-size:50px;
+  line-height:1;
+  filter:
+    drop-shadow(0 3px 0 #601010)
+    drop-shadow(0 0 8px rgba(255,70,70,.7));
+}
+
+.wheel-center{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#17101f;
+  border:6px solid #ffd86b;
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,.12),
+    0 5px 15px rgba(0,0,0,.45);
+  pointer-events:none;
+}
+
+.wheel-center span{
+  font-size:30px;
+}
+
+
+/* =========================
+   SPIN BUTTON
+========================= */
+
+.spin-btn{
+  border:0;
+  min-width:210px;
+  padding:13px 24px;
+  border-radius:999px;
+  background:
+    linear-gradient(135deg,#ffd86b,#ff9f43);
+  color:#251329;
+  font-family:Cairo,Tahoma,sans-serif;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:
+    0 6px 0 #a65d16,
+    0 12px 25px rgba(255,159,67,.25);
+  transition:.18s;
+}
+
+.spin-btn:hover{
+  transform:translateY(-3px);
+}
+
+.spin-btn:active{
+  transform:translateY(4px);
+  box-shadow:0 2px 0 #a65d16;
+}
+
+.spin-btn:disabled{
+  cursor:not-allowed;
+  opacity:.6;
+  transform:none;
+}
+
+.spin-btn b{
+  margin-right:8px;
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.roulette-result{
+  min-height:50px;
+  margin-top:18px;
+  padding:10px 15px;
+  border-radius:16px;
+  background:#ffffff0d;
+  color:#ddd;
+  font-size:15px;
+}
+
+.roulette-result.winner{
+  background:#ffd86b18;
+  border:1px solid #ffd86b55;
+  color:#ffe9a8;
+}
+
+.roulette-result strong{
+  display:block;
+  font-family:Lalezar,Cairo,sans-serif;
+  font-size:29px;
+  color:#ffd86b;
+}
+
+.play-result{
+  display:none;
+  margin:14px auto 0;
+  padding:11px 25px;
+  border:0;
+  border-radius:999px;
+  background:#3ee8b5;
+  color:#09251d;
+  font-family:Cairo,sans-serif;
+  font-weight:800;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 5px 0 #12795c;
+}
+
+.play-result.show{
+  display:block;
+}
+
+.play-result:hover{
+  transform:translateY(-2px);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:520px){
+
+  .roulette-box{
+    padding:24px 12px 20px;
+    border-radius:25px;
+  }
+
+  .roulette-title h2{
+    font-size:30px;
+  }
+
+  .roulette-title span{
+    font-size:30px;
+  }
+
+  .wheel-wrap{
+    width:min(360px,88vw);
+  }
+
+  .wheel-center{
+    width:58px;
+    height:58px;
+  }
+
+  .wheel-center span{
+    font-size:24px;
+  }
+
+  .roulette-open strong{
+    font-size:23px;
+  }
+
+  .roulette-icon{
+    width:48px;
+    height:48px;
+    font-size:26px;
+  }
+}
 </style>
 </head>
 <body>
@@ -89,6 +479,14 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
     <h1><span>كازينو الالعاب</span><img src="icon.png" alt="" aria-hidden="true"></h1>
     <p>سبع ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
   </header>
+<button class="roulette-open" id="rouletteOpen">
+  <span class="roulette-icon">🎰</span>
+  <span>
+    <strong>محتار تلعب إيه؟</strong>
+    <small>خلّي الروليت تختارلك 🎲</small>
+  </span>
+  <span class="roulette-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5303 5.46967C10.8232 5.76256 10.8232 6.23744 10.5303 6.53033L5.81066 11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H5.81066L10.5303 17.4697C10.8232 17.7626 10.8232 18.2374 10.5303 18.5303C10.2374 18.8232 9.76256 18.8232 9.46967 18.5303L3.46967 12.5303C3.17678 12.2374 3.17678 11.7626 3.46967 11.4697L9.46967 5.46967C9.76256 5.17678 10.2374 5.17678 10.5303 5.46967Z" fill="currentColor"/></svg></span>
+</button>
 
   <nav class="games" aria-label="الألعاب">
     <a class="game g-bomb" style="--i:0" href="games/bomb/index.html">
@@ -234,9 +632,1100 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
     
     <button id="th" aria-label="تبديل الثيم" title="تبديل الثيم">🌓</button>
     <span>العب بصوت عالي وضحك كتير.</span>
-  </footer>
+  </footer><!-- Roulette Modal -->
+<div class="roulette-modal" id="rouletteModal" aria-hidden="true">
+  <div class="roulette-overlay" id="rouletteOverlay"></div>
+
+  <div class="roulette-box">
+
+    <button class="roulette-close" id="rouletteClose" aria-label="إغلاق">
+      ×
+    </button>
+
+    <div class="roulette-title">
+      <span>🎰</span>
+      <h2>محتار تلعب إيه؟</h2>
+      <p>خلّي الحظ يختارلك اللعبة!</p>
+    </div>
+
+    <div class="wheel-wrap">
+
+      <div class="wheel-pointer">
+        <span>▼</span>
+      </div>
+
+      <canvas id="rouletteWheel" width="520" height="520"></canvas>
+
+      <div class="wheel-center">
+        <span>🎲</span>
+      </div>
+
+    </div>
+
+    <button class="spin-btn" id="spinRoulette">
+      <span>لف الروليت</span>
+      <b>🎯</b>
+    </button>
+
+    <div class="roulette-result" id="rouletteResult">
+      <span>اضغط وخلّي الحظ يختار 👀</span>
+    </div>
+
+    <button class="play-result" id="playResult">
+      العب اللعبة 🚀
+    </button>
+
+  </div>
+</div>
 </main>
 <script>
+(function(){
+
+  const games = [
+    {
+      name: "القنبلة المتنقلة",
+      href: "games/bomb/index.html"
+    },
+    {
+      name: "صراحة ولا تحدي؟",
+      href: "games/truth-or-dare/index.html"
+    },
+    {
+      name: "بيت بيوت مصري",
+      href: "games/charades/index.html"
+    },
+    {
+      name: "خمّن من الإيموجي",
+      href: "games/emoji/index.html"
+    },
+    {
+      name: "بكاسة",
+      href: "games/bkasa/index.html"
+    },
+    {
+      name: "حرف وكلمة",
+      href: "games/harf/index.html"
+    },
+    {
+      name: "فرقة التفكيك",
+      href: "games/tfkek/index.html"
+    },
+    {
+      name: "الكلمات المعكوسة",
+      href: "games/kalmat/index.html"
+    },
+    {
+      name: "المحكمة الهزلية",
+      href: "games/court/index.html"
+    }
+  ];
+
+  const colors = [
+    "#ff5d6c",
+    "#3ee8b5",
+    "#ffd447",
+    "#7f8cff",
+    "#c98a3d",
+    "#34c77b",
+    "#ff9f43",
+    "#4fd1e8",
+    "#c4a1ff"
+  ];
+
+  const modal = document.getElementById("rouletteModal");
+  const openBtn = document.getElementById("rouletteOpen");
+  const closeBtn = document.getElementById("rouletteClose");
+  const overlay = document.getElementById("rouletteOverlay");
+  const spinBtn = document.getElementById("spinRoulette");
+  const canvas = document.getElementById("rouletteWheel");
+  const result = document.getElementById("rouletteResult");
+  const playBtn = document.getElementById("playResult");
+
+  const ctx = canvas.getContext("2d");
+
+  let rotation = 0;
+  let spinning = false;
+  let selectedGame = null;
+
+  const TAU = Math.PI * 2;
+  const slice = TAU / games.length;
+
+
+  /* =========================
+     DRAW WHEEL
+  ========================= */
+/* =========================
+   SVG ICONS
+   نفس رسومات كروت الألعاب
+========================= */
+
+const wheelIcons = [
+
+  // 💣 القنبلة المتنقلة
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220">
+    <circle cx="100" cy="132" r="76"
+      fill="#14262d"
+      stroke="#0f1f26"
+      stroke-width="4"/>
+
+    <ellipse cx="74" cy="104"
+      rx="16" ry="9"
+      fill="#fff"
+      opacity=".3"
+      transform="rotate(-35 74 104)"/>
+
+    <rect x="86" y="44"
+      width="28"
+      height="22"
+      rx="4"
+      fill="#2c4a55"/>
+
+    <path
+      d="M100 44 C100 28 124 30 130 14"
+      fill="none"
+      stroke="#7a5a1c"
+      stroke-width="6"
+      stroke-linecap="round"/>
+
+    <circle cx="132" cy="12" r="10" fill="#ff4b3e"/>
+    <circle cx="132" cy="12" r="4" fill="#fff"/>
+  </svg>
+  `,
+
+  // 🎡 صراحة ولا تحدي
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <circle cx="60" cy="60" r="52" fill="#1b0f33"/>
+
+    <path d="M60 60L60 8A52 52 0 0 1 105 34Z"
+      fill="#ffc857"/>
+
+    <path d="M60 60L105 34A52 52 0 0 1 105 86Z"
+      fill="#ff8fa3"/>
+
+    <path d="M60 60L105 86A52 52 0 0 1 60 112Z"
+      fill="#8ecbff"/>
+
+    <path d="M60 60L60 112A52 52 0 0 1 15 86Z"
+      fill="#c4a1ff"/>
+
+    <path d="M60 60L15 86A52 52 0 0 1 15 34Z"
+      fill="#9af08c"/>
+
+    <path d="M60 60L15 34A52 52 0 0 1 60 8Z"
+      fill="#7df0ff"/>
+
+    <g transform="rotate(35 60 60)">
+      <rect x="54" y="14"
+        width="12"
+        height="46"
+        rx="5"
+        fill="#3ee8b5"
+        stroke="#fff7ec"
+        stroke-width="2"/>
+    </g>
+
+    <circle cx="60" cy="60" r="8" fill="#1b0f33"/>
+  </svg>
+  `,
+
+  // 🎭 بيت بيوت
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <g transform="rotate(-8 60 60)">
+
+      <rect x="12" y="26"
+        width="96"
+        height="68"
+        rx="10"
+        fill="#ffd447"/>
+
+      <circle cx="12" cy="60"
+        r="9"
+        fill="#ff5d6c"/>
+
+      <circle cx="108" cy="60"
+        r="9"
+        fill="#ff5d6c"/>
+
+      <path
+        d="M34 60h52"
+        stroke="#2a0d1a"
+        stroke-width="3"
+        stroke-dasharray="6 5"
+        stroke-linecap="round"/>
+
+      <path
+        d="M40 78h40M48 40h24"
+        stroke="#2a0d1a"
+        stroke-width="6"
+        stroke-linecap="round"/>
+
+    </g>
+
+  </svg>
+  `,
+
+  // 🤔 الإيموجي
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <circle cx="60" cy="60"
+      r="46"
+      fill="#08303b"/>
+
+    <text x="60"
+      y="78"
+      text-anchor="middle"
+      font-size="52">
+      🤔
+    </text>
+
+    <text x="22"
+      y="34"
+      font-size="22">
+      🎬
+    </text>
+
+    <text x="84"
+      y="104"
+      font-size="22">
+      🍿
+    </text>
+
+  </svg>
+  `,
+
+  // 🕵️ بكاسة
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <rect x="10" y="22"
+      width="100"
+      height="76"
+      rx="14"
+      fill="#cfd6dc"
+      stroke="#0e1a17"
+      stroke-width="4"/>
+
+    <path
+      d="M14 40L40 94M32 26L70 94M60 26L100 90"
+      stroke="#fff"
+      stroke-width="3"
+      opacity=".6"/>
+
+    <ellipse cx="62" cy="60"
+      rx="34"
+      ry="22"
+      fill="#0e1a17"/>
+
+    <text x="62"
+      y="73"
+      text-anchor="middle"
+      font-size="40"
+      font-weight="800"
+      fill="#c6f24e"
+      font-family="Cairo,sans-serif">
+      ؟
+    </text>
+
+  </svg>
+  `,
+
+  // 🔤 حرف وكلمة
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <g
+      font-family="Cairo,sans-serif"
+      font-weight="800"
+      font-size="40"
+      text-anchor="middle">
+
+      <g transform="rotate(-8 28 62)">
+        <rect x="6" y="34"
+          width="40"
+          height="52"
+          rx="9"
+          fill="#0c1030"/>
+        <text x="26" y="72"
+          fill="#f4c24d">
+          ح
+        </text>
+      </g>
+
+      <g transform="rotate(4 60 60)">
+        <rect x="40" y="30"
+          width="40"
+          height="52"
+          rx="9"
+          fill="#f4c24d"
+          stroke="#0c1030"
+          stroke-width="3"/>
+        <text x="60" y="68"
+          fill="#0c1030">
+          ر
+        </text>
+      </g>
+
+      <g transform="rotate(-3 92 62)">
+        <rect x="74" y="34"
+          width="40"
+          height="52"
+          rx="9"
+          fill="#0c1030"/>
+        <text x="94" y="72"
+          fill="#f4c24d">
+          ف
+        </text>
+      </g>
+
+    </g>
+
+    <circle cx="60" cy="102"
+      r="6"
+      fill="#0c1030"/>
+
+    <circle cx="40" cy="102"
+      r="3"
+      fill="#0c1030"
+      opacity=".5"/>
+
+    <circle cx="80" cy="102"
+      r="3"
+      fill="#0c1030"
+      opacity=".5"/>
+
+  </svg>
+  `,
+
+  // 🧩 فرقة التفكيك
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <circle cx="60" cy="66"
+      r="46"
+      fill="#06220f"/>
+
+    <circle cx="60" cy="66"
+      r="46"
+      fill="none"
+      stroke="#f5c542"
+      stroke-width="6"
+      stroke-dasharray="14 10"/>
+
+    <circle cx="60" cy="66"
+      r="32"
+      fill="#f5c542"/>
+
+    <circle cx="60" cy="66"
+      r="26"
+      fill="#06220f"/>
+
+    <text x="60"
+      y="80"
+      text-anchor="middle"
+      font-size="38"
+      fill="#f5c542"
+      font-family="Cairo,sans-serif">
+      ♠
+    </text>
+
+    <path
+      d="M60 20 C60 10 76 12 82 4"
+      fill="none"
+      stroke="#f5c542"
+      stroke-width="5"
+      stroke-linecap="round"/>
+
+    <circle cx="84" cy="4"
+      r="6"
+      fill="#ff4b3e"/>
+
+  </svg>
+  `,
+
+  // 🔄 الكلمات المعكوسة
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <rect x="8" y="18"
+      width="104"
+      height="84"
+      rx="16"
+      fill="#1b1230"/>
+
+    <g
+      font-family="Cairo,sans-serif"
+      font-weight="800"
+      text-anchor="middle">
+
+      <text x="60"
+        y="52"
+        font-size="26"
+        fill="#ff9f43"
+        transform="translate(120 0) scale(-1 1)">
+        قمر
+      </text>
+
+      <path
+        d="M34 62h52"
+        stroke="#ff9f43"
+        stroke-width="3"
+        stroke-dasharray="5 5"
+        stroke-linecap="round"/>
+
+      <path
+        d="M44 62l-8 -7M44 62l-8 7"
+        stroke="#ff9f43"
+        stroke-width="3"
+        stroke-linecap="round"
+        fill="none"/>
+
+      <text x="60"
+        y="92"
+        font-size="26"
+        fill="#ffffff">
+        قمر
+      </text>
+
+    </g>
+
+  </svg>
+  `,
+
+  // ⚖️ المحكمة
+  `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+    <circle cx="60" cy="60"
+      r="46"
+      fill="#2b1a06"/>
+
+    <text x="60"
+      y="80"
+      text-anchor="middle"
+      font-size="56">
+      ⚖️
+    </text>
+
+    <text x="24"
+      y="36"
+      font-size="22">
+      🔨
+    </text>
+
+  </svg>
+  `
+];
+
+
+/* =========================
+   تحويل SVG إلى Images
+========================= */
+
+const wheelIconImages = wheelIcons.map(function(svg){
+
+  const img = new Image();
+
+  img.src =
+    "data:image/svg+xml;charset=utf-8," +
+    encodeURIComponent(svg);
+
+  return img;
+
+});
+
+
+/* =========================
+   DRAW WHEEL
+========================= */
+
+function drawWheel(){
+
+  const size = canvas.width;
+  const center = size / 2;
+  const radius = size / 2 - 8;
+
+  ctx.clearRect(0,0,size,size);
+
+  ctx.save();
+
+  /*
+    دوران العجلة
+  */
+  ctx.translate(center,center);
+  ctx.rotate(rotation);
+  ctx.translate(-center,-center);
+
+
+  /* =========================
+     القطاعات
+  ========================= */
+
+  for(let i = 0; i < games.length; i++){
+
+    const start = i * slice;
+    const end = start + slice;
+
+    ctx.beginPath();
+
+    ctx.moveTo(center,center);
+
+    ctx.arc(
+      center,
+      center,
+      radius,
+      start,
+      end
+    );
+
+    ctx.closePath();
+
+    ctx.fillStyle =
+      colors[i % colors.length];
+
+    ctx.fill();
+
+    /*
+      فاصل القطاعات
+    */
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#17101f";
+    ctx.stroke();
+
+
+    /* =========================
+       الأيقونة
+    ========================= */
+
+    const middle =
+      start + slice / 2;
+
+    const iconX =
+      center +
+      Math.cos(middle) *
+      radius *
+      .62;
+
+    const iconY =
+      center +
+      Math.sin(middle) *
+      radius *
+      .62;
+
+
+    ctx.save();
+
+    ctx.translate(
+      iconX,
+      iconY
+    );
+
+
+    /*
+      نخلي الأيقونة ثابتة
+      بشكل مريح داخل القطاع
+    */
+    ctx.rotate(
+      middle + Math.PI / 2
+    );
+
+
+    /* دائرة خلف الأيقونة */
+
+    ctx.beginPath();
+
+    ctx.arc(
+      0,
+      0,
+      39,
+      0,
+      TAU
+    );
+
+    ctx.fillStyle =
+      "rgba(0,0,0,.25)";
+
+    ctx.fill();
+
+    ctx.lineWidth = 3;
+
+    ctx.strokeStyle =
+      "rgba(255,255,255,.5)";
+
+    ctx.stroke();
+
+
+    /* =========================
+       رسم SVG
+    ========================= */
+
+    const img =
+      wheelIconImages[i];
+
+    if(img.complete && img.naturalWidth){
+
+      ctx.drawImage(
+        img,
+        -31,
+        -31,
+        62,
+        62
+      );
+
+    }
+
+
+    ctx.restore();
+
+  }
+
+
+  /* =========================
+     الحافة الذهبية
+  ========================= */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    center,
+    center,
+    radius,
+    0,
+    TAU
+  );
+
+  ctx.lineWidth = 12;
+
+  ctx.strokeStyle =
+    "#ffd86b";
+
+  ctx.stroke();
+
+
+  /* لمعة داخلية */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    center,
+    center,
+    radius - 9,
+    0,
+    TAU
+  );
+
+  ctx.lineWidth = 3;
+
+  ctx.strokeStyle =
+    "rgba(255,255,255,.35)";
+
+  ctx.stroke();
+
+
+  ctx.restore();
+
+
+  /* =========================
+     زر المنتصف
+  ========================= */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    center,
+    center,
+    39,
+    0,
+    TAU
+  );
+
+  ctx.fillStyle =
+    "#17101f";
+
+  ctx.fill();
+
+  ctx.lineWidth = 6;
+
+  ctx.strokeStyle =
+    "#ffd86b";
+
+  ctx.stroke();
+
+
+  /*
+    نجمة صغيرة في المنتصف
+  */
+
+  ctx.font =
+    "30px Arial";
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+  ctx.fillStyle =
+    "#ffd86b";
+
+  ctx.fillText(
+    "★",
+    center,
+    center + 1
+  );
+
+}
+
+  /* =========================
+     OPEN
+  ========================= */
+
+  openBtn.addEventListener("click",function(){
+
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden","false");
+
+    document.body.style.overflow = "hidden";
+
+    result.className = "roulette-result";
+    result.innerHTML =
+      "<span>اضغط وخلّي الحظ يختار 👀</span>";
+
+    playBtn.classList.remove("show");
+
+    selectedGame = null;
+
+    drawWheel();
+  });
+
+
+  /* =========================
+     CLOSE
+  ========================= */
+
+  function closeModal(){
+
+    if(spinning) return;
+
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden","true");
+
+    document.body.style.overflow = "";
+
+  }
+
+  closeBtn.addEventListener("click",closeModal);
+  overlay.addEventListener("click",closeModal);
+
+
+  document.addEventListener("keydown",function(e){
+
+    if(e.key === "Escape"){
+      closeModal();
+    }
+
+  });
+
+
+  /* =========================
+     SOUND
+  ========================= */
+
+  let audioContext = null;
+
+  function tick(){
+
+    try{
+
+      audioContext =
+        audioContext ||
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+      if(audioContext.state === "suspended"){
+        audioContext.resume();
+      }
+
+      const oscillator =
+        audioContext.createOscillator();
+
+      const gain =
+        audioContext.createGain();
+
+      oscillator.type = "square";
+      oscillator.frequency.value = 650;
+
+      gain.gain.setValueAtTime(
+        .001,
+        audioContext.currentTime
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .05,
+        audioContext.currentTime + .005
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .001,
+        audioContext.currentTime + .035
+      );
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      oscillator.start();
+      oscillator.stop(
+        audioContext.currentTime + .04
+      );
+
+    }catch(e){}
+
+  }
+
+
+  function winnerSound(){
+
+    try{
+
+      audioContext =
+        audioContext ||
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+      const notes = [523,659,784,1046];
+
+      notes.forEach(function(freq,i){
+
+        const osc =
+          audioContext.createOscillator();
+
+        const gain =
+          audioContext.createGain();
+
+        const time =
+          audioContext.currentTime + i * .12;
+
+        osc.frequency.value = freq;
+        osc.type = "triangle";
+
+        gain.gain.setValueAtTime(.001,time);
+
+        gain.gain.exponentialRampToValueAtTime(
+          .08,
+          time + .02
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          .001,
+          time + .16
+        );
+
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        osc.start(time);
+        osc.stop(time + .18);
+
+      });
+
+    }catch(e){}
+
+  }
+
+
+  /* =========================
+     SPIN
+  ========================= */
+
+  spinBtn.addEventListener("click",function(){
+
+    if(spinning) return;
+
+    spinning = true;
+
+    spinBtn.disabled = true;
+
+    playBtn.classList.remove("show");
+
+    result.className = "roulette-result";
+
+    result.innerHTML =
+      "<span>الروليت بتلف... 🎰</span>";
+
+    selectedGame = null;
+
+
+    /*
+     * اختيار اللعبة أولاً
+     */
+
+    const winner =
+      Math.floor(Math.random() * games.length);
+
+    selectedGame = games[winner];
+
+
+    /*
+     * نحسب زاوية توقف الفائز
+     *
+     * المؤشر موجود فوق العجلة
+     */
+
+    const winnerCenter =
+      winner * slice + slice / 2;
+
+    const target =
+      -Math.PI / 2 - winnerCenter;
+
+
+    /*
+     * عدد لفات كبير
+     */
+
+    const extraTurns =
+      (7 + Math.floor(Math.random() * 4)) * TAU;
+
+    const startRotation = rotation;
+
+    const finalRotation =
+      rotation +
+      extraTurns +
+      normalizeAngle(target - rotation);
+
+
+    const duration = 5200;
+
+    const startTime = performance.now();
+
+    let lastTickIndex = -1;
+
+
+    function animate(now){
+
+      const elapsed = now - startTime;
+
+      let progress =
+        Math.min(elapsed / duration,1);
+
+
+      /*
+       * easing قوي:
+       * يبدأ سريع ثم يبطئ
+       */
+
+      const ease =
+        1 - Math.pow(1 - progress,4);
+
+
+      rotation =
+        startRotation +
+        (finalRotation - startRotation) * ease;
+
+      drawWheel();
+
+
+      /*
+       * صوت مع مرور القطاعات
+       */
+
+      const currentIndex =
+        Math.floor(
+          ((rotation % TAU + TAU) % TAU) / slice
+        );
+
+      if(currentIndex !== lastTickIndex){
+
+        tick();
+
+        lastTickIndex = currentIndex;
+
+      }
+
+
+      if(progress < 1){
+
+        requestAnimationFrame(animate);
+
+      }else{
+
+        rotation = finalRotation;
+
+        drawWheel();
+
+        spinning = false;
+
+        spinBtn.disabled = false;
+
+        showWinner();
+
+      }
+
+    }
+
+    requestAnimationFrame(animate);
+
+  });
+
+
+  function normalizeAngle(angle){
+
+    while(angle < 0){
+      angle += TAU;
+    }
+
+    return angle % TAU;
+
+  }
+
+
+  /* =========================
+     WINNER
+  ========================= */
+
+  function showWinner(){
+
+    winnerSound();
+
+    result.className =
+      "roulette-result winner";
+
+    result.innerHTML =
+      "<span>🎉 اللعبة المختارة</span>" +
+      "<strong>" +
+      selectedGame.name +
+      "</strong>";
+
+    playBtn.classList.add("show");
+
+  }
+
+
+  /* =========================
+     PLAY
+  ========================= */
+
+  playBtn.addEventListener("click",function(){
+
+    if(!selectedGame) return;
+
+    window.location.href =
+      selectedGame.href;
+
+  });
+
+
+  drawWheel();
+
+})();
 (function(){
   var r=document.documentElement;
   var audio;
@@ -269,5 +1758,6 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
 })();
 </script>
 <script src="./games/fullscreen.js"></script>
+
 </body>
 </html>
