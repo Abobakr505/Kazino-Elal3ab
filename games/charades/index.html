@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#7d0d33">
-<title>بيت بيوت مصري | كازينو الالعاب</title>
+<title>عيش الدور | كازينو الالعاب</title>
 <link rel="shortcut icon" href="./../../icon.png" type="image/png">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;800&family=Lalezar&display=swap" rel="stylesheet">
@@ -158,7 +158,7 @@ const WORDS=Object.values(D).flat();
 let ac;function tone(f=660,d=.08,v=.06,delay=0){if(!S.sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+delay;o.type='triangle';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d)}catch(e){}}
 
 function home(){
- h(`<div class=hero><div style="text-align:start"><a class="link on-bg" href="../../index.html">← كل الألعاب</a></div><h1>بيت بيوت مصري</h1><p style="margin-bottom:0">تمثيل بدون كلام للقعدات: أفلام وأمثال ومواقف من مصر.</p>
+ h(`<div class=hero><div style="text-align:start"><a class="link on-bg" href="../../index.html">← كل الألعاب</a></div><h1>عيش الدور</h1><p style="margin-bottom:0">تمثيل بدون كلام للقعدات: أفلام وأمثال ومواقف من مصر.</p>
  <div class=ticket aria-hidden="true"><div class=stub>كلمة النهاردة</div><div class=perf></div><div class=word id=hw>الكيت كات</div></div>
  <button class=btn data-setup>جهّز اللعبة</button><button class="btn alt" data-guide>دليل اللعبة</button>
  <div class=facts><div><b>${num(WORDS.length)}</b>كلمة</div><div><b>${num(Object.keys(D).length)}</b>أنواع</div><div><b>٢ لـ ٤</b>فرق</div></div></div>`);
