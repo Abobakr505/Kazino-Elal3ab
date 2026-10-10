@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14202a">
 <title>كازينو الالعاب | ألعاب جماعية</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="كازينو الألعاب">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Lalezar&display=swap" rel="stylesheet">
 <link rel="shortcut icon" href="icon.png" type="image/png">
 <style>
@@ -37,6 +42,25 @@ display:flex;align-items:center;justify-content:center;gap:14px;color:#ffe9a8;
 text-shadow:0 0 6px #ffb52e,0 0 22px rgba(255,150,30,.7),0 4px 0 #8a4a00}
 h1 img{width:clamp(52px,14vw,92px);height:auto;flex:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.35))}
 .sign p{margin:12px auto 0;max-width:36ch;line-height:1.9;color:#d9cbf0;font-weight:500}
+
+/* ===== عداد الألعاب (شكل ماكينة الجاكبوت) ===== */
+.jackpot{position:relative;display:inline-flex;align-items:center;gap:16px;margin:22px auto 0;padding:12px 24px 12px 20px;border-radius:22px;
+background:linear-gradient(180deg,#120a24,#0b0618);border:3px solid #ffd86b;
+box-shadow:inset 0 0 0 4px rgba(255,216,107,.14),0 0 28px rgba(255,170,40,.4),0 7px 0 #0b0618}
+.jackpot::before{content:"";position:absolute;inset:-3px;border-radius:22px;pointer-events:none;
+background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%) 130% 0/260% 100% no-repeat;animation:jpShine 3.6s ease-in-out infinite}
+@keyframes jpShine{to{background-position:-40% 0}}
+.jp-digits{display:flex;gap:7px;direction:ltr}
+.jp-digit{position:relative;min-width:50px;height:70px;padding:0 6px;display:grid;place-items:center;border-radius:12px;
+font-family:Lalezar,Cairo,sans-serif;font-size:54px;line-height:1;color:#ffe9a8;
+background:linear-gradient(180deg,#34195e 0 50%,#1b0f33 50% 100%);border:2px solid rgba(255,216,107,.45);
+text-shadow:0 0 12px #ffb52e,0 3px 0 #8a4a00;box-shadow:inset 0 -5px 10px rgba(0,0,0,.35)}
+.jp-digit::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:#0b0618;opacity:.85}
+.jp-digit.tick{animation:jpFlip .14s ease-out}
+@keyframes jpFlip{from{transform:rotateX(-75deg);opacity:.4}}
+.jp-text{text-align:right;line-height:1.15}
+.jp-text b{display:block;font-family:Lalezar,Cairo,sans-serif;font-weight:400;font-size:30px;color:#ffd86b;text-shadow:0 0 10px rgba(255,170,40,.6)}
+.jp-text small{display:block;margin-top:2px;color:#d9cbf0;font-size:13px;font-weight:700}
 
 /* cards */
 .games{display:grid;grid-template-columns:1fr;gap:24px}
@@ -80,8 +104,9 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
   .game:last-child{grid-column:1/-1;--r:0deg}
   .game:last-child .art{justify-self:end}
 }
-@media (max-width:420px){.sign{padding:30px 14px 24px}.game{grid-template-columns:76px 1fr;padding:16px;gap:12px}.art{width:76px}.art svg{width:56px;height:56px}.go{width:30px;height:30px}}
-@media (prefers-reduced-motion:reduce){.game,.game::after,.go,#th{transition:none;animation:none}.sign::before,.sign::after{animation:none}.sign::after{opacity:.45}}
+@media (max-width:420px){.sign{padding:30px 14px 24px}.game{grid-template-columns:76px 1fr;padding:16px;gap:12px}.art{width:76px}.art svg{width:56px;height:56px}.go{width:30px;height:30px}
+  .jackpot{gap:12px;padding:10px 16px 10px 14px}.jp-digit{min-width:40px;height:58px;font-size:44px}.jp-text b{font-size:25px}}
+@media (prefers-reduced-motion:reduce){.game,.game::after,.go,#th{transition:none;animation:none}.sign::before,.sign::after{animation:none}.sign::after{opacity:.45}.jackpot::before,.jp-digit.tick{animation:none}}
 
 /* ===== زر الروليت ===== */
 .roulette-open{width:100%;margin:0 auto 30px;padding:16px 20px;border:3px solid #ffd86b;border-radius:22px;
@@ -159,7 +184,13 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
 <main>
   <header class="sign">
     <h1><span>كازينو الالعاب</span><img src="icon.png" alt="" aria-hidden="true"></h1>
-    <p>تسع ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
+    <p>ألعاب للقعدات، من غير تحميل ومن غير تسجيل. افتح اللعبة وابدأ على طول.</p>
+
+    <!-- عداد الألعاب: بيتحسب تلقائي من عدد الكروت -->
+    <div class="jackpot" id="jackpot" role="status" aria-label="٩ ألعاب جاهزة للعب">
+      <div class="jp-digits" id="gameCount" aria-hidden="true"><span class="jp-digit">٩</span></div>
+      <div class="jp-text" aria-hidden="true"><b id="jpWord">ألعاب</b><small>جاهزة للعب</small></div>
+    </div>
   </header>
 <button class="roulette-open" id="rouletteOpen">
   <span class="roulette-icon">🎰</span>
@@ -339,6 +370,49 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
 </div>
 </main>
 
+<!-- ===== عداد الألعاب ===== -->
+<script>
+(function(){
+  var n = document.querySelectorAll('.games a.game').length;
+  var box = document.getElementById('gameCount');
+  var word = document.getElementById('jpWord');
+  var wrap = document.getElementById('jackpot');
+  if(!box || !n) return;
+
+  var AR = '٠١٢٣٤٥٦٧٨٩';
+  function ar(v){ return String(v).replace(/\d/g, function(d){ return AR.charAt(d); }); }
+  function noun(v){
+    if(v === 1) return 'لعبة';
+    if(v === 2) return 'لعبتين';
+    return (v >= 3 && v <= 10) ? 'ألعاب' : 'لعبة';
+  }
+  function render(v, animate){
+    var s = ar(v), html = '';
+    for(var i = 0; i < s.length; i++){
+      html += '<span class="jp-digit' + (animate ? ' tick' : '') + '">' + s.charAt(i) + '</span>';
+    }
+    box.innerHTML = html;
+  }
+  function finish(){
+    render(n, false);
+    word.textContent = noun(n);
+    wrap.setAttribute('aria-label', ar(n) + ' ' + noun(n) + ' جاهزة للعب');
+  }
+
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || n < 2){ finish(); return; }
+
+  /* عدّ تصاعدي من ٠ لحد العدد الحقيقي */
+  var cur = 0;
+  render(0, false);
+  var timer = setInterval(function(){
+    cur++;
+    render(cur, true);
+    if(cur >= n){ clearInterval(timer); finish(); }
+  }, 120);
+})();
+</script>
+
 <script>
 (function(){
   /* الألعاب والألوان والأيقونات بتتسحب تلقائي من الكروت،
@@ -370,12 +444,19 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
   const playBtn = document.getElementById("playResult");
   const ctx = canvas.getContext("2d");
 
+  /* حجم منطقي ثابت (560) + دقة فعلية حسب الشاشة (حد أقصى ٢ للأداء) */
+  const LOGICAL = 560;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = LOGICAL * dpr;
+  canvas.height = LOGICAL * dpr;
+
   let rotation = 0, spinning = false, selectedGame = null;
   const TAU = Math.PI * 2;
   const slice = TAU / games.length;
 
   function drawWheel(){
-    const size = canvas.width, c = size / 2;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const size = LOGICAL, c = size / 2;
     const R = c - 38;              // نصف قطر القطاعات
     const rimOuter = c - 4;
     ctx.clearRect(0,0,size,size);
@@ -606,6 +687,29 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
     try{localStorage.setItem('hub_theme',r.dataset.theme)}catch(e){}
   };
 })();
+
+/* ===== Prefetch لصفحات الألعاب عشان التنقل يبقى لحظي ===== */
+(function(){
+  var c = navigator.connection;
+  if(c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return; // وفّر الباقة
+  function run(){
+    document.querySelectorAll('.games a.game').forEach(function(a){
+      var l = document.createElement('link');
+      l.rel = 'prefetch'; l.as = 'document'; l.href = a.href;
+      document.head.appendChild(l);
+    });
+  }
+  function start(){ (window.requestIdleCallback || function(f){ setTimeout(f, 1200); })(run); }
+  if(document.readyState === 'complete') start();
+  else window.addEventListener('load', start);
+})();
+
+/* ===== PWA: تسجيل الـ Service Worker ===== */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
 </script>
 <script src="./games/fullscreen.js"></script>
 

@@ -1,6 +1,24 @@
-/* زرار ملء الشاشة المشترك لكل الألعاب */
+/* زرار ملء الشاشة المشترك لكل الألعاب + منع انطفاء الشاشة (Wake Lock) */
 (function(){
   var d=document,root=d.documentElement;
+
+  /* ===== منع الشاشة من الانطفاء =====
+     بيشتغل في كل الحالات (حتى لو التطبيق مثبّت PWA) */
+  var wl=null,wlBusy=false;
+  function lockScreen(){
+    if(!('wakeLock' in navigator)||wl||wlBusy||d.visibilityState!=='visible')return;
+    wlBusy=true;
+    navigator.wakeLock.request('screen').then(function(s){
+      wl=s;wlBusy=false;
+      s.addEventListener('release',function(){wl=null});
+    }).catch(function(){wlBusy=false});
+  }
+  lockScreen();
+  /* بيتفقد القفل لما ترجع للتبويب، أو عند أول لمسة لو المتصفح رفض في البداية */
+  d.addEventListener('visibilitychange',lockScreen);
+  ['pointerdown','keydown'].forEach(function(ev){d.addEventListener(ev,lockScreen,{passive:true})});
+
+  /* ===== زرار ملء الشاشة ===== */
   var req=root.requestFullscreen||root.webkitRequestFullscreen;
   var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
   if(standalone)return;
