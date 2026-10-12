@@ -95,6 +95,20 @@ transition:transform .18s,box-shadow .18s;animation:deal .6s cubic-bezier(.2,.8,
 /* القنبلة: أخضر ليموني */
 .g-kasa{--a:#b8f04a;--b:#4a6b0a;--fg:#14200a}.g-kasa .meta span{color:#d8ff7a}
 .g-court{--a:#c98a3d;--b:#5a3510;--fg:#1f1206}.g-court .meta span{color:#ffd9a0}
+
+/* ===== زر المفضلة (نجمة) ===== */
+.fav{position:absolute;z-index:3;top:10px;right:10px;width:40px;height:40px;padding:0;border-radius:50%;cursor:pointer;
+display:grid;place-items:center;border:2px solid var(--b);background:rgba(255,255,255,.7);color:var(--b);
+transition:transform .15s,background .2s,border-color .2s}
+.fav svg{width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;transition:fill .2s}
+.fav:hover{transform:scale(1.12)}
+.fav:active{transform:scale(.88)}
+.fav:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.fav.on{background:#ffd86b;border-color:#8a4a00;color:#8a4a00}
+.fav.on svg{fill:#f59e0b}
+.fav.pop{animation:starPop .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes starPop{40%{transform:scale(1.4) rotate(18deg)}}
+
 footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 #th{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;width:46px;height:46px;font-size:20px;cursor:pointer;transition:transform .15s}
 #th:active{transform:scale(.92) rotate(20deg)}
@@ -106,8 +120,9 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
   .game:last-child .art{justify-self:end}
 }
 @media (max-width:420px){.sign{padding:30px 14px 24px}.game{grid-template-columns:76px 1fr;padding:16px;gap:12px}.art{width:76px}.art svg{width:56px;height:56px}.go{width:30px;height:30px}
+  .fav{width:34px;height:34px;top:8px;right:8px}.fav svg{width:19px;height:19px}
   .jackpot{gap:12px;padding:10px 16px 10px 14px}.jp-digit{min-width:40px;height:58px;font-size:44px}.jp-text b{font-size:25px}}
-@media (prefers-reduced-motion:reduce){.game,.game::after,.go,#th{transition:none;animation:none}.sign::before,.sign::after{animation:none}.sign::after{opacity:.45}.jackpot::before,.jp-digit.tick{animation:none}}
+@media (prefers-reduced-motion:reduce){.game,.game::after,.go,#th,.fav{transition:none;animation:none}.sign::before,.sign::after{animation:none}.sign::after{opacity:.45}.jackpot::before,.jp-digit.tick{animation:none}}
 
 /* ===== زر الروليت ===== */
 .roulette-open{width:100%;margin:0 auto 30px;padding:16px 20px;border:3px solid #ffd86b;border-radius:22px;
@@ -199,10 +214,10 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
     <strong>محتار تلعب إيه؟</strong>
     <small>خلّي الروليت تختارلك 🎲</small>
   </span>
-  <span class="roulette-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5303 5.46967C10.8232 5.76256 10.8232 6.23744 10.5303 6.53033L5.81066 11.25H20C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75H5.81066L10.5303 17.4697C10.8232 17.7626 10.8232 18.2374 10.5303 18.5303C10.2374 18.8232 9.76256 18.8232 9.46967 18.5303L3.46967 12.5303C3.17678 12.2374 3.17678 11.7626 3.46967 11.4697L9.46967 5.46967C9.76256 5.17678 10.2374 5.17678 10.5303 5.46967Z" fill="currentColor"/></svg></span>
+  <span class="roulette-arrow"><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM14.0303 8.46967C14.3232 8.76256 14.3232 9.23744 14.0303 9.53033L11.5607 12L14.0303 14.4697C14.3232 14.7626 14.3232 15.2374 14.0303 15.5303C13.7374 15.8232 13.2626 15.8232 12.9697 15.5303L9.96967 12.5303C9.67678 12.2374 9.67678 11.7626 9.96967 11.4697L12.9697 8.46967C13.2626 8.17678 13.7374 8.17678 14.0303 8.46967Z" fill="currentColor"/></svg></span>
 </button>
 
-  <nav class="games" aria-label="الألعاب">
+  <nav class="games" id="games" aria-label="الألعاب">
     <a class="game g-bomb" style="--i:0" href="games/bomb/index.html">
       <div class="art"><svg viewBox="0 0 200 220" aria-hidden="true">
         <circle cx="100" cy="132" r="76" fill="#14262d" stroke="#0f1f26" stroke-width="4"/>
@@ -237,7 +252,6 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
       </div>
     </a>
 
- 
     <a class="game g-act" style="--i:2" href="games/charades/index.html">
       <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <circle cx="60" cy="60" r="60" fill="#ff5d6c"/>
@@ -254,19 +268,21 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
         <div class="meta"><span>فريقين لـ ٤</span><span>أفلام وأمثال</span></div>
       </div>
     </a>
-<a class="game g-emo" style="--i:7" href="games/emoji/index.html">
-  <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
-    <circle cx="60" cy="60" r="46" fill="#08303b"/>
-    <text x="60" y="78" text-anchor="middle" font-size="52">🤔</text>
-    <text x="22" y="34" font-size="22">🎬</text>
-    <text x="84" y="104" font-size="22">🍿</text>
-  </svg></div>
-  <div>
-    <div class="top"><h2>خمّن من الإيموجي</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
-    <p>إيموجيز بس، وإنت تعرف الفيلم أو المثل المصري. أول واحد يخمّن ياخد النقطة.</p>
-    <div class="meta"><span>٢ لـ ١٢ لاعب</span><span>أفلام وأمثال</span></div>
-  </div>
-</a>
+
+    <a class="game g-emo" style="--i:7" href="games/emoji/index.html">
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="46" fill="#08303b"/>
+        <text x="60" y="78" text-anchor="middle" font-size="52">🤔</text>
+        <text x="22" y="34" font-size="22">🎬</text>
+        <text x="84" y="104" font-size="22">🍿</text>
+      </svg></div>
+      <div>
+        <div class="top"><h2>خمّن من الإيموجي</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
+        <p>إيموجيز بس، وإنت تعرف الفيلم أو المثل المصري. أول واحد يخمّن ياخد النقطة.</p>
+        <div class="meta"><span>٢ لـ ١٢ لاعب</span><span>أفلام وأمثال</span></div>
+      </div>
+    </a>
+
     <a class="game g-kasa" style="--i:3" href="games/bkasa/index.html">
       <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <rect x="10" y="22" width="100" height="76" rx="14" fill="#cfd6dc" stroke="#0e1a17" stroke-width="4"/>
@@ -330,18 +346,19 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
         <div class="meta"><span>٢ لـ ٨ لاعبين</span><span>سرعة</span></div>
       </div>
     </a>
+
     <a class="game g-court" style="--i:8" href="games/court/index.html">
-  <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
-    <circle cx="60" cy="60" r="46" fill="#2b1a06"/>
-    <text x="60" y="80" text-anchor="middle" font-size="56">⚖️</text>
-    <text x="24" y="36" font-size="22">🔨</text>
-  </svg></div>
-  <div>
-    <div class="top"><h2>شهود الزور</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
-    <p>قاضي ومتهم ومحامي ونيابة وشهود، وتهم تافهة وأحكام أغرب منها.</p>
-    <div class="meta"><span>٤ لـ ١٢ لاعب</span><span>هزار</span></div>
-  </div>
-</a>
+      <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="46" fill="#2b1a06"/>
+        <text x="60" y="80" text-anchor="middle" font-size="56">⚖️</text>
+        <text x="24" y="36" font-size="22">🔨</text>
+      </svg></div>
+      <div>
+        <div class="top"><h2>شهود الزور</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
+        <p>قاضي ومتهم ومحامي ونيابة وشهود، وتهم تافهة وأحكام أغرب منها.</p>
+        <div class="meta"><span>٤ لـ ١٢ لاعب</span><span>هزار</span></div>
+      </div>
+    </a>
   </nav>
 
   <footer>
@@ -656,6 +673,76 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
   });
 
   drawWheel();
+})();
+
+/* ===== المفضلة: نجمة على الكارت والمفضلة تطلع فوق ===== */
+(function(){
+  var KEY = 'hub_favs';
+  var list = document.getElementById('games');
+  var cards = Array.prototype.slice.call(list.querySelectorAll('a.game'));
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';
+
+  var favs = [];
+  try{ favs = JSON.parse(localStorage.getItem(KEY)) || []; }catch(e){}
+  if(!Array.isArray(favs)) favs = [];
+
+  function id(c){ return c.getAttribute('href'); }
+  function isFav(c){ return favs.indexOf(id(c)) > -1; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(favs)); }catch(e){} }
+
+  cards.forEach(function(c, i){
+    c._o = i; /* الترتيب الأصلي */
+    var name = c.querySelector('h2').textContent.trim();
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'fav';
+    b.innerHTML = STAR;
+    b._name = name;
+    c._fav = b;
+    c.appendChild(b);
+    b.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var k = id(c), at = favs.indexOf(k);
+      if(at > -1) favs.splice(at, 1); else favs.push(k);
+      save();
+      apply(true);
+      b.classList.remove('pop'); void b.offsetWidth;
+      if(!reduce) b.classList.add('pop');
+    });
+  });
+
+  function apply(animate){
+    var before = {};
+    if(animate && !reduce) cards.forEach(function(c){ before[id(c)] = c.getBoundingClientRect(); });
+
+    cards.slice().sort(function(a, b){
+      var fa = isFav(a), fb = isFav(b);
+      if(fa !== fb) return fa ? -1 : 1;
+      return a._o - b._o;
+    }).forEach(function(c){ list.appendChild(c); });
+
+    cards.forEach(function(c){
+      var on = isFav(c), b = c._fav;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.setAttribute('aria-label', (on ? 'شيل ' : 'ضيف ') + b._name + (on ? ' من المفضلة' : ' للمفضلة'));
+      b.title = on ? 'شيل من المفضلة' : 'ضيف للمفضلة';
+    });
+
+    /* حركة انسيابية لنقل الكروت */
+    if(animate && !reduce && list.animate){
+      cards.forEach(function(c){
+        var p = before[id(c)], n = c.getBoundingClientRect();
+        var dx = p.left - n.left, dy = p.top - n.top;
+        if(dx || dy){
+          try{ c.animate([{translate: dx + 'px ' + dy + 'px'},{translate:'0 0'}],{duration:380,easing:'cubic-bezier(.2,.8,.2,1)'}); }catch(e){}
+        }
+      });
+    }
+  }
+  apply(false);
 })();
 
 (function(){
