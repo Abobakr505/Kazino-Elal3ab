@@ -61,7 +61,6 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pr:first-child{border-top:0}
 .pr span{font-weight:800}
 .big{font-family:Lalezar,Cairo,sans-serif;font-size:3.4rem;color:#ffe9a8;text-align:center;line-height:1.2;text-shadow:0 0 22px rgba(255,150,30,.5),0 5px 0 #0a7a8c;overflow-wrap:anywhere}
-.roll{font-family:Lalezar,Cairo,sans-serif;font-size:3.4rem;color:#ffe9a8;text-align:center;min-height:5rem;margin:10px 0;text-shadow:0 4px 0 #0a7a8c;overflow-wrap:anywhere}
 .cd{font-family:Lalezar,Cairo,sans-serif;font-size:min(11rem,38vw);color:#ffe9a8;text-align:center;line-height:1.4;animation:pulse .9s;text-shadow:0 0 30px rgba(255,150,30,.65),0 8px 0 #0a7a8c}
 .wins{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:6px}
 .tb{position:relative;overflow:hidden;border:0;border-radius:20px;padding:14px 8px;font:inherit;font-weight:800;color:#08303b;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:1.05rem;box-shadow:0 6px 0 rgba(0,0,0,.3),inset 0 0 0 2px rgba(255,255,255,.35);transition:transform .1s,box-shadow .1s}
@@ -83,11 +82,14 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 <main id="app"></main>
 <script>
 const D={
-'أفلام':[['🪁 🐱','الكيت كات'],['💡','اللمبي'],['🐘 🔵','الفيل الأزرق'],['🏝️','الجزيرة'],['🍯 ⚫','عسل أسود'],['💣 🍢','الإرهاب والكباب'],['🌍','الأرض'],['🤴 ⚓','أمير البحار'],['🩳 👕 🧢','شورت وفانلة وكاب'],['❤️ 🎬','بحب السيما'],['🐦 🌑','طيور الظلام'],['🪸 👨 🪸','مرجان أحمد مرجان'],['🕌 ⛪','حسن ومرقص'],['👨‍✈️ 🇪🇬','كابتن مصر'],['🎩 🧑‍🎓','الباشا تلميذ'],['🗣️ ❤️','إشاعة حب'],['🥱 🌙','سهر الليالي'],['🧒🧒 👨','ولاد العم'],['🦹 🏫 2️⃣','حرامية في كي جي تو'],
+'أفلام':[['🪁 🐱','الكيت كات'],['💡🤪','اللمبي'],['🐘 🔵','الفيل الأزرق'],['🏝️','الجزيرة'],['🍯 ⚫','عسل أسود'],['💣 🍢','الإرهاب والكباب'],['🌍','الأرض'],['🤴 ⚓','أمير البحار'],['🩳 👕 🧢','شورت وفانلة وكاب'],['❤️ 🎬','بحب السيما'],['🐦 🌑','طيور الظلام'],['🪸 👨 🪸','مرجان أحمد مرجان'],['🕌 ⛪','حسن ومرقص'],['👨‍✈️ 🇪🇬','كابتن مصر'],['🎩 🧑‍🎓','الباشا تلميذ'],['🗣️ ❤️','إشاعة حب'],['🥱 🌙','سهر الليالي'],['🧒🧒 👨','ولاد العم'],['🦹 🏫 2️⃣','حرامية في كي جي تو'],
 ['🏜️ 👨 🎓 🇺🇸','صعيدي في الجامعة الأمريكية'],['🧔 🌷 🇳🇱','همام في أمستردام'],['🎞️ 📚','فيلم ثقافي'],['❌ 📏','إكس لارج'],['🚗 😇 🏖️','ملاكي إسكندرية'],['🪖 ⛺','عسكر في المعسكر'],['👦 🎩 🧹','الواد سيد الشغال'],['🙋 👩','يا أنا يا خالتي'],['🏫 👨‍🏫','الناظر'],['🧔 🔛 🚧','عبود على الحدود'],['😂 📸 🌟','اضحك الصورة تطلع حلوة'],['🦸 🇪🇬 🏙️','البطل'],['🕵️ 🔍 🏠','المخبر']],
 'أمثال':[['✋ 1️⃣ 🚫 👏','إيد وحدة ما تصقفش'],['🧑‍🤝‍🧑 ⏮️ 🏠','الجار قبل الدار'],['🎁 🍞 👨‍🍳','إدّي العيش لخبازه'],['💧 🤥 🤿','المية تكدّب الغطاس'],['🪢 🤥 🤏','حبل الكدب قصير'],['📏 🛏️ ↔️ 🦵','على قد لحافك مد رجليك'],['🐦 👯 ⬇️','الطيور على أشكالها تقع'],['♾️ 🐢 ✅','كل تأخيرة فيها خيرة'],['🧔 🥇 🥩 🐂','جحا أولى بلحم توره'],['🏃 😈 🎤','ابعد عن الشر وغنّي له'],['🐒 👁️ 👩 🦌','القرد في عين أمه غزال'],['⏳ 🔑 😌','الصبر مفتاح الفرج'],['🎉 🚫 🏁','يا فرحة ما تمت'],['🥊 😭 🏃 🗣️','ضربني وبكى وسبقني واشتكى'],['🐦 ✋ 👍 🔟 🌳','عصفور في اليد خير من عشرة على الشجرة'],['🏠 🪟 🚫 🤾 👥 🧱','اللي بيته من إزاز ما يحدفش الناس بالطوب'],['🚪 💨 🧱 😌','الباب اللي يجيلك منه الريح سده واستريح'],['🦸 🧵 🦵 🫏','الشاطر يغزل برجل حمار'],['🔥 🥣 😮‍💨 🥛','اللي يتلسع من الشوربة ينفخ في الزبادي'],
 ['🙈 ⚰️','اللي اختشوا ماتوا'],['⏰ 🥇','الوقت من دهب'],['🧱 👂','الحيطان لها ودان'],['🤝 🧲','الصاحب ساحب'],['👤 ⚖️ 🧱','ضل راجل ولا ضل حيطة'],['🍯 🐝 😣','اللي عايز العسل يستحمل قرص النحل'],['👁️ 👀 ✋ 📏','العين بصيرة واليد قصيرة'],['🤏 🗣️ ✅','خير الكلام ما قل ودل'],['💥 👥 ➡️ 💰 👥','مصائب قوم عند قوم فوائد']],
-'أكلات':[['🍝 🍚 🥫','كشري'],['🫘 🧆','فول وطعمية'],['🌿 🥣','ملوخية'],['🥬 🍚','محشي'],['🕊️ 🍚','حمام محشي'],['🟨 🍯 🥥','بسبوسة'],['🍚 🥛','رز بلبن'],['🥞 🧈','فطير مشلتت'],['🥙 🐔','شاورما'],['🍝 🥛 🧀','مكرونة بشاميل'],['🍆 🥘','باذنجان مخلل'],['🧀 🍮 🍯','كنافة']]
+'دول':[['🔺 🐫','مصر'],['🗼 🥖','فرنسا'],['🍕 🍝','إيطاليا'],['🕌 🛢️ 🏜️','السعودية'],['🍣 🗻','اليابان'],['🐼 🧱','الصين'],['🗽 🍔','أمريكا'],['🦘 🐨','أستراليا'],['🌷 🚲','هولندا'],['⚽ 💃 🌴','البرازيل'],['🍫 ⌚ ⛰️','سويسرا'],['👑 ☔ 🚌','بريطانيا'],['🥨 🍺 🚗','ألمانيا'],['🐂 💃','إسبانيا'],['🍁 🦌','كندا'],['🏛️ 🫒','اليونان'],['🏙️ 🏗️ 🐪','الإمارات'],['🧿 🎈 🕌','تركيا'],['🐘 🛕 🍛','الهند'],['🦁 🌍 🇿🇦','جنوب أفريقيا']],
+'مهن':[['👨‍⚕️ 💉','دكتور'],['👨‍🏫 📚','مدرس'],['👨‍🍳 🍳','طباخ'],['👮 🚓','ظابط'],['👨‍🚒 🔥','مطافي'],['👨‍✈️ ✈️','طيار'],['🧑‍🌾 🌾','فلاح'],['👨‍🔧 🔧','ميكانيكي'],['💇 ✂️','حلاق'],['👨‍⚖️ ⚖️','قاضي'],['🧑‍🚀 🚀','رائد فضاء'],['👨‍🎨 🎨','رسام'],['👨‍💻 ⌨️','مبرمج'],['🧑‍🔬 🧪','عالم'],['👷 🏗️','مهندس'],['📮 🏍️','ساعي بريد']],
+'أماكن مصرية':[['🔺 🔺 🔺','الأهرامات'],['🦁 🔺','أبو الهول'],['🦁 🌉 🌊','كوبري قصر النيل'],['🌊 ⛵ 🌅','النيل'],['🤿 🐠 🏝️','شرم الشيخ'],['🏛️ 🗿 🌅','الأقصر'],['🏔️ 🔥 📖','جبل موسى'],['🛍️ 🏺 🕌','خان الخليلي'],['🐘 🦒 🌳','حديقة الحيوان'],['💡 ⚓ 🏰','فنار إسكندرية'],['🏖️ 🌊 🏰','قلعة قايتباي'],['🛶 🌴 🌅','أسوان'],['🏙️ 🌆 🌉','القاهرة'],['🚇 🏙️ 🌊','المترو']],
+'أفعال':[['🏃 💨','يجري'],['🍽️ 😋','ياكل'],['😴 🌙','ينام'],['🏊 🌊','يسبح'],['✍️ 📄','يكتب'],['🎤 🎶','يغني'],['😂 🤣','يضحك'],['😭 💧','يبكي'],['🚗 🛣️','يسوق'],['🎣 🐟','يصطاد'],['📞 👂','يتصل'],['🎨 🖌️','يرسم'],['💃 🎶','يرقص'],['📖 👀','يقرا'],['⚽ 🦵','يشوط']]
 };
 const PC=['#ffd447','#3ad6c4','#8ec5ff','#b6f06b','#ff9ecb','#ffb35c'];
 const A=document.getElementById('app');
@@ -96,8 +98,8 @@ const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(
 const num=n=>n.toLocaleString('ar-EG');
 const pcol=i=>PC[i%PC.length];
 const TOTAL=Object.values(D).reduce((n,a)=>n+a.length,0);
-const S={pl:[],cats:new Set(['أفلام','أمثال']),t:45,nw:10,sound:true,sc:{},ix:0,q:[],pool:[],cur:null,actor:null,hint:false};
-const KEY='emo_v1';
+const S={pl:[],cats:new Set(['أفلام','أمثال','دول']),t:45,nw:10,sound:true,sc:{},ix:0,pool:[],cur:null,hint:false};
+const KEY='emo_v2';
 try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){
  if(Array.isArray(d.pl))S.pl=d.pl.filter(x=>typeof x==='string'&&x.trim()).slice(0,12);
  if(Array.isArray(d.cats)){const c=d.cats.filter(x=>D[x]);if(c.length)S.cats=new Set(c)}
@@ -114,7 +116,7 @@ const ALL=Object.values(D).flat();
 
 function home(){
  h(`<div class=hero style="text-align:center"><div style="text-align:start"><a class="link on-bg" href="../../index.html">← كل الألعاب</a></div><h1>خمّن من الإيموجي</h1>
- <p style="margin-bottom:0">كل إيموجي = كلمة من اسم الفيلم أو المثل. اقرا الإيموجيز بالترتيب وركّب الجملة!</p>
+ <p style="margin-bottom:0">كل إيموجي = كلمة من الإجابة. اقرا الإيموجيز بالترتيب وركّب الجملة، والكل بيلعب!</p>
  <div class=ticket aria-hidden="true"><div class=stub>إيه ده؟</div><div class=perf></div><div class=emo id=he>🍯⚫</div></div>
  <button class=btn data-setup>جهّز اللعبة</button><button class="btn alt" data-guide>دليل اللعبة</button>
  <p style="opacity:.8;margin-top:18px">${num(TOTAL)} لغز في ${num(Object.keys(D).length)} أنواع</p></div>`);
@@ -136,11 +138,10 @@ function setup(){
 function guide(){
  if(document.getElementById('ov'))return;
  const o=document.createElement('div');o.className='ov';o.id='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
- o.innerHTML=`<div class=sheet><h3>دليل اللعبة</h3><p style="color:var(--mute);margin-top:0">كل لغز بيتعرض على الشاشة للكل، والكل بيخمّن.</p><ol>
- <li><b>التجهيز:</b> ضيفوا أسماء اللاعبين واختاروا النوع والوقت وعدد الألغاز.</li>
- <li><b>الحَكَم:</b> في كل لغز اللعبة بتختار لاعب بيمسك الموبايل ومعاه الإجابة. هو اللي بيدوس على الأزرار، ومش بيخمّن في اللغز ده.</li>
- <li><b>التخمين:</b> كل إيموجي بيمثّل كلمة من اسم الفيلم أو المثل بالترتيب (من اليمين لليسار). اقروا الإيموجيز وركّبوا الجملة، وأول واحد يقولها صح بصوت عالي.</li>
- <li><b>النقطة:</b> الحَكَم يدوس على اسم أول واحد جاوب صح. نقطتين لو من غير تلميح، ونقطة لو استخدمتوا التلميح.</li>
+ o.innerHTML=`<div class=sheet><h3>دليل اللعبة</h3><p style="color:var(--mute);margin-top:0">كل لغز بيتعرض على الشاشة للكل، وكل اللاعبين بيخمّنوا.</p><ol>
+ <li><b>التجهيز:</b> ضيفوا أسماء اللاعبين (اتنين على الأقل) واختاروا النوع والوقت وعدد الألغاز.</li>
+ <li><b>التخمين:</b> كل إيموجي بيمثّل كلمة من الإجابة بالترتيب (من اليمين لليسار). اقروا الإيموجيز وركّبوا الجملة، وأول واحد يقولها صح بصوت عالي.</li>
+ <li><b>النقطة:</b> دوسوا على اسم أول واحد جاوب صح. نقطتين لو من غير تلميح، ونقطة لو استخدمتوا التلميح.</li>
  <li><b>التلميح:</b> بيظهر أول حرف من الإجابة.</li>
  <li><b>محدش عرف:</b> لو الوقت خلص أو محدش عرف، دوس "محدش عرف" والإجابة هتظهر من غير نقطة.</li>
  <li><b>الفوز:</b> بعد آخر لغز، صاحب أعلى نقاط يكسب.</li></ol>
@@ -149,30 +150,26 @@ function guide(){
  document.body.appendChild(o);o.querySelector('button').focus();
 }
 function board(){return `<section class=card style="padding:6px 4px">${S.pl.map((p,i)=>({p,i,s:S.sc[p]||0})).sort((a,b)=>b.s-a.s).map(o=>`<div class=pr style="border-inline-start:6px solid ${pcol(o.i)}"><span>${esc(o.p)}</span><b style="font-size:1.2rem">${num(o.s)}</b></div>`).join('')}</section>`}
-function start(){S.sc={};S.pl.forEach(p=>S.sc[p]=0);S.ix=0;S.q=[];S.pool=[];turn()}
+function start(){S.sc={};S.pl.forEach(p=>S.sc[p]=0);S.ix=0;S.pool=[];turn()}
 function turn(){
- if(!S.q.length)S.q=shuf(S.pl);
  if(!S.pool.length)S.pool=shuf([...S.cats].flatMap(c=>D[c].map(x=>({c,e:x[0],a:x[1]}))));
- const actor=S.q.pop();S.actor=actor;S.cur=S.pool.pop();S.hint=false;
+ S.cur=S.pool.pop();S.hint=false;
  h(`<div class=top><span>اللغز ${num(S.ix+1)} من ${num(S.nw)}</span><span class=tag>${S.t?num(S.t)+' ثانية':'من غير وقت'}</span></div>
- <p style="margin:18px 0 0;text-align:center">اللعبة بتختار الحَكَم...</p><div class=roll id=r>؟</div><div id=rest></div>`);
- const r=document.getElementById('r');let n=0;
- iv2=setInterval(()=>{r.textContent=S.pl[Math.random()*S.pl.length|0];if(++n%3===0)tone(520+n*12,.045,.025);
-  if(n>12){clearInterval(iv2);tone(1046,.16,.065);r.textContent=actor;buzz(60);
-   document.getElementById('rest').innerHTML=`<div style="background:rgba(0,0,0,.2);border:2px dashed rgba(255,255,255,.25);border-radius:18px;padding:14px;line-height:1.9;margin-bottom:8px"><b>${esc(actor)}</b> يمسك الموبايل ويقرا الإجابة.<br>الكل يخمّن من الإيموجيز، وهو يدوس على اسم اللي جاوب صح.</div>${board()}<button class=btn data-count>جاهزين، ابدأ العد</button><button class="link on-bg" style="display:block;margin:6px auto 0" data-guide>كيف نلعب؟</button>`}},90);
+ <div class=big style="margin-top:22px">${esc(S.cur.c)}</div>
+ <p style="text-align:center;margin-top:10px">الكل يلعب! أول واحد يعرف الإجابة يقولها بصوت عالي.</p>${board()}
+ <button class=btn data-count>جاهزين، ابدأ العد</button><button class="link on-bg" style="display:block;margin:6px auto 0" data-guide>كيف نلعب؟</button>`);
 }
 function count(){
  let n=3;h(`<div class=cd id=n>${n}</div>`);
  iv2=setInterval(()=>{n--;if(n<=0){clearInterval(iv2);tone(1046,.24,.08);play();return}tone(n===1?880:620,.1,.055);const e=document.getElementById('n');e.textContent=n;e.style.animation='none';void e.offsetWidth;e.style.animation=''},900);
 }
 function play(){
- const btns=S.pl.map((p,i)=>({p,i})).filter(o=>o.p!==S.actor);
  h(`<div class=top><span>${num(S.ix+1)} / ${num(S.nw)}</span><button class=sm data-sound aria-pressed="${S.sound}" aria-label="الصوت">${S.sound?'🔊':'🔇'}</button><span class=timer id=tm>${S.t?num(S.t):'∞'}</span></div>
  <div class=bar style="margin-top:12px"><i id=bar></i></div>
  <div class=ticket><div class=stub>${S.cur.c}</div><div class=perf></div><div class=emo>${S.cur.e}</div><div class=hint id=hint></div></div>
  <button class="btn alt" data-hint style="margin-top:0">💡 تلميح (النقطة بتبقى ١)</button>
- <p style="text-align:center;margin:0 0 6px;opacity:.85">كل إيموجي = كلمة، اقرا من اليمين</p><p style="text-align:center;margin:10px 0 4px;font-weight:800">مين خمّن صح؟ ${esc(S.actor)} يدوس على اسمه</p>
- <div class=wins>${btns.map(o=>`<button class=tb data-sw=${o.i} style="background:${pcol(o.i)}"><span>${esc(o.p)}</span><b>${num(S.sc[o.p]||0)}</b></button>`).join('')}</div>
+ <p style="text-align:center;margin:0 0 6px;opacity:.85">كل إيموجي = كلمة، اقرا من اليمين</p><p style="text-align:center;margin:10px 0 4px;font-weight:800">مين خمّن صح؟ دوسوا على اسمه</p>
+ <div class=wins>${S.pl.map((p,i)=>`<button class=tb data-sw=${i} style="background:${pcol(i)}"><span>${esc(p)}</span><b>${num(S.sc[p]||0)}</b></button>`).join('')}</div>
  <button class="btn alt" data-none>محدش عرف</button>`);
  if(!S.t)return;
  const t0=Date.now(),bar=document.getElementById('bar'),tm=document.getElementById('tm');let last=-1;
