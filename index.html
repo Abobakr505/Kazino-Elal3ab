@@ -95,7 +95,7 @@ transition:transform .18s,box-shadow .18s;animation:deal .6s cubic-bezier(.2,.8,
 /* القنبلة: أخضر ليموني */
 .g-kasa{--a:#b8f04a;--b:#4a6b0a;--fg:#14200a}.g-kasa .meta span{color:#d8ff7a}
 .g-court{--a:#c98a3d;--b:#5a3510;--fg:#1f1206}.g-court .meta span{color:#ffd9a0}
-
+.g-shot{--a:#e8452c;--b:#6b1a0a;--fg:#1f0a05}.g-shot .meta span{color:#ffb199}
 /* ===== زر المفضلة (نجمة) ===== */
 .fav{position:absolute;z-index:3;top:10px;right:10px;width:40px;height:40px;padding:0;border-radius:50%;cursor:pointer;
 display:grid;place-items:center;border:2px solid var(--b);background:rgba(255,255,255,.7);color:var(--b);
@@ -116,7 +116,6 @@ footer{margin-top:38px;color:var(--mute);font-size:14px;display:flex;justify-con
 
 @media (min-width:720px){
   .games{grid-template-columns:1fr 1fr;gap:28px 24px}
-  .game:last-child{grid-column:1/-1;--r:0deg}
   .game:last-child .art{justify-self:end}
 }
 @media (max-width:420px){.sign{padding:30px 14px 24px}.game{grid-template-columns:76px 1fr;padding:16px;gap:12px}.art{width:76px}.art svg{width:56px;height:56px}.go{width:30px;height:30px}
@@ -346,7 +345,51 @@ font-family:Cairo,Tahoma,sans-serif;font-size:18px;font-weight:800;cursor:pointe
         <div class="meta"><span>٢ لـ ٨ لاعبين</span><span>سرعة</span></div>
       </div>
     </a>
-
+<a class="game g-shot" style="--i:9" href="games/shotgun/index.html">
+<div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
+  <defs>
+    <radialGradient id="sgBg" cx="50%" cy="42%" r="65%"><stop offset="0" stop-color="#7a2410"/><stop offset="1" stop-color="#2a0a04"/></radialGradient>
+    <linearGradient id="sgMt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d3dbe2"/><stop offset=".45" stop-color="#6c7882"/><stop offset="1" stop-color="#262d33"/></linearGradient>
+    <linearGradient id="sgWd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98c4a"/><stop offset=".55" stop-color="#8a4a1c"/><stop offset="1" stop-color="#4a230a"/></linearGradient>
+    <radialGradient id="sgFl"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffe27a"/><stop offset=".75" stop-color="#ff8a1a"/><stop offset="1" stop-color="#ff4a00" stop-opacity="0"/></radialGradient>
+  </defs>
+  <circle cx="60" cy="60" r="54" fill="url(#sgBg)"/>
+  <circle cx="60" cy="60" r="54" fill="none" stroke="#ffd86b" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" opacity=".7"/>
+  <ellipse cx="58" cy="104" rx="30" ry="4" fill="#000" opacity=".35"/>
+  <g transform="translate(58 64) rotate(-32) scale(.86) translate(-58 -62)">
+    <path d="M4 52L40 56V72L28 74Q16 86 5 88Q-1 86 1 78Z" fill="url(#sgWd)" stroke="#2a1002" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M9 58L34 61M7 68L30 69" stroke="#2a1002" stroke-width="1" opacity=".45"/>
+    <path d="M6 54L38 57" stroke="#ffd9a0" stroke-width="1.2" opacity=".5"/>
+    <path d="M44 72q0 12 9 12t9-12" fill="none" stroke="#20262b" stroke-width="2.6"/>
+    <path d="M52 72l-1.5 8h4z" fill="#10141a"/>
+    <rect x="58" y="53" width="58" height="8" rx="1.5" fill="url(#sgMt)" stroke="#0b0d0f" stroke-width="1.4"/>
+    <rect x="58" y="63" width="42" height="6" rx="3" fill="url(#sgMt)" stroke="#0b0d0f" stroke-width="1.4"/>
+    <path d="M60 55h54" stroke="#fff" stroke-opacity=".6" stroke-width="1.1"/>
+    <rect x="99" y="62" width="5" height="9" rx="1.5" fill="#20262b" stroke="#0b0d0f" stroke-width="1.2"/>
+    <path d="M110 53v-3.5h3V53z" fill="#14181b"/>
+    <rect x="38" y="50" width="24" height="22" rx="3.5" fill="url(#sgMt)" stroke="#0b0d0f" stroke-width="1.6"/>
+    <rect x="45" y="55" width="12" height="5" rx="1" fill="#07090b"/>
+    <path d="M40 53H60" stroke="#fff" stroke-opacity=".55" stroke-width="1.1"/>
+    <rect x="68" y="62" width="24" height="12" rx="4.5" fill="url(#sgWd)" stroke="#2a1002" stroke-width="1.4"/>
+    <path d="M74 64v8M78 64v8M82 64v8M86 64v8" stroke="#2a1002" stroke-width="1" opacity=".6"/>
+  </g>
+  <g transform="translate(101 30)">
+    <path d="M0-17L4-6 15-9 8 0 17 8 5 7 3 17-3 7-14 12-8 2-17-5-5-5Z" fill="url(#sgFl)"/>
+    <circle r="5" fill="#fff"/>
+  </g>
+  <g transform="translate(26 36) rotate(-25)">
+    <rect x="-4" y="-9" width="8" height="13" rx="1.5" fill="#d63a24" stroke="#2a0a04" stroke-width="1.2"/>
+    <rect x="-4" y="4" width="8" height="4.5" rx="1" fill="#d9a441" stroke="#2a0a04" stroke-width="1.2"/>
+    <path d="M-2-7v9" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/>
+  </g>
+  <g fill="#ffd86b"><circle cx="86" cy="12" r="1.8"/><circle cx="108" cy="52" r="1.6"/><circle cx="16" cy="70" r="1.6"/></g>
+</svg></div>
+  <div>
+    <div class="top"><h2>روليت البندقية</h2><i class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></div>
+    <p>بندقية واحدة وطلقات حية وفاضية. اضرب نفسك أو خصمك، وآخر واحد بقلوب يكسب.</p>
+    <div class="meta"><span>٢ لـ ٤ لاعبين</span><span>خطر</span></div>
+  </div>
+</a>
     <a class="game g-court" style="--i:8" href="games/court/index.html">
       <div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">
         <circle cx="60" cy="60" r="46" fill="#2b1a06"/>
